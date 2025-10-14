@@ -251,7 +251,7 @@
 
 \def\@makecolophon{%
   \nopagebreak\vfill%
-  \hfill{\scriptsize Compilato il \today.}
+  \hfill{\scriptsize Versione \input{version} compilata il \today.}
 }
 
 \newlength\sigindent
