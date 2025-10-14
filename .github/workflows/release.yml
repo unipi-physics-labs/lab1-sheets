@@ -25,7 +25,10 @@ jobs:
       - name: Set up LaTeX environment
         uses: xu-cheng/latex-action@v4
         with:
+          root_file: ""
+          args: ""
           texlive_version: ${{ env.TEXLIVE_VERSION }}
+          continue_on_error: true
 
       # --- Build with a custom Makefile ---
       - name: Compile sheets
