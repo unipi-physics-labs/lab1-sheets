@@ -29,6 +29,7 @@
    columnsep=15pt
 }
 
+\usepackage{hyperref}
 \usepackage{amsmath}
 
 \newif\if@fvrbex
