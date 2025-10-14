@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install TeXLive
-      - uses: xu-cheng/texlive-action@v2
+        uses: xu-cheng/texlive-action@v2
         with:
           texlive_version: ${{ env.TEXLIVE_VERSION }}
 
