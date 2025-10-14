@@ -1,0 +1,55 @@
+\begin{Verbatim}[label=\makebox{\href{https://github.com/unipi-physics-labs/lab1-sheets/tree/main/snippy/dad_densita.py}{https://github.com/.../dad\_densita.py}},commandchars=\\\{\}]
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{numpy}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{np}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{matplotlib}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{pyplot} \PY{k}{as} \PY{n}{plt}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{scipy}\PY{n+nn}{.}\PY{n+nn}{optimize}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{curve\PYZus{}fit}
+
+\PY{c+c1}{\PYZsh{} Misure dirette (queste sono ovviamente inventate). Sostituite con le vostre o,}
+\PY{c+c1}{\PYZsh{} ancora meglio, leggete da un file.}
+\PY{n}{d} \PY{o}{=} \PY{l+m+mf}{12.3} \PY{c+c1}{\PYZsh{} Diametro interno del cilindro in cm}
+\PY{n}{sigma\PYZus{}d} \PY{o}{=} \PY{l+m+mf}{0.1} \PY{c+c1}{\PYZsh{} Errore sul diametro.}
+\PY{n}{h} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{2.3}\PY{p}{,} \PY{l+m+mf}{4.2}\PY{p}{,} \PY{l+m+mf}{6.1}\PY{p}{]}\PY{p}{)}
+\PY{n}{sigma\PYZus{}h} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{full}\PY{p}{(}\PY{n}{h}\PY{o}{.}\PY{n}{shape}\PY{p}{,} \PY{l+m+mf}{0.1}\PY{p}{)}
+\PY{n}{m} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{274.}\PY{p}{,} \PY{l+m+mf}{498.}\PY{p}{,} \PY{l+m+mf}{727.}\PY{p}{]}\PY{p}{)}
+\PY{n}{sigma\PYZus{}m} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{full}\PY{p}{(}\PY{n}{m}\PY{o}{.}\PY{n}{shape}\PY{p}{,} \PY{l+m+mf}{5.}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Calcolo del volume e propagazione degli errori. Notate che, a questo punto, le}
+\PY{c+c1}{\PYZsh{} misure di volume non sono piu` indipendenti tra di loro. Sapreste spiegare il}
+\PY{c+c1}{\PYZsh{} perche\PYZsq{}?}
+\PY{n}{V} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{pi} \PY{o}{/} \PY{l+m+mf}{4.} \PY{o}{*} \PY{n}{d}\PY{o}{*}\PY{o}{*}\PY{l+m+mf}{2.} \PY{o}{*} \PY{n}{h}
+\PY{n}{sigma\PYZus{}V} \PY{o}{=} \PY{n}{V} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{l+m+mf}{4.} \PY{o}{*} \PY{p}{(}\PY{n}{sigma\PYZus{}d} \PY{o}{/} \PY{n}{d}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mf}{2.} \PY{o}{+} \PY{p}{(}\PY{n}{sigma\PYZus{}h} \PY{o}{/} \PY{n}{h}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mf}{2.}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Definizione della funzione di fit.}
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{line}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{m}\PY{p}{,} \PY{n}{q}\PY{p}{)}\PY{p}{:}
+    \PY{k}{return} \PY{n}{m} \PY{o}{*} \PY{n}{x} \PY{o}{+} \PY{n}{q}
+
+\PY{c+c1}{\PYZsh{} Scatter plot delle misure, con le incertezze associate.}
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Grafico massa\PYZhy{}volume}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{errorbar}\PY{p}{(}\PY{n}{V}\PY{p}{,} \PY{n}{m}\PY{p}{,} \PY{n}{sigma\PYZus{}m}\PY{p}{,} \PY{n}{sigma\PYZus{}V}\PY{p}{,} \PY{n}{fmt}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Volume [cm\PYZdl{}\PYZca{}3\PYZdl{}]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Massa [g]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{n}{ls}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dashed}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Il fit in dettaglio: questa e` la funzione che esegue il fit e restituisce i}
+\PY{c+c1}{\PYZsh{} parametri di best\PYZhy{}fit e tutto quello che serve (la cosiddetta matrice di}
+\PY{c+c1}{\PYZsh{} covarianza) per stimare gli errori associati.}
+\PY{c+c1}{\PYZsh{} Per il momento non passiamo le incertezze di misura al fit (per un motivo che}
+\PY{c+c1}{\PYZsh{} vedremo piu` avanti) ma ricordate che in generale questo non e` corretto.}
+\PY{n}{popt}\PY{p}{,} \PY{n}{pcov} \PY{o}{=} \PY{n}{curve\PYZus{}fit}\PY{p}{(}\PY{n}{line}\PY{p}{,} \PY{n}{V}\PY{p}{,} \PY{n}{m}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} Spacchettiamo l\PYZsq{}array dei parametri per averli disponibili separatamente}
+\PY{n}{mhat}\PY{p}{,} \PY{n}{qhat} \PY{o}{=} \PY{n}{popt}
+\PY{c+c1}{\PYZsh{} Calcoliamo le incertezze di misura (a questo livello l\PYZsq{}unica cosa che dovete}
+\PY{c+c1}{\PYZsh{} sapere e` che sono la radice quadrata degli elementi diagonali della matrice}
+\PY{c+c1}{\PYZsh{} di covarianza).}
+\PY{n}{sigma\PYZus{}mhat}\PY{p}{,} \PY{n}{sigma\PYZus{}qhat} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{pcov}\PY{o}{.}\PY{n}{diagonal}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} Facciamo stampare i parametri (per la relazione non dimenticate di convertire}
+\PY{c+c1}{\PYZsh{} nelle unita` di misura opportune, ove necessario, e di scrivere il numero}
+\PY{c+c1}{\PYZsh{} corretto di cifre significative).}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{m = }\PY{l+s+si}{\PYZob{}}\PY{n}{mhat}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{ +/\PYZhy{} }\PY{l+s+si}{\PYZob{}}\PY{n}{sigma\PYZus{}mhat}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{q = }\PY{l+s+si}{\PYZob{}}\PY{n}{qhat}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{ +/\PYZhy{} }\PY{l+s+si}{\PYZob{}}\PY{n}{sigma\PYZus{}qhat}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Infine: facciamo il grafico del modello di best fit.}
+\PY{n}{x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{l+m+mf}{0.}\PY{p}{,} \PY{l+m+mi}{1000}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{line}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{mhat}\PY{p}{,} \PY{n}{qhat}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}

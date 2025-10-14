@@ -1,0 +1,58 @@
+\begin{Verbatim}[label=\makebox{\href{https://github.com/unipi-physics-labs/lab1-sheets/tree/main/snippy/densita.py}{https://github.com/.../densita.py}},commandchars=\\\{\}]
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{numpy}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{np}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{matplotlib}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{pyplot} \PY{k}{as} \PY{n}{plt}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{scipy}\PY{n+nn}{.}\PY{n+nn}{optimize}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{curve\PYZus{}fit}
+
+\PY{c+c1}{\PYZsh{} Misure dirette dei diametri e delle masse per le sfere (mettete i vostri numeri).}
+\PY{c+c1}{\PYZsh{} Potete anche leggere i dati da file, usando np.loadtxt(), se lo trovate comodo.}
+\PY{n}{m} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{24.769}\PY{p}{,} \PY{l+m+mf}{11.887}\PY{p}{,} \PY{l+m+mf}{8.374}\PY{p}{,} \PY{l+m+mf}{3.528}\PY{p}{]}\PY{p}{)}
+\PY{n}{sigma\PYZus{}m} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{full}\PY{p}{(}\PY{n}{m}\PY{o}{.}\PY{n}{shape}\PY{p}{,} \PY{l+m+mf}{0.001}\PY{p}{)}
+\PY{n}{d} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{18.25}\PY{p}{,} \PY{l+m+mf}{14.28}\PY{p}{,} \PY{l+m+mf}{12.69}\PY{p}{,} \PY{l+m+mf}{9.52}\PY{p}{]}\PY{p}{)}
+\PY{n}{sigma\PYZus{}d} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{full}\PY{p}{(}\PY{n}{d}\PY{o}{.}\PY{n}{shape}\PY{p}{,} \PY{l+m+mf}{0.01}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} Calcolo del volume (notate la propagazione dell\PYZsq{}errore su V!)}
+\PY{n}{r} \PY{o}{=} \PY{n}{d} \PY{o}{/} \PY{l+m+mf}{2.0}
+\PY{n}{sigma\PYZus{}r} \PY{o}{=} \PY{n}{sigma\PYZus{}d} \PY{o}{/} \PY{l+m+mf}{2.0}
+\PY{n}{V} \PY{o}{=} \PY{l+m+mf}{4.0} \PY{o}{/} \PY{l+m+mf}{3.0} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{pi} \PY{o}{*} \PY{n}{r}\PY{o}{*}\PY{o}{*}\PY{l+m+mf}{3.0}
+\PY{n}{sigma\PYZus{}V} \PY{o}{=} \PY{n}{V} \PY{o}{*} \PY{l+m+mf}{3.0} \PY{o}{*} \PY{n}{sigma\PYZus{}d} \PY{o}{/} \PY{n}{d}
+
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{line}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{m}\PY{p}{,} \PY{n}{q}\PY{p}{)}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Modello lineare di fit.}
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{k}{return} \PY{n}{m} \PY{o}{*} \PY{n}{x} \PY{o}{+} \PY{n}{q}
+
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{power\PYZus{}law}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{norm}\PY{p}{,} \PY{n}{index}\PY{p}{)}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Modello di tipo legge di potenza.}
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{k}{return} \PY{n}{norm} \PY{o}{*} \PY{p}{(}\PY{n}{x}\PY{o}{*}\PY{o}{*}\PY{n}{index}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Grafico massa\PYZhy{}volume}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{errorbar}\PY{p}{(}\PY{n}{V}\PY{p}{,} \PY{n}{m}\PY{p}{,} \PY{n}{sigma\PYZus{}m}\PY{p}{,} \PY{n}{sigma\PYZus{}V}\PY{p}{,} \PY{n}{fmt}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{popt}\PY{p}{,} \PY{n}{pcov} \PY{o}{=} \PY{n}{curve\PYZus{}fit}\PY{p}{(}\PY{n}{line}\PY{p}{,} \PY{n}{V}\PY{p}{,} \PY{n}{m}\PY{p}{)}
+\PY{n}{m\PYZus{}hat}\PY{p}{,} \PY{n}{q\PYZus{}hat} \PY{o}{=} \PY{n}{popt}
+\PY{n}{sigma\PYZus{}m}\PY{p}{,} \PY{n}{sigma\PYZus{}q} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{pcov}\PY{o}{.}\PY{n}{diagonal}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{m\PYZus{}hat}\PY{p}{,} \PY{n}{sigma\PYZus{}m}\PY{p}{,} \PY{n}{q\PYZus{}hat}\PY{p}{,} \PY{n}{sigma\PYZus{}q}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} Grafico del modello di best fit.}
+\PY{n}{x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{l+m+mf}{0.}\PY{p}{,} \PY{l+m+mf}{4000.}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{line}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{m\PYZus{}hat}\PY{p}{,} \PY{n}{q\PYZus{}hat}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Volume [mm\PYZdl{}\PYZca{}3\PYZdl{}]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Massa [g]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{n}{which}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{both}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{ls}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dashed}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gray}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{savefig}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{massa\PYZus{}volume.pdf}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Grafico massa\PYZhy{}raggio}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{errorbar}\PY{p}{(}\PY{n}{r}\PY{p}{,} \PY{n}{m}\PY{p}{,} \PY{n}{sigma\PYZus{}m}\PY{p}{,} \PY{n}{sigma\PYZus{}r}\PY{p}{,} \PY{n}{fmt}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{popt}\PY{p}{,} \PY{n}{pcov} \PY{o}{=} \PY{n}{curve\PYZus{}fit}\PY{p}{(}\PY{n}{power\PYZus{}law}\PY{p}{,} \PY{n}{r}\PY{p}{,} \PY{n}{m}\PY{p}{)}
+\PY{n}{norm\PYZus{}hat}\PY{p}{,} \PY{n}{index\PYZus{}hat} \PY{o}{=} \PY{n}{popt}
+\PY{n}{sigma\PYZus{}norm}\PY{p}{,} \PY{n}{sigma\PYZus{}index} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{pcov}\PY{o}{.}\PY{n}{diagonal}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{norm\PYZus{}hat}\PY{p}{,} \PY{n}{sigma\PYZus{}norm}\PY{p}{,} \PY{n}{index\PYZus{}hat}\PY{p}{,} \PY{n}{sigma\PYZus{}index}\PY{p}{)}
+\PY{n}{x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{l+m+mf}{4.}\PY{p}{,} \PY{l+m+mf}{10.}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{power\PYZus{}law}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{norm\PYZus{}hat}\PY{p}{,} \PY{n}{index\PYZus{}hat}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xscale}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{log}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{yscale}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{log}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Raggio [mm]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Massa [g]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{n}{which}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{both}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{ls}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dashed}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gray}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{savefig}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{massa\PYZus{}raggio.pdf}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}

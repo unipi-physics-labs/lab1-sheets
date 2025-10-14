@@ -1,0 +1,40 @@
+\begin{Verbatim}[label=\makebox{\href{https://github.com/unipi-physics-labs/lab1-sheets/tree/main/snippy/conducibilita_termica.py}{https://github.com/.../conducibilita\_termica.py}},commandchars=\\\{\}]
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{numpy}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{np}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{matplotlib}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{pyplot} \PY{k}{as} \PY{n}{plt}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{scipy}\PY{n+nn}{.}\PY{n+nn}{optimize}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{curve\PYZus{}fit}
+
+\PY{c+c1}{\PYZsh{} Misure dirette delle distanze e delle temperature (mettete i vostri numeri).}
+\PY{c+c1}{\PYZsh{} Qui potete anche leggere i dati da file, usando il metodo np.loadtxt(),}
+\PY{c+c1}{\PYZsh{} se lo trovate comodo.}
+\PY{n}{x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{5.0}\PY{p}{,} \PY{l+m+mf}{10.0}\PY{p}{,} \PY{l+m+mf}{15.0}\PY{p}{,} \PY{l+m+mf}{20.0}\PY{p}{,} \PY{l+m+mf}{25.0}\PY{p}{,} \PY{l+m+mf}{30.0}\PY{p}{,} \PY{l+m+mf}{35.0}\PY{p}{]}\PY{p}{)}
+\PY{n}{sigma\PYZus{}x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{full}\PY{p}{(}\PY{n}{x}\PY{o}{.}\PY{n}{shape}\PY{p}{,} \PY{l+m+mf}{0.1}\PY{p}{)}
+\PY{n}{T} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{28.6}\PY{p}{,} \PY{l+m+mf}{27.8}\PY{p}{,} \PY{l+m+mf}{26.9}\PY{p}{,} \PY{l+m+mf}{25.9}\PY{p}{,} \PY{l+m+mf}{25.0}\PY{p}{,} \PY{l+m+mf}{24.0}\PY{p}{,} \PY{l+m+mf}{23.1}\PY{p}{]}\PY{p}{)}
+\PY{n}{sigma\PYZus{}T} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{full}\PY{p}{(}\PY{n}{T}\PY{o}{.}\PY{n}{shape}\PY{p}{,} \PY{l+m+mf}{0.2}\PY{p}{)}
+
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{line}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{m}\PY{p}{,} \PY{n}{q}\PY{p}{)}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Modello di fit lineare.}
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{k}{return} \PY{n}{m} \PY{o}{*} \PY{n}{x} \PY{o}{+} \PY{n}{q}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Grafico posizione\PYZhy{}temperatura}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} Grafico dei punti sperimentali.}
+\PY{n}{plt}\PY{o}{.}\PY{n}{errorbar}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{T}\PY{p}{,} \PY{n}{sigma\PYZus{}T}\PY{p}{,} \PY{n}{sigma\PYZus{}x}\PY{p}{,} \PY{n}{fmt}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} Fit con una retta.}
+\PY{n}{popt}\PY{p}{,} \PY{n}{pcov} \PY{o}{=} \PY{n}{curve\PYZus{}fit}\PY{p}{(}\PY{n}{line}\PY{p}{,} \PY{n}{x}\PY{p}{,} \PY{n}{T}\PY{p}{,} \PY{n}{sigma}\PY{o}{=}\PY{n}{sigma\PYZus{}T}\PY{p}{)}
+\PY{n}{m\PYZus{}hat}\PY{p}{,} \PY{n}{q\PYZus{}hat} \PY{o}{=} \PY{n}{popt}
+\PY{n}{sigma\PYZus{}m}\PY{p}{,} \PY{n}{sigma\PYZus{}q} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{pcov}\PY{o}{.}\PY{n}{diagonal}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{m\PYZus{}hat}\PY{p}{,} \PY{n}{sigma\PYZus{}m}\PY{p}{,} \PY{n}{q\PYZus{}hat}\PY{p}{,} \PY{n}{sigma\PYZus{}q}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} Grafico del modello di best fit.}
+\PY{n}{x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{l+m+mf}{0.}\PY{p}{,} \PY{l+m+mf}{40.}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{line}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{m\PYZus{}hat}\PY{p}{,} \PY{n}{q\PYZus{}hat}\PY{p}{)}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} Formattazione del grafico.}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Posizione [cm]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Temperatura [\PYZdl{}\PYZca{}}\PY{l+s+se}{\PYZbs{}\PYZbs{}}\PY{l+s+s1}{circ\PYZdl{}C]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{n}{which}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{both}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{ls}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dashed}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gray}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{savefig}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{posizione\PYZus{}temperatura.pdf}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} A questo punto potete usare i risultati del fit per stimare la}
+\PY{c+c1}{\PYZsh{} conducibilita` vera e propria...}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}

@@ -1,0 +1,58 @@
+\begin{Verbatim}[label=\makebox{\href{https://github.com/unipi-physics-labs/lab1-sheets/tree/main/snippy/dad_catenaria.py}{https://github.com/.../dad\_catenaria.py}},commandchars=\\\{\}]
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{numpy}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{np}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{matplotlib}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{matplotlib}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{pyplot} \PY{k}{as} \PY{n}{plt}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{scipy}\PY{n+nn}{.}\PY{n+nn}{optimize}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{curve\PYZus{}fit}
+
+\PY{c+c1}{\PYZsh{} Visualizzazione dell\PYZsq{}immagine in matplotlib\PYZhy{}\PYZhy{}\PYZhy{}va da se\PYZsq{}: dovete sostituire il}
+\PY{c+c1}{\PYZsh{} percorso al file contenente l\PYZsq{}immagine con quello appropriato per voi.}
+\PY{c+c1}{\PYZsh{} Una volta aperta l\PYZsq{}immagine in matplotlib potete andare sopra con il mouse e}
+\PY{c+c1}{\PYZsh{} vedrete la posizione (in pixel) visualizzata sulla barra inferiore della finestra.}
+\PY{c+c1}{\PYZsh{} Questo vi permette di misurare manualmente la posizione di un numero arbitrario}
+\PY{c+c1}{\PYZsh{} di punti nell\PYZsq{}immagine stessa.}
+\PY{n}{file\PYZus{}path} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{../figures/catenaria.jpg}\PY{l+s+s1}{\PYZsq{}}
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Immagine originale}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{img} \PY{o}{=} \PY{n}{matplotlib}\PY{o}{.}\PY{n}{image}\PY{o}{.}\PY{n}{imread}\PY{p}{(}\PY{n}{file\PYZus{}path}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x [pixels]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{y [pixels]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{imshow}\PY{p}{(}\PY{n}{img}\PY{p}{)}
+
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{catenary}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{a}\PY{p}{,} \PY{n}{c}\PY{p}{,} \PY{n}{x0}\PY{p}{)}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Modello di catenaria.}
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{k}{return} \PY{n}{c} \PY{o}{+} \PY{n}{a} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{cosh}\PY{p}{(}\PY{p}{(}\PY{n}{x} \PY{o}{\PYZhy{}} \PY{n}{x0}\PY{p}{)} \PY{o}{/} \PY{n}{a}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Come prima: usate il percorso al vostro file.}
+\PY{n}{file\PYZus{}path} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{../macro/data/catenaria.txt}\PY{l+s+s1}{\PYZsq{}}
+\PY{n}{x}\PY{p}{,} \PY{n}{y} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{loadtxt}\PY{p}{(}\PY{n}{file\PYZus{}path}\PY{p}{,} \PY{n}{unpack}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} Ricordate: il riferimento delle immagini, tipicamente, e` in alto a sinistra,}
+\PY{c+c1}{\PYZsh{} per cui potreste aver bisogno di cambiare segno alla y.}
+\PY{n}{y} \PY{o}{=} \PY{o}{\PYZhy{}}\PY{n}{y}
+\PY{c+c1}{\PYZsh{} Fate attenzione alle incertezze: il valore, qui, e` completamente arbitario.}
+\PY{n}{sigma\PYZus{}y} \PY{o}{=} \PY{l+m+mf}{3.}
+
+\PY{c+c1}{\PYZsh{} Grafico principale.}
+\PY{n}{fig} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Fit e residui}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}axes}\PY{p}{(}\PY{p}{(}\PY{l+m+mf}{0.1}\PY{p}{,} \PY{l+m+mf}{0.3}\PY{p}{,} \PY{l+m+mf}{0.8}\PY{p}{,} \PY{l+m+mf}{0.6}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{errorbar}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{y}\PY{p}{,} \PY{n}{sigma\PYZus{}y}\PY{p}{,} \PY{n}{fmt}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} Fit. Notate che, per far convergere il fit, avrete bisogno di fornire una}
+\PY{c+c1}{\PYZsh{} stima iniziale ragionevole dei parametri.}
+\PY{n}{popt}\PY{p}{,} \PY{n}{pcov} \PY{o}{=} \PY{n}{curve\PYZus{}fit}\PY{p}{(}\PY{n}{catenary}\PY{p}{,} \PY{n}{x}\PY{p}{,} \PY{n}{y}\PY{p}{,} \PY{n}{p0}\PY{o}{=}\PY{p}{(}\PY{l+m+mf}{1000.}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mf}{3000.}\PY{p}{,} \PY{l+m+mf}{2300.}\PY{p}{)}\PY{p}{)}
+\PY{n}{a\PYZus{}hat}\PY{p}{,} \PY{n}{c\PYZus{}hat}\PY{p}{,} \PY{n}{x0\PYZus{}hat} \PY{o}{=} \PY{n}{popt}
+\PY{n}{sigma\PYZus{}a}\PY{p}{,} \PY{n}{sigma\PYZus{}c}\PY{p}{,} \PY{n}{sigma\PYZus{}x0} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{pcov}\PY{o}{.}\PY{n}{diagonal}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{a\PYZus{}hat}\PY{p}{,} \PY{n}{sigma\PYZus{}a}\PY{p}{,} \PY{n}{c\PYZus{}hat}\PY{p}{,} \PY{n}{sigma\PYZus{}c}\PY{p}{,} \PY{n}{x0\PYZus{}hat}\PY{p}{,} \PY{n}{sigma\PYZus{}x0}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{catenary}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{a\PYZus{}hat}\PY{p}{,} \PY{n}{c\PYZus{}hat}\PY{p}{,} \PY{n}{x0\PYZus{}hat}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{n}{which}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{both}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{ls}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dashed}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gray}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{y [u. a.]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} Grafico dei residui.}
+\PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}axes}\PY{p}{(}\PY{p}{(}\PY{l+m+mf}{0.1}\PY{p}{,} \PY{l+m+mf}{0.1}\PY{p}{,} \PY{l+m+mf}{0.8}\PY{p}{,} \PY{l+m+mf}{0.2}\PY{p}{)}\PY{p}{)}
+\PY{n}{res} \PY{o}{=} \PY{n}{y} \PY{o}{\PYZhy{}} \PY{n}{catenary}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{a\PYZus{}hat}\PY{p}{,} \PY{n}{c\PYZus{}hat}\PY{p}{,} \PY{n}{x0\PYZus{}hat}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{errorbar}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{res}\PY{p}{,} \PY{n}{sigma\PYZus{}y}\PY{p}{,} \PY{n}{fmt}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{n}{which}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{both}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{ls}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dashed}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gray}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x [u. a.]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Residuals}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylim}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mf}{20.0}\PY{p}{,} \PY{l+m+mf}{20.0}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{savefig}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{catenaria.pdf}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}

@@ -1,0 +1,40 @@
+\begin{Verbatim}[label=\makebox{\href{https://github.com/unipi-physics-labs/lab1-sheets/tree/main/snippy/dad_caduta.py}{https://github.com/.../dad\_caduta.py}},commandchars=\\\{\}]
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{numpy}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{np}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{matplotlib}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{pyplot} \PY{k}{as} \PY{n}{plt}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{scipy}\PY{n+nn}{.}\PY{n+nn}{optimize}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{curve\PYZus{}fit}
+
+\PY{c+c1}{\PYZsh{} Misure dirette\PYZhy{}\PYZhy{}\PYZhy{}mettete i vostri numeri!}
+\PY{c+c1}{\PYZsh{} Qui potete anche leggere i dati da file, usando il metodo np.loadtxt(),}
+\PY{c+c1}{\PYZsh{} se lo trovate comodo.}
+\PY{n}{t} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{0.0333}\PY{p}{,} \PY{l+m+mf}{0.0666}\PY{p}{,} \PY{l+m+mf}{0.1}\PY{p}{,} \PY{l+m+mf}{0.1333}\PY{p}{,} \PY{l+m+mf}{0.1666}\PY{p}{,} \PY{l+m+mf}{0.2}\PY{p}{,} \PY{l+m+mf}{0.2333}\PY{p}{,} \PY{l+m+mf}{0.2666}\PY{p}{,} \PY{l+m+mf}{0.3}\PY{p}{,}
+    \PY{l+m+mf}{0.3333}\PY{p}{,} \PY{l+m+mf}{0.3666}\PY{p}{,} \PY{l+m+mf}{0.4}\PY{p}{,} \PY{l+m+mf}{0.4333}\PY{p}{,} \PY{l+m+mf}{0.4666}\PY{p}{,} \PY{l+m+mf}{0.5}\PY{p}{,} \PY{l+m+mf}{0.5333}\PY{p}{,} \PY{l+m+mf}{0.5666}\PY{p}{,} \PY{l+m+mf}{0.6}\PY{p}{,} \PY{l+m+mf}{0.6333}\PY{p}{]}\PY{p}{)}
+\PY{n}{h} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{198.5}\PY{p}{,} \PY{l+m+mf}{197.5}\PY{p}{,} \PY{l+m+mf}{195.5}\PY{p}{,} \PY{l+m+mf}{193.0}\PY{p}{,} \PY{l+m+mf}{190.0}\PY{p}{,} \PY{l+m+mf}{185.0}\PY{p}{,} \PY{l+m+mf}{179.0}\PY{p}{,} \PY{l+m+mf}{173.0}\PY{p}{,} \PY{l+m+mf}{165.0}\PY{p}{,}
+    \PY{l+m+mf}{156.5}\PY{p}{,} \PY{l+m+mf}{146.5}\PY{p}{,} \PY{l+m+mf}{134.0}\PY{p}{,} \PY{l+m+mf}{122.0}\PY{p}{,} \PY{l+m+mf}{108.0}\PY{p}{,} \PY{l+m+mf}{93.0}\PY{p}{,} \PY{l+m+mf}{77.0}\PY{p}{,} \PY{l+m+mf}{60.0}\PY{p}{,} \PY{l+m+mf}{42.0}\PY{p}{,} \PY{l+m+mf}{22.0}\PY{p}{,} \PY{l+m+mf}{3.0}\PY{p}{]}\PY{p}{)}
+\PY{n}{sigma\PYZus{}h} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.29}\PY{p}{,} \PY{l+m+mf}{0.33}\PY{p}{,} \PY{l+m+mf}{0.38}\PY{p}{,} \PY{l+m+mf}{0.43}\PY{p}{,} \PY{l+m+mf}{0.47}\PY{p}{,} \PY{l+m+mf}{0.52}\PY{p}{,} \PY{l+m+mf}{0.56}\PY{p}{,} \PY{l+m+mf}{0.61}\PY{p}{,} \PY{l+m+mf}{0.65}\PY{p}{,} \PY{l+m+mf}{0.70}\PY{p}{,} \PY{l+m+mf}{0.74}\PY{p}{,}
+    \PY{l+m+mf}{0.79}\PY{p}{,} \PY{l+m+mf}{0.84}\PY{p}{,} \PY{l+m+mf}{0.88}\PY{p}{,} \PY{l+m+mf}{0.93}\PY{p}{,} \PY{l+m+mf}{0.97}\PY{p}{,} \PY{l+m+mf}{1.0}\PY{p}{,} \PY{l+m+mf}{1.1}\PY{p}{,} \PY{l+m+mf}{1.1}\PY{p}{,} \PY{l+m+mf}{1.2}\PY{p}{]}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} Conversione in m.}
+\PY{n}{h} \PY{o}{=} \PY{n}{h} \PY{o}{/} \PY{l+m+mf}{100.0}
+\PY{n}{sigma\PYZus{}h} \PY{o}{=} \PY{n}{sigma\PYZus{}h} \PY{o}{/} \PY{l+m+mf}{100.0}
+
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{parabola}\PY{p}{(}\PY{n}{t}\PY{p}{,} \PY{n}{a}\PY{p}{,} \PY{n}{v0}\PY{p}{,} \PY{n}{h0}\PY{p}{)}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Modello di fit quadratico.}
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{k}{return} \PY{l+m+mf}{0.5} \PY{o}{*} \PY{n}{a} \PY{o}{*} \PY{n}{t}\PY{o}{*}\PY{o}{*}\PY{l+m+mf}{2.0} \PY{o}{+} \PY{n}{v0} \PY{o}{*} \PY{n}{t} \PY{o}{+} \PY{n}{h0}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Legge oraria}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} Grafico dei punti sperimentali}
+\PY{n}{plt}\PY{o}{.}\PY{n}{errorbar}\PY{p}{(}\PY{n}{t}\PY{p}{,} \PY{n}{h}\PY{p}{,} \PY{n}{sigma\PYZus{}h}\PY{p}{,} \PY{n}{fmt}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{popt}\PY{p}{,} \PY{n}{pcov} \PY{o}{=} \PY{n}{curve\PYZus{}fit}\PY{p}{(}\PY{n}{parabola}\PY{p}{,} \PY{n}{t}\PY{p}{,} \PY{n}{h}\PY{p}{,} \PY{n}{sigma}\PY{o}{=}\PY{n}{sigma\PYZus{}h}\PY{p}{)}
+\PY{n}{a\PYZus{}hat}\PY{p}{,} \PY{n}{v0\PYZus{}hat}\PY{p}{,} \PY{n}{h0\PYZus{}hat} \PY{o}{=} \PY{n}{popt}
+\PY{n}{sigma\PYZus{}a}\PY{p}{,} \PY{n}{sigma\PYZus{}v0}\PY{p}{,} \PY{n}{sigma\PYZus{}h0} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{diagonal}\PY{p}{(}\PY{n}{pcov}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{a\PYZus{}hat}\PY{p}{,} \PY{n}{sigma\PYZus{}a}\PY{p}{,} \PY{n}{v0\PYZus{}hat}\PY{p}{,} \PY{n}{sigma\PYZus{}v0}\PY{p}{,} \PY{n}{h0\PYZus{}hat}\PY{p}{,} \PY{n}{sigma\PYZus{}h0}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} Grafico del modello di fit.}
+\PY{n}{x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mf}{0.7}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{parabola}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{o}{*}\PY{n}{popt}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Tempo [s]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Altezza [m]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{n}{ls}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dashed}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{which}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{both}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gray}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{savefig}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{legge\PYZus{}oraria.pdf}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}

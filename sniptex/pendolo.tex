@@ -1,0 +1,54 @@
+\begin{Verbatim}[label=\makebox{\href{https://github.com/unipi-physics-labs/lab1-sheets/tree/main/snippy/pendolo.py}{https://github.com/.../pendolo.py}},commandchars=\\\{\}]
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{ROOT}
+\PY{n}{ROOT}\PY{o}{.}\PY{n}{gROOT}\PY{o}{.}\PY{n}{SetStyle}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Plain}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+
+\PY{n}{INPUT\PYZus{}FILE\PYZus{}PATH} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{data/pendolo.txt}\PY{l+s+s1}{\PYZsq{}}
+\PY{n}{OUTPUT\PYZus{}FILE\PYZus{}PATH} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{data/pendolo.tex}\PY{l+s+s1}{\PYZsq{}}
+\PY{n}{NUM\PYZus{}TABLE\PYZus{}COLS} \PY{o}{=} \PY{l+m+mi}{7}
+
+
+\PY{n}{h} \PY{o}{=} \PY{n}{ROOT}\PY{o}{.}\PY{n}{TH1F}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{h}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{h}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+m+mi}{14}\PY{p}{,} \PY{l+m+mf}{19.8}\PY{p}{,} \PY{l+m+mf}{20.8}\PY{p}{)}
+\PY{n}{vals} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Reading input file }\PY{l+s+si}{\PYZpc{}s}\PY{l+s+s1}{...}\PY{l+s+s1}{\PYZsq{}} \PY{o}{\PYZpc{}} \PY{n}{INPUT\PYZus{}FILE\PYZus{}PATH}\PY{p}{)}
+\PY{k}{for} \PY{n}{line} \PY{o+ow}{in} \PY{n+nb}{open}\PY{p}{(}\PY{n}{INPUT\PYZus{}FILE\PYZus{}PATH}\PY{p}{)}\PY{p}{:}
+    \PY{n}{line} \PY{o}{=} \PY{n}{line}\PY{o}{.}\PY{n}{strip}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{k}{if} \PY{o+ow}{not} \PY{n}{line}\PY{o}{.}\PY{n}{startswith}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsh{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{o+ow}{and} \PY{n+nb}{len}\PY{p}{(}\PY{n}{line}\PY{p}{)}\PY{p}{:}
+        \PY{n}{val} \PY{o}{=} \PY{n+nb}{float}\PY{p}{(}\PY{n}{line}\PY{p}{)}
+        \PY{n}{vals}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{val}\PY{p}{)}
+        \PY{n}{h}\PY{o}{.}\PY{n}{Fill}\PY{p}{(}\PY{n}{val}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Done. }\PY{l+s+si}{\PYZpc{}d}\PY{l+s+s1}{ value(s) found.}\PY{l+s+s1}{\PYZsq{}} \PY{o}{\PYZpc{}} \PY{n+nb}{len}\PY{p}{(}\PY{n}{vals}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{vals}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{p}{)}
+\PY{n}{h}\PY{o}{.}\PY{n}{Draw}\PY{p}{(}\PY{p}{)}
+\PY{n}{f} \PY{o}{=} \PY{n}{ROOT}\PY{o}{.}\PY{n}{TF1}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{f}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gaus}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{h}\PY{o}{.}\PY{n}{Fit}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{f}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ROOT}\PY{o}{.}\PY{n}{gPad}\PY{o}{.}\PY{n}{Update}\PY{p}{(}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Fit chisquare = }\PY{l+s+si}{\PYZpc{}.3f}\PY{l+s+s1}{/}\PY{l+s+si}{\PYZpc{}d}\PY{l+s+s1}{\PYZsq{}} \PY{o}{\PYZpc{}} \PY{p}{(}\PY{n}{f}\PY{o}{.}\PY{n}{GetChisquare}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{f}\PY{o}{.}\PY{n}{GetNDF}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{outputFile} \PY{o}{=} \PY{n+nb}{open}\PY{p}{(}\PY{n}{OUTPUT\PYZus{}FILE\PYZus{}PATH}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{w}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{write}\PY{p}{(}\PY{n}{stuff}\PY{p}{)}\PY{p}{:}
+    \PY{n}{outputFile}\PY{o}{.}\PY{n}{write}\PY{p}{(}\PY{n}{stuff}\PY{p}{)}
+
+\PY{n}{fmt} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{l}\PY{l+s+s1}{\PYZsq{}} \PY{o}{*} \PY{n}{NUM\PYZus{}TABLE\PYZus{}COLS}
+\PY{n}{write}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+se}{\PYZbs{}\PYZbs{}}\PY{l+s+s1}{begin}\PY{l+s+si}{\PYZob{}tabular\PYZcb{}}\PY{l+s+s1}{\PYZob{}}\PY{l+s+si}{\PYZpc{}s}\PY{l+s+s1}{\PYZcb{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{\PYZsq{}} \PY{o}{\PYZpc{}} \PY{n}{fmt}\PY{p}{)}
+\PY{n}{write}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+se}{\PYZbs{}\PYZbs{}}\PY{l+s+s1}{hline}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{numRows} \PY{o}{=} \PY{n+nb}{int}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{vals}\PY{p}{)}\PY{o}{/}\PY{n}{NUM\PYZus{}TABLE\PYZus{}COLS} \PY{o}{\PYZhy{}} \PY{l+m+mf}{0.0001}\PY{p}{)} \PY{o}{+} \PY{l+m+mi}{1}
+\PY{k}{for} \PY{n}{row} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{numRows}\PY{p}{)}\PY{p}{:}
+    \PY{n}{text} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsq{}}
+    \PY{k}{for} \PY{n}{col} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{NUM\PYZus{}TABLE\PYZus{}COLS}\PY{p}{)}\PY{p}{:}
+        \PY{n}{i} \PY{o}{=} \PY{n}{row} \PY{o}{+} \PY{n}{numRows}\PY{o}{*}\PY{n}{col}
+        \PY{k}{try}\PY{p}{:}
+            \PY{n}{val} \PY{o}{=} \PY{n}{vals}\PY{p}{[}\PY{n}{i}\PY{p}{]}
+            \PY{n}{text} \PY{o}{+}\PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{makebox[28pt]}\PY{l+s+s1}{\PYZob{}}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{hfill[}\PY{l+s+si}{\PYZpc{}d}\PY{l+s+s1}{]\PYZcb{}\PYZti{}}\PY{l+s+si}{\PYZpc{}.3f}\PY{l+s+s1}{ \PYZam{} }\PY{l+s+s1}{\PYZsq{}} \PY{o}{\PYZpc{}} \PY{p}{(}\PY{n}{i} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{,} \PY{n}{val}\PY{p}{)}
+        \PY{k}{except}\PY{p}{:}
+            \PY{k}{pass}
+    \PY{n}{text} \PY{o}{=} \PY{n}{text}\PY{o}{.}\PY{n}{strip}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ \PYZam{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{write}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+si}{\PYZpc{}s}\PY{l+s+se}{\PYZbs{}\PYZbs{}}\PY{l+s+se}{\PYZbs{}\PYZbs{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{\PYZsq{}} \PY{o}{\PYZpc{}} \PY{n}{text}\PY{p}{)}
+\PY{n}{write}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+se}{\PYZbs{}\PYZbs{}}\PY{l+s+s1}{hline}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} 
+\PY{n}{write}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+se}{\PYZbs{}\PYZbs{}}\PY{l+s+s1}{end}\PY{l+s+si}{\PYZob{}tabular\PYZcb{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{outputFile}\PY{o}{.}\PY{n}{close}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}

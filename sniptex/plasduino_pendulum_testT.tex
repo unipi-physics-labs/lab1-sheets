@@ -1,0 +1,83 @@
+\begin{Verbatim}[label=\makebox{\href{https://github.com/unipi-physics-labs/lab1-sheets/tree/main/snippy/plasduino_pendulum_testT.py}{https://github.com/.../plasduino\_pendulum\_testT.py}},commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Programma di esempio per l\PYZsq{}analisi del file prodotto dal modulo pendulum  di plasduino}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{numpy}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{np}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{scipy}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{plt}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{scipy}\PY{n+nn}{.}\PY{n+nn}{optimize}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{curve\PYZus{}fit}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ion}\PY{p}{(}\PY{p}{)} \PY{c+c1}{\PYZsh{} interactive on}
+
+\PY{c+c1}{\PYZsh{} Lettura del file di dati in ingresso (da modificare con il percorso al vostro file in ingresso).}
+\PY{n}{ii}\PY{p}{,} \PY{n}{edge}\PY{p}{,} \PY{n}{tt} \PY{o}{=} \PY{n}{scipy}\PY{o}{.}\PY{n}{loadtxt}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{data/pendulum.txt}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{unpack} \PY{o}{=} \PY{k+kc}{True}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Calcolo dei tempi di transito Tr e del periodo T calcolato come la differenza tra}
+\PY{c+c1}{\PYZsh{} il tempo di ingresso della bandierina e il tempo al passaggio successivo che completa 1 periodo}
+\PY{c+c1}{\PYZsh{} caso A, preso da fillDataTablePlain}
+\PY{n}{t\PYZus{}A}  \PY{o}{=} \PY{p}{[}\PY{p}{]}\PY{p}{;} \PY{n}{T\PYZus{}A} \PY{o}{=} \PY{p}{[}\PY{p}{]}\PY{p}{;} \PY{n}{Tr\PYZus{}A} \PY{o}{=} \PY{p}{[}\PY{p}{]}\PY{p}{;}
+\PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{tt}\PY{p}{)}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}\PY{p}{:}
+    \PY{n}{t\PYZus{}A}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{l+m+mf}{0.5}\PY{o}{*}\PY{p}{(}\PY{n}{tt}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{+}\PY{n}{tt}\PY{p}{[}\PY{n}{i}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+    \PY{n}{Tr\PYZus{}A}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{tt}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{tt}\PY{p}{[}\PY{n}{i}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}    \PY{c+c1}{\PYZsh{} diff. tra uscita e ingresso della bandierina}
+    \PY{n}{T\PYZus{}A}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{(}\PY{n}{tt}\PY{p}{[}\PY{n}{i}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{tt}\PY{p}{[}\PY{n}{i}\PY{o}{\PYZhy{}}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{)}\PY{p}{)} \PY{c+c1}{\PYZsh{} si puo\PYZsq{} calcolare in altri modi?}
+\PY{n}{t\PYZus{}A}  \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{t\PYZus{}A}\PY{p}{)}\PY{p}{;} \PY{n}{T\PYZus{}A}  \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{T\PYZus{}A}\PY{p}{)}\PY{p}{;} \PY{n}{Tr\PYZus{}A} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{Tr\PYZus{}A}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} caso B, proposto da Francesco}
+\PY{n}{t\PYZus{}B}  \PY{o}{=} \PY{p}{[}\PY{p}{]}\PY{p}{;} \PY{n}{T\PYZus{}B} \PY{o}{=} \PY{p}{[}\PY{p}{]}\PY{p}{;} \PY{n}{Tr\PYZus{}B} \PY{o}{=} \PY{p}{[}\PY{p}{]}\PY{p}{;}
+\PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{tt}\PY{p}{)}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{:}
+    \PY{n}{t\PYZus{}B}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{l+m+mf}{0.5}\PY{o}{*}\PY{p}{(}\PY{n}{tt}\PY{p}{[}\PY{n}{i}\PY{o}{+}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{\PYZhy{}}\PY{n}{tt}\PY{p}{[}\PY{n}{i}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+    \PY{n}{Tr\PYZus{}B}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{tt}\PY{p}{[}\PY{n}{i}\PY{o}{+}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{\PYZhy{}}\PY{n}{tt}\PY{p}{[}\PY{n}{i}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+    \PY{c+c1}{\PYZsh{}T\PYZus{}B.append((tt[i+0]\PYZhy{}tt[i\PYZhy{}4]))}
+    \PY{c+c1}{\PYZsh{}T\PYZus{}B.append((tt[i+1]\PYZhy{}tt[i\PYZhy{}3]))}
+    \PY{n}{T\PYZus{}B}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{(}\PY{n}{tt}\PY{p}{[}\PY{n}{i}\PY{o}{+}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{\PYZhy{}}\PY{n}{tt}\PY{p}{[}\PY{n}{i}\PY{o}{\PYZhy{}}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+    \PY{c+c1}{\PYZsh{}T\PYZus{}B.append((tt[i+3]\PYZhy{}tt[i\PYZhy{}1]))}
+\PY{n}{t\PYZus{}B}  \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{t\PYZus{}B}\PY{p}{)}\PY{p}{;} \PY{n}{T\PYZus{}B}  \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{T\PYZus{}B}\PY{p}{)}\PY{p}{;} \PY{n}{Tr\PYZus{}B} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{Tr\PYZus{}B}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} caso C, preso da fillDataTableAdvanced}
+\PY{n}{t\PYZus{}C}  \PY{o}{=} \PY{p}{[}\PY{p}{]}\PY{p}{;} \PY{n}{T\PYZus{}C} \PY{o}{=} \PY{p}{[}\PY{p}{]}\PY{p}{;} \PY{n}{Tr\PYZus{}C} \PY{o}{=} \PY{p}{[}\PY{p}{]}\PY{p}{;}
+\PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{tt}\PY{p}{)}\PY{o}{\PYZhy{}}\PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}\PY{p}{:}
+    \PY{n}{t1} \PY{o}{=} \PY{l+m+mf}{0.5}\PY{o}{*}\PY{p}{(}\PY{n}{tt}\PY{p}{[}\PY{n}{i}\PY{o}{\PYZhy{}}\PY{l+m+mi}{4}\PY{p}{]} \PY{o}{+} \PY{n}{tt}\PY{p}{[}\PY{n}{i}\PY{o}{\PYZhy{}}\PY{l+m+mi}{5}\PY{p}{]}\PY{p}{)}
+    \PY{n}{t2} \PY{o}{=} \PY{l+m+mf}{0.5}\PY{o}{*}\PY{p}{(}\PY{n}{tt}\PY{p}{[}\PY{n}{i}\PY{o}{\PYZhy{}}\PY{l+m+mi}{2}\PY{p}{]} \PY{o}{+} \PY{n}{tt}\PY{p}{[}\PY{n}{i}\PY{o}{\PYZhy{}}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{)}
+    \PY{n}{t3} \PY{o}{=} \PY{l+m+mf}{0.5}\PY{o}{*}\PY{p}{(}\PY{n}{tt}\PY{p}{[}\PY{n}{i}  \PY{p}{]} \PY{o}{+} \PY{n}{tt}\PY{p}{[}\PY{n}{i}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+    \PY{n}{t4} \PY{o}{=} \PY{l+m+mf}{0.5}\PY{o}{*}\PY{p}{(}\PY{n}{tt}\PY{p}{[}\PY{n}{i}\PY{o}{+}\PY{l+m+mi}{2}\PY{p}{]} \PY{o}{+} \PY{n}{tt}\PY{p}{[}\PY{n}{i}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+    \PY{n}{dt2} \PY{o}{=} \PY{n}{tt}\PY{p}{[}\PY{n}{i}\PY{o}{\PYZhy{}}\PY{l+m+mi}{2}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{tt}\PY{p}{[}\PY{n}{i}\PY{o}{\PYZhy{}}\PY{l+m+mi}{3}\PY{p}{]}
+    \PY{n}{dt3} \PY{o}{=} \PY{n}{tt}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{tt}\PY{p}{[}\PY{n}{i}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}
+    \PY{n}{t\PYZus{}C}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{l+m+mf}{0.5}\PY{o}{*}\PY{p}{(}\PY{n}{t2} \PY{o}{+} \PY{n}{t3}\PY{p}{)}\PY{p}{)}
+    \PY{n}{Tr\PYZus{}C}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{l+m+mf}{0.5}\PY{o}{*}\PY{p}{(}\PY{n}{dt2} \PY{o}{+} \PY{n}{dt3}\PY{p}{)}\PY{p}{)}
+    \PY{n}{T\PYZus{}C}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{l+m+mf}{0.5}\PY{o}{*}\PY{p}{(}\PY{n}{t3} \PY{o}{\PYZhy{}} \PY{n}{t1} \PY{o}{+} \PY{n}{t4} \PY{o}{\PYZhy{}} \PY{n}{t2}\PY{p}{)}\PY{p}{)}
+\PY{n}{t\PYZus{}C}  \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{t\PYZus{}C}\PY{p}{)}\PY{p}{;} \PY{n}{T\PYZus{}C}  \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{T\PYZus{}C}\PY{p}{)}\PY{p}{;} \PY{n}{Tr\PYZus{}C} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{Tr\PYZus{}C}\PY{p}{)}
+
+
+\PY{c+c1}{\PYZsh{} Definizione della geometria del pendolo [cm] (da modificare con le vostre misure).}
+\PY{n}{w} \PY{o}{=} \PY{l+m+mf}{2.05}\PY{p}{;} \PY{n}{l} \PY{o}{=} \PY{l+m+mf}{113.5}\PY{p}{;} \PY{n}{d} \PY{o}{=} \PY{l+m+mf}{116.5}
+\PY{c+c1}{\PYZsh{} Calcolo di velocita\PYZsq{} e angolo}
+\PY{n}{v\PYZus{}A} \PY{o}{=} \PY{p}{(}\PY{n}{w}\PY{o}{/}\PY{n}{Tr\PYZus{}A}\PY{p}{)}\PY{o}{*}\PY{p}{(}\PY{n}{l}\PY{o}{/}\PY{n}{d}\PY{p}{)}
+\PY{n}{Theta\PYZus{}A} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arccos}\PY{p}{(}\PY{l+m+mf}{1.} \PY{o}{\PYZhy{}} \PY{p}{(}\PY{n}{v\PYZus{}A}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}\PY{o}{/}\PY{p}{(}\PY{l+m+mi}{2}\PY{o}{*}\PY{l+m+mf}{981.}\PY{o}{*}\PY{n}{l}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{v\PYZus{}B} \PY{o}{=} \PY{p}{(}\PY{n}{w}\PY{o}{/}\PY{n}{Tr\PYZus{}B}\PY{p}{)}\PY{o}{*}\PY{p}{(}\PY{n}{l}\PY{o}{/}\PY{n}{d}\PY{p}{)}
+\PY{n}{Theta\PYZus{}B} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arccos}\PY{p}{(}\PY{l+m+mf}{1.} \PY{o}{\PYZhy{}} \PY{p}{(}\PY{n}{v\PYZus{}B}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}\PY{o}{/}\PY{p}{(}\PY{l+m+mi}{2}\PY{o}{*}\PY{l+m+mf}{981.}\PY{o}{*}\PY{n}{l}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{v\PYZus{}C} \PY{o}{=} \PY{p}{(}\PY{n}{w}\PY{o}{/}\PY{n}{Tr\PYZus{}C}\PY{p}{)}\PY{o}{*}\PY{p}{(}\PY{n}{l}\PY{o}{/}\PY{n}{d}\PY{p}{)}
+\PY{n}{Theta\PYZus{}C} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arccos}\PY{p}{(}\PY{l+m+mf}{1.} \PY{o}{\PYZhy{}} \PY{p}{(}\PY{n}{v\PYZus{}C}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}\PY{o}{/}\PY{p}{(}\PY{l+m+mi}{2}\PY{o}{*}\PY{l+m+mf}{981.}\PY{o}{*}\PY{n}{l}\PY{p}{)}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Funzioni di fit per velocita\PYZsq{} e angolo}
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{f\PYZus{}Theta}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{p1}\PY{p}{,} \PY{n}{p2}\PY{p}{)}\PY{p}{:}
+    \PY{k}{return} \PY{l+m+mi}{2}\PY{o}{*}\PY{n}{np}\PY{o}{.}\PY{n}{pi}\PY{o}{*}\PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{l}\PY{o}{/}\PY{l+m+mf}{981.}\PY{p}{)}\PY{o}{*}\PY{p}{(}\PY{l+m+mi}{1} \PY{o}{+}\PY{n}{p1}\PY{o}{*}\PY{p}{(}\PY{n}{x}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)} \PY{o}{+}\PY{n}{p2}\PY{o}{*}\PY{p}{(}\PY{n}{x}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+
+
+\PY{c+c1}{\PYZsh{} Plot di T vs Theta e dei residui rispetto alla funzione attesa}
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{211}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Periodo [s]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{;} \PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{n}{color} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gray}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{Theta\PYZus{}A}\PY{p}{,} \PY{n}{T\PYZus{}A}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{caso A}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{Theta\PYZus{}B}\PY{p}{,} \PY{n}{T\PYZus{}B}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{caso B}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{Theta\PYZus{}A}\PY{p}{,} \PY{n}{f\PYZus{}Theta}\PY{p}{(}\PY{n}{Theta\PYZus{}A}\PY{p}{,} \PY{l+m+mf}{1.}\PY{o}{/}\PY{l+m+mi}{16}\PY{p}{,} \PY{l+m+mf}{11.}\PY{o}{/}\PY{l+m+mi}{3072}\PY{p}{)}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{Theta\PYZus{}B}\PY{p}{,} \PY{n}{f\PYZus{}Theta}\PY{p}{(}\PY{n}{Theta\PYZus{}B}\PY{p}{,} \PY{l+m+mf}{1.}\PY{o}{/}\PY{l+m+mi}{16}\PY{p}{,} \PY{l+m+mf}{11.}\PY{o}{/}\PY{l+m+mi}{3072}\PY{p}{)}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{c+c1}{\PYZsh{}plt.plot(Theta\PYZus{}C, T\PYZus{}C, \PYZsq{}o\PYZsq{}, label = \PYZsq{}caso C\PYZsq{})}
+\PY{c+c1}{\PYZsh{}plt.plot(Theta\PYZus{}C, f\PYZus{}Theta(Theta\PYZus{}C, 1./16, 11./3072), \PYZsq{}r\PYZsq{})}
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{loc}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{212}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Angolo [rad]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{;} \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Periodo data \PYZhy{} modello [ms]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{;} \PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{n}{color} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gray}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{Theta\PYZus{}A}\PY{p}{,} \PY{l+m+mi}{1000}\PY{o}{*}\PY{p}{(}\PY{n}{T\PYZus{}A}\PY{o}{\PYZhy{}}\PY{n}{f\PYZus{}Theta}\PY{p}{(}\PY{n}{Theta\PYZus{}A}\PY{p}{,} \PY{l+m+mf}{1.}\PY{o}{/}\PY{l+m+mi}{16}\PY{p}{,} \PY{l+m+mf}{11.}\PY{o}{/}\PY{l+m+mi}{3072}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{label} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{caso A}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{Theta\PYZus{}B}\PY{p}{,} \PY{l+m+mi}{1000}\PY{o}{*}\PY{p}{(}\PY{n}{T\PYZus{}B}\PY{o}{\PYZhy{}}\PY{n}{f\PYZus{}Theta}\PY{p}{(}\PY{n}{Theta\PYZus{}B}\PY{p}{,} \PY{l+m+mf}{1.}\PY{o}{/}\PY{l+m+mi}{16}\PY{p}{,} \PY{l+m+mf}{11.}\PY{o}{/}\PY{l+m+mi}{3072}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{label} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{caso B}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{c+c1}{\PYZsh{}plt.plot(Theta\PYZus{}C, 1000*(T\PYZus{}C\PYZhy{}f\PYZus{}Theta(Theta\PYZus{}C, 1./16, 11./3072)), label = \PYZsq{}caso C\PYZsq{})}
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{loc}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{savefig}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pendolo\PYZus{}TvsTheta\PYZus{}TestT.png}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}

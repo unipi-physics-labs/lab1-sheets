@@ -1,0 +1,57 @@
+\begin{Verbatim}[label=\makebox{\href{https://github.com/unipi-physics-labs/lab1-sheets/tree/main/snippy/misura_di_g.py}{https://github.com/.../misura\_di\_g.py}},commandchars=\\\{\}]
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{numpy}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{np}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{matplotlib}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{pyplot} \PY{k}{as} \PY{n}{plt}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{scipy}\PY{n+nn}{.}\PY{n+nn}{optimize}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{curve\PYZus{}fit}
+
+\PY{c+c1}{\PYZsh{} Misura di allungamento e periodo di oscillazione in funzione della massa appesa.}
+\PY{n}{m} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{5.005}\PY{p}{,} \PY{l+m+mf}{10.006}\PY{p}{,} \PY{l+m+mf}{20.011}\PY{p}{,} \PY{l+m+mf}{50.032}\PY{p}{]}\PY{p}{)}
+\PY{n}{sigma\PYZus{}m} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.001}\PY{p}{]} \PY{o}{*} \PY{n+nb}{len}\PY{p}{(}\PY{n}{m}\PY{p}{)}\PY{p}{)}
+\PY{n}{l} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{152.}\PY{p}{,} \PY{l+m+mf}{171.}\PY{p}{,} \PY{l+m+mf}{220.}\PY{p}{,} \PY{l+m+mf}{351.}\PY{p}{]}\PY{p}{)}
+\PY{n}{sigma\PYZus{}l} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{1.}\PY{p}{]} \PY{o}{*} \PY{n+nb}{len}\PY{p}{(}\PY{n}{l}\PY{p}{)}\PY{p}{)}
+\PY{n}{T} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.530}\PY{p}{,} \PY{l+m+mf}{0.611}\PY{p}{,} \PY{l+m+mf}{0.739}\PY{p}{,} \PY{l+m+mf}{1.044}\PY{p}{]}\PY{p}{)}
+\PY{n}{sigma\PYZus{}T} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.005}\PY{p}{,} \PY{l+m+mf}{0.005}\PY{p}{,} \PY{l+m+mf}{0.006}\PY{p}{,} \PY{l+m+mf}{0.004}\PY{p}{]}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} Calculate the square of the period and propagate the errors.}
+\PY{n}{T2} \PY{o}{=} \PY{n}{T}\PY{o}{*}\PY{o}{*}\PY{l+m+mf}{2.}
+\PY{n}{sigma\PYZus{}T2} \PY{o}{=} \PY{l+m+mi}{2} \PY{o}{*} \PY{n}{T} \PY{o}{*} \PY{n}{sigma\PYZus{}T}
+
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{line}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{m}\PY{p}{,} \PY{n}{q}\PY{p}{)}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Funzione di fit (una semplice retta).}
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{k}{return} \PY{n}{m} \PY{o}{*} \PY{n}{x} \PY{o}{+} \PY{n}{q}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Grafico allungamento\PYZhy{}massa}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{errorbar}\PY{p}{(}\PY{n}{m}\PY{p}{,} \PY{n}{l}\PY{p}{,} \PY{n}{sigma\PYZus{}l}\PY{p}{,} \PY{n}{sigma\PYZus{}m}\PY{p}{,} \PY{n}{fmt}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} Il fit in dettaglio: questa e` la funzione che esegue il fit e restituisce i parametri di best\PYZhy{}fit e}
+\PY{c+c1}{\PYZsh{} tutto quello che serve (la cosiddetta matrice di covarianza) per stimare gli errori associati. Per il}
+\PY{c+c1}{\PYZsh{} momento non passiamo le incertezze di misura al fit (per un motivo che vedremo piu` avanti) ma}
+\PY{c+c1}{\PYZsh{} ricordate che in generale questo non e` corretto.}
+\PY{n}{popt}\PY{p}{,} \PY{n}{pcov} \PY{o}{=} \PY{n}{curve\PYZus{}fit}\PY{p}{(}\PY{n}{line}\PY{p}{,} \PY{n}{m}\PY{p}{,} \PY{n}{l}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} Spacchettiamo l\PYZsq{}array dei parametri per averli disponibili separatamente}
+\PY{n}{m\PYZus{}fit}\PY{p}{,} \PY{n}{q\PYZus{}fit} \PY{o}{=} \PY{n}{popt}
+\PY{c+c1}{\PYZsh{} Calcoliamo le incertezze di misura (a questo livello l\PYZsq{}unica cosa che dovete sapere e` che sono la}
+\PY{c+c1}{\PYZsh{} radice quadrata degli elementi diagonali della matrice di covarianza).}
+\PY{n}{sigma\PYZus{}m\PYZus{}fit}\PY{p}{,} \PY{n}{sigma\PYZus{}q\PYZus{}fit} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{pcov}\PY{o}{.}\PY{n}{diagonal}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} Facciamo stampare i parametri (per la relazione non dimenticate di convertire nelle unita` di misura}
+\PY{c+c1}{\PYZsh{} opportune e di scrivere il numero corretto di cifre significative)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{m\PYZus{}fit}\PY{p}{,} \PY{n}{sigma\PYZus{}m\PYZus{}fit}\PY{p}{,} \PY{n}{q\PYZus{}fit}\PY{p}{,} \PY{n}{sigma\PYZus{}q\PYZus{}fit}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} Infine: facciamo il grafico del modello di best fit.}
+\PY{n}{x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{l+m+mf}{0.}\PY{p}{,} \PY{l+m+mf}{60.}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{line}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{m\PYZus{}fit}\PY{p}{,} \PY{n}{q\PYZus{}fit}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Massa [g]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Allungamento [mm]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{n}{ls}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dashed}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Grafico periodo quadro\PYZhy{}massa}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{errorbar}\PY{p}{(}\PY{n}{m}\PY{p}{,} \PY{n}{T2}\PY{p}{,} \PY{n}{sigma\PYZus{}T2}\PY{p}{,} \PY{n}{sigma\PYZus{}m}\PY{p}{,} \PY{n}{fmt}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{popt}\PY{p}{,} \PY{n}{pcov} \PY{o}{=} \PY{n}{curve\PYZus{}fit}\PY{p}{(}\PY{n}{line}\PY{p}{,} \PY{n}{m}\PY{p}{,} \PY{n}{T2}\PY{p}{)}
+\PY{n}{m\PYZus{}fit}\PY{p}{,} \PY{n}{q\PYZus{}fit} \PY{o}{=} \PY{n}{popt}
+\PY{n}{sigma\PYZus{}m\PYZus{}fit}\PY{p}{,} \PY{n}{sigma\PYZus{}q\PYZus{}fit} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{pcov}\PY{o}{.}\PY{n}{diagonal}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{m\PYZus{}fit}\PY{p}{,} \PY{n}{sigma\PYZus{}m\PYZus{}fit}\PY{p}{,} \PY{n}{q\PYZus{}fit}\PY{p}{,} \PY{n}{sigma\PYZus{}q\PYZus{}fit}\PY{p}{)}
+\PY{n}{x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{l+m+mf}{0.}\PY{p}{,} \PY{l+m+mf}{60.}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{line}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{m\PYZus{}fit}\PY{p}{,} \PY{n}{q\PYZus{}fit}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Massa [g]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Periodo al quadrato [s\PYZdl{}\PYZca{}2\PYZdl{}]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{n}{ls}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dashed}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}

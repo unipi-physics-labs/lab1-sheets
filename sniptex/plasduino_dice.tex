@@ -1,0 +1,34 @@
+\begin{Verbatim}[label=\makebox{\href{https://github.com/unipi-physics-labs/lab1-sheets/tree/main/snippy/plasduino_dice.py}{https://github.com/.../plasduino\_dice.py}},commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Programma di esempio per l\PYZsq{}analisi del file prodotto dal simulatore}
+\PY{c+c1}{\PYZsh{} del lancio di dadi.}
+\PY{c+c1}{\PYZsh{}}
+\PY{c+c1}{\PYZsh{} (Le linee precedute da un cancelletto sono commenti per illustrare il codice,}
+\PY{c+c1}{\PYZsh{} non e` necessario che le copiate nei vostri programmi.)}
+
+
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{pylab}
+
+\PY{c+c1}{\PYZsh{} Definizione di alcune variabili (da cambiare a piacimento).}
+\PY{n}{n\PYZus{}dadi}  \PY{o}{=} \PY{l+m+mi}{2}
+\PY{n}{n\PYZus{}lanci} \PY{o}{=} \PY{l+m+mi}{1000}
+
+\PY{c+c1}{\PYZsh{} Lettura del file di dati in ingresso (da modificare con il percorso al}
+\PY{c+c1}{\PYZsh{} vostro file in ingresso).}
+\PY{n}{valori}\PY{p}{,} \PY{n}{occorrenze} \PY{o}{=} \PY{n}{pylab}\PY{o}{.}\PY{n}{loadtxt}\PY{p}{(} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{data/plasduino\PYZus{}dice.txt}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{unpack} \PY{o}{=} \PY{k+kc}{True}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Calcolo della media e varianza campione.}
+\PY{n}{media\PYZus{}campione} \PY{o}{=} \PY{n+nb}{sum}\PY{p}{(}\PY{n}{occorrenze}\PY{o}{*}\PY{n}{valori}\PY{p}{)}\PY{o}{/}\PY{n}{n\PYZus{}lanci}
+\PY{n}{varianza\PYZus{}campione} \PY{o}{=} \PY{n+nb}{sum}\PY{p}{(}\PY{n}{occorrenze}\PY{o}{*}\PY{p}{(}\PY{p}{(}\PY{n}{valori} \PY{o}{\PYZhy{}} \PY{n}{media\PYZus{}campione}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}\PY{o}{/}\PY{p}{(}\PY{n}{n\PYZus{}lanci} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{dev\PYZus{}standard\PYZus{}campione} \PY{o}{=} \PY{n}{pylab}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{varianza\PYZus{}campione}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{m = }\PY{l+s+si}{\PYZpc{}f}\PY{l+s+s1}{, s = }\PY{l+s+si}{\PYZpc{}f}\PY{l+s+s1}{\PYZsq{}} \PY{o}{\PYZpc{}} \PY{p}{(}\PY{n}{media\PYZus{}campione}\PY{p}{,} \PY{n}{dev\PYZus{}standard\PYZus{}campione}\PY{p}{)}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Realizzazione e salvataggio del grafico.}
+\PY{n}{pylab}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+si}{\PYZpc{}d}\PY{l+s+s1}{ lanci di }\PY{l+s+si}{\PYZpc{}d}\PY{l+s+s1}{ dado/i}\PY{l+s+s1}{\PYZsq{}} \PY{o}{\PYZpc{}} \PY{p}{(}\PY{n}{n\PYZus{}lanci}\PY{p}{,} \PY{n}{n\PYZus{}dadi}\PY{p}{)}\PY{p}{)}
+\PY{n}{pylab}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Somma delle uscite}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} 
+\PY{n}{pylab}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Occorrenze}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{pylab}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{p}{)}
+\PY{n}{pylab}\PY{o}{.}\PY{n}{bar}\PY{p}{(}\PY{n}{valori}\PY{p}{,} \PY{n}{occorrenze}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{pylab}\PY{o}{.}\PY{n}{savefig}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dice\PYZus{}}\PY{l+s+si}{\PYZpc{}d}\PY{l+s+s1}{\PYZus{}}\PY{l+s+si}{\PYZpc{}d}\PY{l+s+s1}{.pdf}\PY{l+s+s1}{\PYZsq{}} \PY{o}{\PYZpc{}} \PY{p}{(}\PY{n}{n\PYZus{}dadi}\PY{p}{,} \PY{n}{n\PYZus{}lanci}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{pylab}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}

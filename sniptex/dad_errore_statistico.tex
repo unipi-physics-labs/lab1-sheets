@@ -1,0 +1,60 @@
+\begin{Verbatim}[label=\makebox{\href{https://github.com/unipi-physics-labs/lab1-sheets/tree/main/snippy/dad_errore_statistico.py}{https://github.com/.../dad\_errore\_statistico.py}},commandchars=\\\{\}]
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{numpy}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{np}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{matplotlib}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{pyplot} \PY{k}{as} \PY{n}{plt}
+
+\PY{c+c1}{\PYZsh{} Leggiamo le misure da un file di testo che avrete preventivamente}
+\PY{c+c1}{\PYZsh{} riempito durante l\PYZsq{}esecuzione delle misure. Assumiamo che il file abbia una}
+\PY{c+c1}{\PYZsh{} sola colonna con il tempo totale corrispondente a 10 periodi, con un}
+\PY{c+c1}{\PYZsh{} valore per riga.}
+\PY{n}{file\PYZus{}path} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{data/pendolo.txt}\PY{l+s+s1}{\PYZsq{}}
+\PY{n}{T} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{loadtxt}\PY{p}{(}\PY{n}{file\PYZus{}path}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} Dividiamo per 10 tutte le misure, per passare alla stima del singolo periodo.}
+\PY{n}{T} \PY{o}{/}\PY{o}{=} \PY{l+m+mi}{10}
+
+\PY{c+c1}{\PYZsh{} Calcoliamo media e deviazione standard della media utilizzando le funzioni di}
+\PY{c+c1}{\PYZsh{} numpy:}
+\PY{c+c1}{\PYZsh{} https://numpy.org/doc/stable/reference/generated/numpy.mean.html}
+\PY{c+c1}{\PYZsh{} https://numpy.org/doc/stable/reference/generated/numpy.std.html\PYZsh{}numpy.std}
+\PY{c+c1}{\PYZsh{} In particolare il ddof=1 serve per avere il termine (N \PYZhy{} 1) al denominatore.}
+\PY{n}{m} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{average}\PY{p}{(}\PY{n}{T}\PY{p}{)}
+\PY{n}{s} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{std}\PY{p}{(}\PY{n}{T}\PY{p}{,} \PY{n}{ddof}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} Dobbiamo dividere per la radice del numero di misure per passare}
+\PY{c+c1}{\PYZsh{} dalla deviazione standard del campione a quella della media.}
+\PY{n}{sm} \PY{o}{=} \PY{n}{s} \PY{o}{/} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{T}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Periodo: }\PY{l+s+si}{\PYZob{}}\PY{n}{m}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{ +/\PYZhy{} }\PY{l+s+si}{\PYZob{}}\PY{n}{sm}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Calcolo della media e deviazione standard sui campioni parziali.}
+\PY{c+c1}{\PYZsh{} Potete cambiare i due 5 a vostro piacimento.}
+\PY{n}{N\PYZus{}sub} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{T}\PY{p}{)}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{)}
+\PY{n}{m\PYZus{}sub} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+\PY{n}{s\PYZus{}sub} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+\PY{n}{sm\PYZus{}sub} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+\PY{k}{for} \PY{n}{n} \PY{o+ow}{in} \PY{n}{N\PYZus{}sub}\PY{p}{:}
+    \PY{c+c1}{\PYZsh{} Ricordate lo slicing di array di numpy:}
+    \PY{c+c1}{\PYZsh{} https://numpy.org/doc/stable/reference/arrays.indexing.html}
+    \PY{n}{t} \PY{o}{=} \PY{n}{T}\PY{p}{[}\PY{p}{:}\PY{n}{n}\PY{p}{]}
+    \PY{n}{m} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{average}\PY{p}{(}\PY{n}{t}\PY{p}{)}
+    \PY{n}{s} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{std}\PY{p}{(}\PY{n}{t}\PY{p}{,} \PY{n}{ddof}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+    \PY{n}{sm} \PY{o}{=} \PY{n}{s} \PY{o}{/} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{n}\PY{p}{)}
+    \PY{n}{m\PYZus{}sub}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{m}\PY{p}{)}
+    \PY{n}{s\PYZus{}sub}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{s}\PY{p}{)}
+    \PY{n}{sm\PYZus{}sub}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{sm}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Valore centrale}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{errorbar}\PY{p}{(}\PY{n}{N\PYZus{}sub}\PY{p}{,} \PY{n}{m\PYZus{}sub}\PY{p}{,} \PY{n}{sm\PYZus{}sub}\PY{p}{,} \PY{n}{fmt}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Numero di misure}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Stima del periodo [s]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Incertezza}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{errorbar}\PY{p}{(}\PY{n}{N\PYZus{}sub}\PY{p}{,} \PY{n}{s\PYZus{}sub}\PY{p}{,} \PY{n}{fmt}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}s\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{errorbar}\PY{p}{(}\PY{n}{N\PYZus{}sub}\PY{p}{,} \PY{n}{sm\PYZus{}sub}\PY{p}{,} \PY{n}{fmt}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}s\PYZus{}m\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Numero di misure}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Incertezza [s]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} Possiamo provare a mostrare lo scaling previsto con 1/sqrt(N)}
+\PY{n}{x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{T}\PY{p}{)}\PY{p}{,} \PY{l+m+mi}{200}\PY{p}{)}
+\PY{n}{y} \PY{o}{=} \PY{n}{s} \PY{o}{/} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{x}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{y}\PY{p}{,} \PY{n}{ls}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dashed}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}

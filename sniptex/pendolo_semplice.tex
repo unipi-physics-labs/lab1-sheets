@@ -1,0 +1,60 @@
+\begin{Verbatim}[label=\makebox{\href{https://github.com/unipi-physics-labs/lab1-sheets/tree/main/snippy/pendolo_semplice.py}{https://github.com/.../pendolo\_semplice.py}},commandchars=\\\{\}]
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{numpy}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{np}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{matplotlib}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{pyplot} \PY{k}{as} \PY{n}{plt}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{scipy}\PY{n+nn}{.}\PY{n+nn}{optimize}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{curve\PYZus{}fit}
+
+\PY{c+c1}{\PYZsh{} Misure del periodo di oscillazione in funzione della lunghezza.}
+\PY{n}{l} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{440.}\PY{p}{,} \PY{l+m+mf}{530.}\PY{p}{,} \PY{l+m+mf}{615.}\PY{p}{,} \PY{l+m+mf}{680.}\PY{p}{,} \PY{l+m+mf}{775.}\PY{p}{]}\PY{p}{)}
+\PY{n}{sigma\PYZus{}l} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{1.}\PY{p}{]} \PY{o}{*} \PY{n+nb}{len}\PY{p}{(}\PY{n}{l}\PY{p}{)}\PY{p}{)}
+\PY{n}{T} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{1.328}\PY{p}{,} \PY{l+m+mf}{1.449}\PY{p}{,} \PY{l+m+mf}{1.565}\PY{p}{,} \PY{l+m+mf}{1.649}\PY{p}{,} \PY{l+m+mf}{1.770}\PY{p}{]}\PY{p}{)}
+\PY{n}{sigma\PYZus{}T} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.006}\PY{p}{,} \PY{l+m+mf}{0.006}\PY{p}{,} \PY{l+m+mf}{0.002}\PY{p}{,} \PY{l+m+mf}{0.002}\PY{p}{,} \PY{l+m+mf}{0.006}\PY{p}{]}\PY{p}{)}
+
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{power\PYZus{}law}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{norm}\PY{p}{,} \PY{n}{index}\PY{p}{)}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Funzione di fit (una legge di potenza).}
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{k}{return} \PY{n}{norm} \PY{o}{*} \PY{p}{(}\PY{n}{x}\PY{o}{*}\PY{o}{*}\PY{n}{index}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Grafico periodo\PYZhy{}lunghezza}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{errorbar}\PY{p}{(}\PY{n}{l}\PY{p}{,} \PY{n}{T}\PY{p}{,} \PY{n}{sigma\PYZus{}T}\PY{p}{,} \PY{n}{sigma\PYZus{}l}\PY{p}{,} \PY{n}{fmt}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} Il fit in dettaglio: questa e` la funzione che esegue il fit e restituisce i parametri di best\PYZhy{}fit e}
+\PY{c+c1}{\PYZsh{} tutto quello che serve (la cosiddetta matrice di covarianza) per stimare gli errori associati. Per il}
+\PY{c+c1}{\PYZsh{} momento non passiamo le incertezze di misura al fit (per un motivo che vedremo piu` avanti) ma}
+\PY{c+c1}{\PYZsh{} ricordate che in generale questo non e` corretto.}
+\PY{n}{popt}\PY{p}{,} \PY{n}{pcov} \PY{o}{=} \PY{n}{curve\PYZus{}fit}\PY{p}{(}\PY{n}{power\PYZus{}law}\PY{p}{,} \PY{n}{l}\PY{p}{,} \PY{n}{T}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} Spacchettiamo l\PYZsq{}array dei parametri per averli disponibili separatamente}
+\PY{n}{norm\PYZus{}fit}\PY{p}{,} \PY{n}{index\PYZus{}fit} \PY{o}{=} \PY{n}{popt}
+\PY{c+c1}{\PYZsh{} Calcoliamo le incertezze di misura (a questo livello l\PYZsq{}unica cosa che dovete sapere e` che sono la}
+\PY{c+c1}{\PYZsh{} radice quadrata degli elementi diagonali della matrice di covarianza).}
+\PY{n}{sigma\PYZus{}norm\PYZus{}fit}\PY{p}{,} \PY{n}{sigma\PYZus{}index\PYZus{}fit} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{pcov}\PY{o}{.}\PY{n}{diagonal}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} Facciamo stampare i parametri (per la relazione non dimenticate di convertire nelle unita` di misura}
+\PY{c+c1}{\PYZsh{} opportune e di scrivere il numero corretto di cifre significative)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{norm\PYZus{}fit}\PY{p}{,} \PY{n}{sigma\PYZus{}norm\PYZus{}fit}\PY{p}{,} \PY{n}{index\PYZus{}fit}\PY{p}{,} \PY{n}{sigma\PYZus{}index\PYZus{}fit}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} Infine: facciamo il grafico del modello di best fit.}
+\PY{n}{x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{l+m+mf}{200.}\PY{p}{,} \PY{l+m+mf}{1000.}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{power\PYZus{}law}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{norm\PYZus{}fit}\PY{p}{,} \PY{n}{index\PYZus{}fit}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xscale}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{log}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{yscale}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{log}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Lunghezza [mm]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Periodo [s]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{n}{ls}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dashed}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{which}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{both}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Misure del periodo di oscillazione in funzione dell\PYZsq{}ampiezza.}
+\PY{n}{theta0} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{3.7}\PY{p}{,} \PY{l+m+mf}{7.4}\PY{p}{,} \PY{l+m+mf}{11.2}\PY{p}{,} \PY{l+m+mf}{18.8}\PY{p}{,} \PY{l+m+mf}{26.9}\PY{p}{]}\PY{p}{)}
+\PY{n}{sigma\PYZus{}theta0} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.1}\PY{p}{]} \PY{o}{*} \PY{n+nb}{len}\PY{p}{(}\PY{n}{theta0}\PY{p}{)}\PY{p}{)}
+\PY{n}{T} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{1.752}\PY{p}{,} \PY{l+m+mf}{1.759}\PY{p}{,} \PY{l+m+mf}{1.767}\PY{p}{,} \PY{l+m+mf}{1.772}\PY{p}{,} \PY{l+m+mf}{1.786}\PY{p}{]}\PY{p}{)}
+\PY{n}{sigma\PYZus{}T} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.005}\PY{p}{,} \PY{l+m+mf}{0.004}\PY{p}{,} \PY{l+m+mf}{0.007}\PY{p}{,} \PY{l+m+mf}{0.009}\PY{p}{,} \PY{l+m+mf}{0.005}\PY{p}{]}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Grafico periodo\PYZhy{}ampiezza}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{errorbar}\PY{p}{(}\PY{n}{theta0}\PY{p}{,} \PY{n}{T}\PY{p}{,} \PY{n}{sigma\PYZus{}T}\PY{p}{,} \PY{n}{sigma\PYZus{}theta0}\PY{p}{,} \PY{n}{fmt}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} Disegnamo il modello, assumendo un valore ragionevole per T0.}
+\PY{n}{T0} \PY{o}{=} \PY{l+m+mf}{1.757}
+\PY{n}{x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{l+m+mf}{0.}\PY{p}{,} \PY{l+m+mf}{30.}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} Notate la conversione da gradi a radianti!}
+\PY{n}{y} \PY{o}{=} \PY{n}{T0} \PY{o}{*} \PY{p}{(}\PY{l+m+mf}{1.} \PY{o}{+} \PY{n}{np}\PY{o}{.}\PY{n}{radians}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mf}{2.} \PY{o}{/} \PY{l+m+mf}{16.}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{y}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Ampiezza di oscillazione [\PYZdl{}\PYZca{}}\PY{l+s+se}{\PYZbs{}\PYZbs{}}\PY{l+s+s1}{circ\PYZdl{}]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Periodo [s]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{n}{ls}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dashed}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{which}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{both}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}

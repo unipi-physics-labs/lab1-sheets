@@ -1,0 +1,40 @@
+\begin{Verbatim}[label=\makebox{\href{https://github.com/unipi-physics-labs/lab1-sheets/tree/main/snippy/pendolo_fisico.py}{https://github.com/.../pendolo\_fisico.py}},commandchars=\\\{\}]
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{numpy}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{np}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{matplotlib}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{pyplot} \PY{k}{as} \PY{n}{plt}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{scipy}\PY{n+nn}{.}\PY{n+nn}{optimize}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{curve\PYZus{}fit}
+
+\PY{c+c1}{\PYZsh{} Dati\PYZhy{}\PYZhy{}\PYZhy{}mettete le vostre misure!}
+\PY{c+c1}{\PYZsh{} Qui potete anche leggere i dati da file, usando il metodo np.loadtxt(),}
+\PY{c+c1}{\PYZsh{} se lo trovate comodo.}
+\PY{n}{d} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.100}\PY{p}{,} \PY{l+m+mf}{0.200}\PY{p}{,} \PY{l+m+mf}{0.300}\PY{p}{,} \PY{l+m+mf}{0.400}\PY{p}{]}\PY{p}{)}
+\PY{n}{sigma\PYZus{}d} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{full}\PY{p}{(}\PY{n}{d}\PY{o}{.}\PY{n}{shape}\PY{p}{,} \PY{l+m+mf}{0.002}\PY{p}{)}
+\PY{n}{T} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{1.943}\PY{p}{,} \PY{l+m+mf}{1.570}\PY{p}{,} \PY{l+m+mf}{1.518}\PY{p}{,} \PY{l+m+mf}{1.572}\PY{p}{]}\PY{p}{)}
+\PY{n}{sigma\PYZus{}T} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.005}\PY{p}{,} \PY{l+m+mf}{0.004}\PY{p}{,} \PY{l+m+mf}{0.006}\PY{p}{,} \PY{l+m+mf}{0.005}\PY{p}{]}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Definizione dell\PYZsq{}accelerazione di gravita`.}
+\PY{n}{g} \PY{o}{=} \PY{l+m+mf}{9.81}
+
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{period\PYZus{}model}\PY{p}{(}\PY{n}{d}\PY{p}{,} \PY{n}{l}\PY{p}{)}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Modello per il periodo del pendolo.}
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{k}{return} \PY{l+m+mf}{2.0} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{pi} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{p}{(}\PY{n}{l}\PY{o}{*}\PY{o}{*}\PY{l+m+mf}{2.0} \PY{o}{/} \PY{l+m+mf}{12.0} \PY{o}{+} \PY{n}{d}\PY{o}{*}\PY{o}{*}\PY{l+m+mf}{2.0}\PY{p}{)} \PY{o}{/} \PY{p}{(}\PY{n}{g} \PY{o}{*} \PY{n}{d}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Periodo}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} Scatter plot dei dati.}
+\PY{n}{plt}\PY{o}{.}\PY{n}{errorbar}\PY{p}{(}\PY{n}{d}\PY{p}{,} \PY{n}{T}\PY{p}{,} \PY{n}{sigma\PYZus{}T}\PY{p}{,} \PY{n}{sigma\PYZus{}d}\PY{p}{,} \PY{n}{fmt}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} Fit\PYZhy{}\PYZhy{}\PYZhy{}notate che questo e` un fit ad un solo parametro.}
+\PY{n}{popt}\PY{p}{,} \PY{n}{pcov} \PY{o}{=} \PY{n}{curve\PYZus{}fit}\PY{p}{(}\PY{n}{period\PYZus{}model}\PY{p}{,} \PY{n}{d}\PY{p}{,} \PY{n}{T}\PY{p}{,} \PY{n}{sigma}\PY{o}{=}\PY{n}{sigma\PYZus{}T}\PY{p}{)}
+\PY{n}{l\PYZus{}hat} \PY{o}{=} \PY{n}{popt}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+\PY{n}{sigma\PYZus{}l} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{pcov}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} Confrontate i parametri di best fit con la vostra misura diretta!}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{l\PYZus{}hat}\PY{p}{,} \PY{n}{sigma\PYZus{}l}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} Grafico del modello di best\PYZhy{}fit.}
+\PY{n}{x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{l+m+mf}{0.05}\PY{p}{,} \PY{l+m+mf}{0.5}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{period\PYZus{}model}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{l\PYZus{}hat}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{d [m]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Periodo [s]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{n}{which}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{both}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{ls}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dashed}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gray}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{savefig}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{massa\PYZus{}raggio.pdf}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}

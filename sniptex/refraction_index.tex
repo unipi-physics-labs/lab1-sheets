@@ -1,0 +1,62 @@
+\begin{Verbatim}[label=\makebox{\href{https://github.com/unipi-physics-labs/lab1-sheets/tree/main/snippy/refraction_index.py}{https://github.com/.../refraction\_index.py}},commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Programma di esempio per l\PYZsq{}analisi delle misure sull\PYZsq{}indice di rifrazione di acqua e plexiglass}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{pylab}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{scipy}\PY{n+nn}{.}\PY{n+nn}{optimize}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{curve\PYZus{}fit}
+
+\PY{c+c1}{\PYZsh{} Dati in ingresso per il diottro (da modificare con le vostre misure).}
+\PY{n}{p} \PY{o}{=} \PY{n}{pylab}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{45.6}\PY{p}{,} \PY{l+m+mf}{42.9}\PY{p}{,} \PY{l+m+mf}{41.0}\PY{p}{,} \PY{l+m+mf}{38.7}\PY{p}{,} \PY{l+m+mf}{35.8}\PY{p}{,} \PY{l+m+mf}{34.1}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{d}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{q} \PY{o}{=} \PY{n}{pylab}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{43.5}\PY{p}{,} \PY{l+m+mf}{47.6}\PY{p}{,} \PY{l+m+mf}{51.2}\PY{p}{,} \PY{l+m+mf}{56.4}\PY{p}{,} \PY{l+m+mf}{68.1}\PY{p}{,} \PY{l+m+mf}{75.4}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{d}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{Dp} \PY{o}{=} \PY{n}{pylab}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{p}\PY{p}{)}\PY{o}{*}\PY{p}{[}\PY{l+m+mf}{0.5}\PY{p}{]}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{d}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{Dq} \PY{o}{=} \PY{n}{pylab}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{q}\PY{p}{)}\PY{o}{*}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{d}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Plot di 1/q vs 1/p}
+\PY{n}{pylab}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{pylab}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Indice di rifrazione dell}\PY{l+s+se}{\PYZbs{}\PYZsq{}}\PY{l+s+s1}{acqua}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{pylab}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{1/p [1/cm]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} 
+\PY{n}{pylab}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{1/q [1/cm]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} 
+\PY{n}{pylab}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{n}{color} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gray}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{pylab}\PY{o}{.}\PY{n}{errorbar}\PY{p}{(}\PY{l+m+mf}{1.}\PY{o}{/}\PY{n}{p}\PY{p}{,} \PY{l+m+mi}{1}\PY{o}{/}\PY{n}{q}\PY{p}{,} \PY{n}{Dp}\PY{o}{/}\PY{p}{(}\PY{n}{p}\PY{o}{*}\PY{n}{p}\PY{p}{)}\PY{p}{,} \PY{n}{Dq}\PY{o}{/}\PY{p}{(}\PY{n}{q}\PY{o}{*}\PY{n}{q}\PY{p}{)}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{black}\PY{l+s+s1}{\PYZsq{}} \PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Fit con una retta \PYZhy{} nota che le incertezze sono ignorate!}
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{f}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{a}\PY{p}{,} \PY{n}{b}\PY{p}{)}\PY{p}{:}
+    \PY{k}{return} \PY{n}{a}\PY{o}{*}\PY{n}{x} \PY{o}{+} \PY{n}{b}
+
+\PY{n}{popt}\PY{p}{,} \PY{n}{pcov} \PY{o}{=} \PY{n}{curve\PYZus{}fit}\PY{p}{(}\PY{n}{f}\PY{p}{,} \PY{l+m+mf}{1.}\PY{o}{/}\PY{n}{p}\PY{p}{,} \PY{l+m+mi}{1}\PY{o}{/}\PY{n}{q}\PY{p}{,} \PY{n}{pylab}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mf}{1.}\PY{p}{,}\PY{l+m+mf}{1.}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+\PY{n}{a}\PY{p}{,} \PY{n}{b}       \PY{o}{=} \PY{n}{popt}
+\PY{n}{da}\PY{p}{,} \PY{n}{db}     \PY{o}{=} \PY{n}{pylab}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{pcov}\PY{o}{.}\PY{n}{diagonal}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Acqua: n = }\PY{l+s+si}{\PYZpc{}f}\PY{l+s+s1}{ +\PYZhy{} }\PY{l+s+si}{\PYZpc{}f}\PY{l+s+s1}{\PYZsq{}} \PY{o}{\PYZpc{}} \PY{p}{(}\PY{n}{a}\PY{p}{,} \PY{n}{da}\PY{p}{)}\PY{p}{)}
+\PY{n}{pylab}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{l+m+mf}{1.}\PY{o}{/}\PY{n}{p}\PY{p}{,} \PY{n}{f}\PY{p}{(}\PY{l+m+mf}{1.}\PY{o}{/}\PY{n}{p}\PY{p}{,} \PY{n}{a}\PY{p}{,} \PY{n}{b}\PY{p}{)}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{black}\PY{l+s+s1}{\PYZsq{}} \PY{p}{)}
+\PY{n}{pylab}\PY{o}{.}\PY{n}{savefig}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{rifrazione\PYZus{}acqua.png}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Dati in ingresso per il plexiglass (da modificare con le vostre misure).}
+\PY{c+c1}{\PYZsh{} In questo esempio x = R*sin(theta\PYZus{}r), y = R*sin(theta\PYZus{}i) [cm]}
+\PY{n}{x} \PY{o}{=} \PY{n}{pylab}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{1.25}\PY{p}{,} \PY{l+m+mf}{1.85}\PY{p}{,} \PY{l+m+mf}{2.9}\PY{p}{,} \PY{l+m+mf}{4.35}\PY{p}{,} \PY{l+m+mf}{0.5}\PY{p}{,}  \PY{l+m+mf}{0.25}\PY{p}{,} \PY{l+m+mf}{0.8}\PY{p}{,} \PY{l+m+mf}{1.5}\PY{p}{,} \PY{l+m+mf}{4.8}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{d}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{y} \PY{o}{=} \PY{n}{pylab}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{1.9}\PY{p}{,}  \PY{l+m+mf}{2.5}\PY{p}{,}  \PY{l+m+mf}{4.2}\PY{p}{,} \PY{l+m+mf}{6.65}\PY{p}{,} \PY{l+m+mf}{0.75}\PY{p}{,} \PY{l+m+mf}{0.45}\PY{p}{,} \PY{l+m+mf}{1.1}\PY{p}{,} \PY{l+m+mf}{2.4}\PY{p}{,} \PY{l+m+mf}{7.} \PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{d}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{Dx} \PY{o}{=} \PY{n}{pylab}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{o}{*}\PY{p}{[}\PY{l+m+mf}{0.1}\PY{p}{]}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{d}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{Dy} \PY{o}{=} \PY{n}{pylab}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{y}\PY{p}{)}\PY{o}{*}\PY{p}{[}\PY{l+m+mf}{0.1}\PY{p}{]}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{d}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Plot di x vs y}
+\PY{n}{pylab}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{pylab}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Indice di rifrazione del plexiglass}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{pylab}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{R sin(theta\PYZus{}r) [cm]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} 
+\PY{n}{pylab}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{R sin(theta\PYZus{}i) [cm]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} 
+\PY{n}{pylab}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{n}{color} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gray}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{pylab}\PY{o}{.}\PY{n}{errorbar}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{y}\PY{p}{,} \PY{n}{Dx}\PY{p}{,} \PY{n}{Dy}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{black}\PY{l+s+s1}{\PYZsq{}} \PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Fit con una retta per essere sicuri che il termine noto sia compatibile con zero}
+\PY{n}{popt}\PY{p}{,} \PY{n}{pcov} \PY{o}{=} \PY{n}{curve\PYZus{}fit}\PY{p}{(}\PY{n}{f}\PY{p}{,} \PY{n}{x}\PY{p}{,} \PY{n}{y}\PY{p}{,} \PY{n}{pylab}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{1.}\PY{p}{,}\PY{l+m+mf}{0.}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+\PY{n}{a}\PY{p}{,} \PY{n}{b}       \PY{o}{=} \PY{n}{popt}
+\PY{n}{da}\PY{p}{,} \PY{n}{db}     \PY{o}{=} \PY{n}{pylab}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{pcov}\PY{o}{.}\PY{n}{diagonal}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Plexiglass: b = }\PY{l+s+si}{\PYZpc{}f}\PY{l+s+s1}{ +\PYZhy{} }\PY{l+s+si}{\PYZpc{}f}\PY{l+s+s1}{ compatibile con 0?}\PY{l+s+s1}{\PYZsq{}} \PY{o}{\PYZpc{}} \PY{p}{(}\PY{n}{b}\PY{p}{,} \PY{n}{db}\PY{p}{)}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Fit con la legge di Snell}
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{f1}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{a}\PY{p}{)}\PY{p}{:}
+    \PY{k}{return} \PY{n}{a}\PY{o}{*}\PY{n}{x}
+
+\PY{n}{popt}\PY{p}{,} \PY{n}{pcov} \PY{o}{=} \PY{n}{curve\PYZus{}fit}\PY{p}{(}\PY{n}{f1}\PY{p}{,} \PY{n}{x}\PY{p}{,} \PY{n}{y}\PY{p}{,} \PY{n}{pylab}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{1.}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Plexiglass: n = }\PY{l+s+si}{\PYZpc{}f}\PY{l+s+s1}{ +\PYZhy{} }\PY{l+s+si}{\PYZpc{}f}\PY{l+s+s1}{\PYZsq{}} \PY{o}{\PYZpc{}} \PY{p}{(}\PY{n}{popt}\PY{p}{,} \PY{n}{pylab}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{pcov}\PY{o}{.}\PY{n}{diagonal}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\PY{n}{pylab}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{f1}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{a}\PY{p}{)}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{black}\PY{l+s+s1}{\PYZsq{}} \PY{p}{)}
+\PY{n}{pylab}\PY{o}{.}\PY{n}{savefig}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{rifrazione\PYZus{}plexiglass.png}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{n}{pylab}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
