@@ -1,0 +1,88 @@
+name: Compile and archive
+
+on:
+  push:
+    tags:
+      - '*'  # Trigger for any tag update
+
+permissions:
+  contents: write  # Required to create releases
+
+env:
+  TEXLIVE_VERSION: 2025
+
+jobs:
+
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Compile statnotes
+        uses: xu-cheng/latex-action@v4
+        with:
+          root_file: statnotes.tex
+          texlive_version: ${{ env.TEXLIVE_VERSION }}
+
+      - name: Compile compnotes
+        uses: xu-cheng/latex-action@v4
+        with:
+          root_file: compnotes.tex
+          texlive_version: ${{ env.TEXLIVE_VERSION }}
+
+      - name: Compile exercises
+        uses: xu-cheng/latex-action@v4
+        with:
+          root_file: exercises.tex
+          texlive_version: ${{ env.TEXLIVE_VERSION }}
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref_name }}
+          release_name: Release ${{ github.ref_name }}
+          body: |
+            Versione ${{ github.ref_name }} delle note.
+
+            ## Assets
+
+            - *statnotes-${{ github.ref_name }}.pdf* - Statistica ed analisi dati
+            - *compnotes-${{ github.ref_name }}.pdf* - Elementi di computazione
+            - *exercises-${{ github.ref_name }}.pdf* - Esercizi risolti
+          draft: false
+          prerelease: false
+
+      - name: Upload statnotes
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: statnotes.pdf
+          asset_name: statnotes-${{ github.ref_name }}.pdf
+          asset_content_type: application/pdf
+
+      - name: Upload compnotes
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: compnotes.pdf
+          asset_name: compnotes-${{ github.ref_name }}.pdf
+          asset_content_type: application/pdf
+
+      - name: Upload exercises
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: exercises.pdf
+          asset_name: exercises-${{ github.ref_name }}.pdf
+          asset_content_type: application/pdf
