@@ -26,6 +26,9 @@ jobs:
         uses: xu-cheng/texlive-action@v2
         with:
           texlive_version: ${{ env.TEXLIVE_VERSION }}
+          packages: >-
+            scheme-small
+            pdflatex
 
       # --- Build with a custom Makefile ---
       - name: Compile sheets
