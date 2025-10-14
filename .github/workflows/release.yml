@@ -8,10 +8,6 @@ on:
 permissions:
   contents: write  # Required to create releases
 
-env:
-  PDF_FIND_DIR: .
-  PDF_FIND_EXPR: -name '*.pdf'
-
 jobs:
 
   build-and-release:
@@ -25,23 +21,15 @@ jobs:
 
         uses: xu-cheng/texlive-action@v3
         with:
-          # small scheme = minimal TL; fastest image
-          # (requires os: alpine and texlive_version: latest)
-          os: alpine
-          texlive_version: latest
-          scheme: small
-          run: |
-            # install extra TL collections/packages your docs need
-            tlmgr install collection-latexrecommended collection-fontsrecommended collection-latexextra latexmk dblfloatfix
-            # now build
-            make
+          os: debian
+          run: make
 
       # --- Collect PDFs into ./artifacts ---
       - name: Collect PDFs
         run: |
           mkdir -p artifacts
           # Copy discovered PDFs into artifacts/
-          find "$PDF_FIND_DIR" -maxdepth 4 -type f \( $PDF_FIND_EXPR \) \
+          find . -maxdepth 4 -type f -name '*.pdf' \
             -not -path './artifacts/*' \
             -print -exec cp -t artifacts {} +
           echo "Collected files:"
