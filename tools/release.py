@@ -54,7 +54,7 @@ def execute_shell_command(arguments):
 def copy_file(src, dest):
     """ Copy a file in another location.
     """
-    logger.info('Copying {src} to {dest}...')
+    logger.info(f'Copying {src} to {dest}...')
     shutil.copy(src, dest)
 
 
