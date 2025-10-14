@@ -25,10 +25,11 @@ jobs:
       - name: Install TeXLive
         uses: xu-cheng/texlive-action@v2
         with:
-          texlive_version: ${{ env.TEXLIVE_VERSION }}
           packages: >-
             scheme-small
-            pdflatex
+            latexmk
+            xetex
+            # add any extra packages you need
 
       # --- Build with a custom Makefile ---
       - name: Compile sheets
