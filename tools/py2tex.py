@@ -25,11 +25,6 @@ import pathlib
 import subprocess
 import sys
 
-from loguru import logger
-
-# Configure the logger.
-logger.remove()
-logger.add(sink=sys.stderr, colorize=True, format='>>> <level>{message}</level>')
 
 LAB1SHEETS_GITHUB_URL = 'https://github.com/unipi-physics-labs/lab1-sheets/tree/main'
 
@@ -56,7 +51,7 @@ def pygmentize(snippet_path=LAB1SHEETS_PY):
     # If the target path is a folder, then we pygmentize all the Python files within
     # the folder calling the function recursively.
     if snippet_path.is_dir():
-        logger.info(f'Pygmentizing folder {snippet_path}...')
+        print(f'Pygmentizing folder {snippet_path}...')
         for _path in snippet_path.iterdir():
             if _path.is_file() and _path.suffix == '.py':
                 pygmentize(_path)
@@ -66,7 +61,7 @@ def pygmentize(snippet_path=LAB1SHEETS_PY):
 
     # Now we are good to go with a single, good Python file!
     file_path = snippet_path.resolve()
-    logger.info(f'Pygmentizing {file_path}...')
+    print(f'Pygmentizing {file_path}...')
     # Pygmentize the script.
     cmd = f'pygmentize -f latex -O full -l python {file_path}'
     kwargs = dict(stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
@@ -90,7 +85,7 @@ def pygmentize(snippet_path=LAB1SHEETS_PY):
     output_file_path = LAB1SHEETS_TEX / f'{file_path.stem}.tex'
     with open(output_file_path, 'w', encoding=_ENCODING) as output_file:
         output_file.write(full_text)
-    logger.info('Done!')
+    print('Done!')
 
 
 if __name__ == '__main__':
