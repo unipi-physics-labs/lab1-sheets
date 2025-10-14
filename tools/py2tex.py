@@ -42,7 +42,7 @@ _ENCODING = 'utf-8'
 _OUTPUT_LATEX_SUBSTITUTIONS = {}
 
 
-def pygmentize(snippet_path: str = LAB1SHEETS_PY):
+def pygmentize(snippet_path=LAB1SHEETS_PY):
     """Run pygments on a python script and generate the corresponding LaTeX output.
     """
     # pylint: disable=use-dict-literal, too-many-locals

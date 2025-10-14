@@ -68,7 +68,7 @@ def _read_version():
     return version
 
 
-def _write_version(version: str):
+def _write_version(version):
     """ Write the version to the appropriate file.
     """
     logger.info(f'Writing version {version} to {VERSION_FILE_PATH}...')
@@ -76,7 +76,7 @@ def _write_version(version: str):
         version_file.write(f'{version}\n')
 
 
-def increment_version_file(mode: str) -> str:
+def increment_version_file(mode) -> str:
     """Update the version.tex file.
     """
     logger.info(f'Bumping version file (mode = {mode})...')
@@ -105,17 +105,17 @@ def increment_version_file(mode: str) -> str:
 #     execute_shell_command(['make'])
 
 
-# def _asset_url(name: str, version: str) -> str:
+# def _asset_url(name, version) -> str:
 #     """ Return the URL for an asset.
 #     """
 #     return f'{GITHUB_RELEASE_URL}/download/{version}/{name}-{version}.pdf'
 
-# def write_readme(version: str) -> None:
+# def write_readme(version) -> None:
 #     """ Write the README file.
 #     """
 #     pass
 
-def release(mode: str) -> None:
+def release(mode) -> None:
     """ Tag the package and create a release.
     """
     execute_shell_command(['git', 'pull'])
