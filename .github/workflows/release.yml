@@ -32,7 +32,7 @@ jobs:
           scheme: small
           run: |
             # install extra TL collections/packages your docs need
-            tlmgr install collection-latexrecommended collection-fontsrecommended latexmk dblfloatfix texlive-latex-extra
+            tlmgr install collection-latexrecommended collection-fontsrecommended collection-latexextra latexmk dblfloatfix
             # now build
             make
 
