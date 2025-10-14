@@ -1,0 +1,111 @@
+\documentclass{lab1-article}
+
+\title{Rimbalzi di una pallina}
+
+\usepackage{fancyvrb}
+\usepackage{hyperref}
+\input{code/python}
+
+\begin{document}
+
+
+\begin{article}
+\selectlanguage{italian}
+
+\maketitle
+
+\secintro
+
+Nel modello pi\`u semplice che possiamo formulare una pallina elastica che
+rimbalza su una superficie rigida (e.g., il pavimento) perde una frazione $\gamma$
+della sua energia indipendente dalla velocit\`a prima dell'impatto. Se lasciamo
+cadere la pallina da un'altezza nota $h_0$, con velocit\`a iniziale nulla, sotto
+l'azione della forza di gravit\`a, l'altezza massima raggiunta dopo $n$ rimbalzi
+sar\`a dunque, sotto queste ipotesi:
+\begin{align}\label{eq:modello}
+  h_n = h_0 \gamma^n.
+\end{align}
+
+Lo scopo dell'esperienza \`e lo studio della dinamica dei rimbalzi di una
+pallina elastica utilizzando lo smartphone per registrare il rumore prodotto dai
+rimbalzi.
+
+\secmaterialsdad
+
+\begin{itemize}
+\item Una pallina elastica.
+\item Metro a nastro.
+\item Smartphone o macchina fotografica digitale.
+\end{itemize}
+
+
+\secmeasurements
+
+Misureremo i tempi dei vari rimbalzi attraverso l'analisi di una apposita
+registrazione audio eseguita con lo smartphone. Come potete vedere nel
+frammento di codice esemplificativo riportato nella pagine seguente,
+un file audio in formato \emph{wave} pu\`o essere letto e trasformato in un
+grafico---a questo punto si pu\`o lavorare con lo strumento zoom di matplotlib
+ed il mouse per stimare i tempi.
+
+\begin{figure}[!hb]
+  \includegraphics[width=\linewidth]{figures/rimbalzi_palla}
+\end{figure}
+
+\labsubsection{Analisi del file audio}
+
+Analogamente a quanto fatto per l'esperienza della catenaria, misureremo
+i tempi di rimbalzo manualmente utilizzando il \emph{mouse}. Notiamo che ogni
+rimbalzo \`e caratterizzato da un \emph{attacco} estremamente rapido e da
+una \emph{coda} relativamente pi\`u lunga. Si consiglia di eseguire uno
+zoom stretto sui ciascun attacco per stimare con precisione il momento
+dell'impatto; dovrete anche, va da s\'e, pensare a come stimare in modo
+ragionevole l'incertezza associata.
+
+(Man mano che la velocit\`a di impatto sul suolo diminuisce, anche la pressione
+sonora si riduce, come si vede chiaramente dalla figura.)
+
+
+\labsubsection{Stima dell'altezza massima}
+
+\`E facile dimostrare che, nel nostro modello, l'altezza massima raggiunta tra
+due rimbalzi successivi pu\`o essere stimata a partire dai tempi di rimbalzo
+come
+\begin{align}
+  h_n = \frac{1}{8}g(t_n - t_{n-1})^2.
+\end{align}
+(Notiamo, per inciso, che questo non include un certo numero di effetti
+potenzialmente rilevanti come la resistenza dell'aria.)
+
+Realizzate un grafico dell'altezza $h_n$ in funzione dell'indice $n$ del rimbalzo.
+Se il nostro modello descrive accuratamente i dati, questi ultimo dovrebbero
+disporsi come un esponenziale (e quindi dovrebbero apparire come una retta
+in scala semilogaritmica). Si fitti il grafico di dispersione con la~\eqref{eq:modello}
+e si stimi il valore di $gamma$. Si confronti il valore di $h_0$ con la misura
+diretta dell'altezza iniziale.
+
+
+\secconsiderations
+
+Avrete bisogno di un ambiente il pi\`u possibile silezioso per effettuare la
+registrazione. Palline diverse perderanno una frazione diversa della loro energia
+ad ogni rimbalzo, per cui si consiglia di fare un certo numero di prove per
+trovare la configurazione ottimale (inclusa la misura dell'altezza iniziale da
+cui la pallina viene fatta cadere).
+
+Assicuratevi che la \emph{app} che utilizzate permetta di registrare in formato
+\emph{wave}---possibilmente mono. Ce ne sono svariate per tutte le piattaforme.
+Alternativamente avrete bisogno di un programma per convertire in formato
+\emph{wave} il \emph{file} prodotto dal vostro smartphone (e.g., in \emph{mp3}).
+\emph{Audacity}, reperibile da \url{https://www.audacityteam.org/}, \`e un
+esempio di \emph{editor} audio \emph{open-source} e multipiattaforma, che
+vi permette di fare la conversione (oltre ad un numero sconfinato di altre cose).
+
+
+\onecolumn
+
+\input{code/dad_palla}
+
+
+\end{article}
+\end{document}

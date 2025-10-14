@@ -1,0 +1,101 @@
+\documentclass{lab1-article}
+
+\title{Fitting}
+
+\usepackage{fancyvrb}
+\usepackage{hyperref}
+\input{code/python}
+
+\begin{document}
+
+
+\begin{article}
+\selectlanguage{italian}
+
+\maketitle
+
+\secintro
+
+
+Lo scopo dell'esperienza \`e la rianalisi di alcuni dei dati acquisiti durante
+il primo semestre per mettere in pratica le nozioni di base sul \emph{fit} dei
+minimi quadrati introdotte nel corso.
+
+\secmaterialsdad
+
+\begin{itemize}
+\item Dati relativi alle esperienze del primo semestre;
+\item calcolatore con ecosistema scientifico Python.
+\end{itemize}
+
+
+\secmeasurements
+
+Recuperate i dati relativi alle esperienze del primo semestre, ed in particolare
+quelle su:
+\begin{enumerate}
+  \item misure di densit\`a;
+  \item equazione della catenaria;
+  \item caduta di un grave;
+  \item rimbalzi di una pallina.
+\end{enumerate}
+Per ciascuna di queste avete gi\`a eseguito un fit---al tempo senza prestare
+attenzione alle incertezze di misura. Questa volta, viceversa, il \emph{focus}
+dell'esperienza \`e proprio una corretta trattazione di queste ultime.
+
+\labsubsection{Fit}
+
+Per ciascuno dei data set a disposizione, detto $f(x; \theta_1 \ldots \theta_m)$
+il modello utilizzato, verificate preliminarmente se gli errori sulla variabile
+indipendente possono essere trascurati, ovverosia se la condizione
+\begin{align}\label{eq:errorex}
+  \left| \frac{df(x_i; \theta_1 \ldots \theta_m)}{dx} \right| \sigma_{x_i} \ll
+  \sigma_{y_i} \quad \forall i = 1 \ldots n
+\end{align}
+\`e verificata o meno. Nel primo caso farete un fit dei minimi quadrati
+propriamente detto, mentre in caso contrario utilizzerete gli
+\emph{errori efficaci}:
+\begin{align}\label{eq:errori_efficaci}
+  \sigma_i^2 = \sigma_{y_i}^2 +
+  \left( \frac{df(x_i; \theta_1 \ldots \theta_m)}{dx} \right)^2 \sigma_{x_i}^2
+\end{align}
+iterando il procedimento fino alla convergenza.
+
+(Notate che, per verificare la condizione~\eqref{eq:errorex} avete bisogno di
+una stima iniziale dei parametri del modello; a questo scopo potete utilizzare
+i risultati di un fit dei minimi quadrati trascurando le incertezze sulla
+variabile dipendente.)
+
+
+\labsubsection{Test del $\chi^2$}
+
+Per ciascuna delle esperienze eseguite un test del $\chi^2$ con i parametri di
+\emph{best-fit} ottenuti. Confrontate il valore ottenuto con il numero di gradi
+di libert\`a del problema e commentate sulla bont\`a del fit.
+
+(Spunto di riflessione: le incertezze possono essere considerate distribuite
+gaussianamente? E, se questo non fosse il caso, cambia qualcosa nella nostra
+interpretazione del test del $\chi^2$?
+
+
+\labsubsection{Grafico dei residui}
+
+Per ciascuna delle esperienze costruite un grafico dei residui e
+verificate la presenza o meno di indicazione di strutture che potrebbero
+indicare effetti sistematici.
+
+(Notate che le incertezze da utilizzare sul grafico dei residui sono quelle
+efficaci~\eqref{eq:errori_efficaci}, di modo che il grafico stesso sia
+visualmente in accordo con il risultato del test del $chi^2$.)
+
+
+\secconsiderations
+
+Nella stesura della relazione indicate chiaramente se ci sono differenze
+significative, in termini dei valori di \emph{best-fit} dei parametri, con i
+risultati ottenuti nel primo semestre. In caso affermativo cercate di spiegare
+il motivo.
+
+
+\end{article}
+\end{document}

@@ -1,0 +1,145 @@
+\documentclass{lab1-article}
+
+\title{Pendolo semplice}
+
+\usepackage{fancyvrb}
+\input{code/python}
+
+\begin{document}
+
+
+\begin{article}
+\selectlanguage{italian}
+
+\maketitle
+
+\secsummary
+Studio della dipendenza del periodo di un pendolo dalla
+lunghezza, dalla massa sospesa e dall'ampiezza delle oscillazioni.
+
+
+\secmaterials
+
+\begin{itemize}
+\item 3 solidi regolari di massa diversa, dotati di gancio.
+\item Cronometro (risoluzione 0.01~s).
+\item Bilancia di precisione (risoluzione 1~mg).
+\item Metro a nastro (risoluzione 1~mm).
+\item Calibro ventesimale (risoluzione 0.05~mm).
+\end{itemize}
+
+
+\secdefinitions
+
+\begin{figure}[htb!]
+  \begin{tikzpicture}[scale=1]
+    \pgfmathsetmacro{\xc}{2.25}
+    \pgfmathsetmacro{\yc}{0}
+    \pgfmathsetmacro{\r}{4.5}
+    \pgfmathsetmacro{\rangle}{1}
+    \pgfmathsetmacro{\thetazero}{40}
+    \node at (0, 0) {};
+    \draw[style=densely dashed] (\xc, \yc) -- (\xc, \yc - \r);
+    \draw (\xc, \yc) -- (\xc + \r*sin{\thetazero}, \yc - \r*cos{\thetazero});
+    \draw[style=densely dashed] (\xc, \yc - \r) arc (270:270+\thetazero:\r);
+    \draw[style=densely dashed] (\xc, \yc - \r*cos{\thetazero}) --%
+    (\xc + \r*sin{\thetazero}, \yc - \r*cos{\thetazero});
+    \draw (\xc, \yc - \rangle) arc (270:270+\thetazero:\rangle);
+    \fill (\xc + \r*sin{\thetazero}, \yc - \r*cos{\thetazero}) circle%
+          [radius=0.15];
+    \node at (\xc - 0.25, 0) {$0$};
+    \node[anchor=east] at (\xc , \yc - 0.5*\r) {$l\cos\theta_0$};
+    \node[anchor=south] at%
+    (\xc + 0.5*\r*sin{\thetazero}, \yc - \r*cos{\thetazero}) {$l\sin\theta_0$};
+    \node at (\xc + 0.5*\r*sin{\thetazero} + 0.5, \yc - 0.5*\r*cos{\thetazero})%
+          {$l$};
+    \node at (\xc + \r*sin{\thetazero} + 0.5, \yc - \r*cos{\thetazero}) {$m$};
+    \node at (\xc + 0.6, \yc - 1.3) {$\theta_0$};
+  \end{tikzpicture}
+  \caption{Schematizzazione dell'apparato sperimentale e definizioni di base.}
+  \label{fig:pendolo}
+\end{figure}
+
+La lunghezza $l$ di un pendolo \`e la distanza tra il punto di sospensione ed
+il centro di massa del pendolo stesso.
+
+L'ampiezza di oscillazione $\theta_0$ \`e l'angolo formato dal filo con la
+verticale all'inizio dell'oscillazione.
+
+Il periodo di oscillazione $T$ di un pendolo \`e il tempo che esso impiega a
+compiere un'oscillazione completa di andata e ritorno rispetto al punto di
+partenza.
+
+L'espressione per il periodo del pendolo si pu\`o sviluppare in serie come
+\begin{align}
+T = 2\pi\sqrt{\frac{l}{g}} \left( 1 + \frac{1}{16}\theta_0^2 +
+\frac{11}{3072}\theta_0^4 + \cdots \right)
+\end{align}
+(nel limite di piccole oscillazioni solo il primo termine dello sviluppo
+\`e importante ed il periodo \`e indipendente dall'ampiezza).
+
+
+\secmeasurements
+
+
+\labsubsection{Dipendenza del periodo dalla massa}
+
+Decisa una lunghezza per il pendolo, a ampiezza di oscillazione costante si
+misuri il periodo di oscillazione usando le tre masse a disposizione.
+
+Si riportino le misure ottenute in una tabella: i dati mostrano una dipendenza
+del periodo al variare della massa?
+
+
+\labsubsection{Dipendenza del periodo dall'ampiezza}
+
+Fissata la massa, si misuri il periodo di oscillazione aumentando
+progressivamente l'ampiezza iniziale $\theta_0$.
+Si consigliano almeno 5 ampiezze diverse (ad esempio 10, 20, 30, 40 e 50 gradi
+circa).
+
+Si riportino le misure in una tabella e si disegni il grafico del periodo in
+funzione dell'ampiezza. C'\`e dipendenza del periodo al variare dell'ampiezza
+di oscillazione?
+
+
+\labsubsection{Dipendenza del periodo dalla lunghezza}
+
+Con massa e ampiezza fissata, si misuri il periodo di oscillazione al variare
+della lunghezza. Si consigliano almeno cinque lunghezze diverse (ad esempio da
+30 a 100~cm circa).
+
+Si riportino le misure in una tabella ed in un grafico in carta bilogaritmica.
+Si faccia un fit al calcolatore con una legge di potenza e se ne stimino i
+parametri.
+
+\secconsiderations
+
+\labsubsection{Misura del periodo}
+
+Anche se la risoluzione del cronometro usato vale 0.01~s, \`e illusorio
+pensare che questo sia l'errore di misura da attribuire a misurazioni di tempo
+manuali.
+
+Per ridurre l'impatto del tempo di reazione, si consiglia
+di misurare il tempo $\tau$ che il sistema impiega a compiere $10$
+oscillazioni complete. Per stimare l'errore associato a $\tau$ si ripeta la
+misure $n$ volte (con $n \geq 5$); il valor medio delle varie misure effettuate
+\begin{align}
+  m_{\tau} = \frac{1}{n}\sum_{i = 1}^n \tau_i
+\end{align}
+sar\`a assunto come miglior stima della durata temporale del fenomeno e la
+deviazione standard della media
+\begin{align}
+  s_\tau = \sqrt{\frac{1}{n(n-1)}\sum_{i = 1}^n(\tau_i - m_\tau)^2}
+\end{align}
+come errore associato.
+Va da s\'e che si passa da $\tau$ a $T$ dividendo per $10$ (se abbiamo
+misurato $10$ oscillazioni complete) sia la misura che l'errore.
+
+\onecolumn
+
+\input{code/pendolo_semplice}
+
+\end{article}
+\end{document}

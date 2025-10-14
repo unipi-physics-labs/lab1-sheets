@@ -1,0 +1,155 @@
+\documentclass{lab1-article}
+
+\title{Pendolo fisico}
+
+\usepackage{fancyvrb}
+\input{python}
+
+
+\begin{document}
+
+
+\begin{article}
+\selectlanguage{italian}
+
+\maketitle
+
+\secsummary
+Lo scopo dell'esperienza \`e quello di misurare il periodo di un pendolo
+fisico in funzione della distanza del centro di massa dal punto di
+sospensione.
+
+
+\secmaterials
+
+\begin{itemize}
+\item Un'asta metallica forata.
+\item Un supporto di sospensione.
+\item Cronometro (risoluzione 0.01~s).
+\item Metro a nastro (risoluzione 1~mm).
+\item Calibro ventesimale (risoluzione 0.05~mm).
+\end{itemize}
+
+\secmeasurements
+
+\begin{figure}[htb!]
+  \begin{tikzpicture}[scale=1]
+    \pgfmathsetmacro{\xc}{2.25}
+    \pgfmathsetmacro{\yc}{0}
+    \pgfmathsetmacro{\r}{6}
+    \pgfmathsetmacro{\w}{0.5}
+    \pgfmathsetmacro{\rangle}{1.5}
+    \pgfmathsetmacro{\thetazero}{30}
+    \node at (0, 0) {};
+    \draw[rotate around={\thetazero:(\xc, \yc)}]%
+    (\xc - 0.5*\w, \yc + \w) rectangle (\xc + 0.5*\w, \yc - \r - \w);
+    \fill (\xc, \yc) circle [radius=0.075];
+    \node at (\xc + \w, \yc + 0.5*\w) {$P$};
+    \fill (\xc + 0.5*\r*sin{\thetazero}, \yc - 0.5*\r*cos{\thetazero})%
+    circle [radius=0.075];
+    \node[anchor=west] at%
+    (\xc + 0.5*\r*sin{\thetazero} + 0.5*\w,
+    \yc - 0.5*\r*cos{\thetazero} + 0.5*\w) {Centro di massa};
+    \draw[style=densely dashed] (\xc, \yc + 2*\w)--(\xc, \yc - \r);
+    \draw[style=densely dashed] (\xc, \yc)--%
+    (\xc + 0.5*\r*sin{\thetazero}, \yc - 0.5*\r*cos{\thetazero});
+    \draw (\xc, \yc - \rangle) arc (270:270+\thetazero:\rangle);
+    \node[anchor=north] at (\xc + \w, \yc - \rangle) {$\theta$};
+    \node[anchor=west] at%
+    (\xc + 0.25*\r*sin{\thetazero} + 0.5*\w,
+    \yc - 0.25*\r*cos{\thetazero} + 0.25*\w) {$d$};
+    \draw[->] (\xc + 0.5*\r*sin{\thetazero}, \yc - 0.5*\r*cos{\thetazero})--%
+    (\xc + 0.5*\r*sin{\thetazero}, \yc - 0.5*\r*cos{\thetazero} - 2);
+    \node[anchor=north] at%
+    (\xc + 0.5*\r*sin{\thetazero}, \yc - 0.5*\r*cos{\thetazero} - 2)%
+         {$m\vec{g}$};
+  \end{tikzpicture}
+  \caption{Schematizzazione dell'apparato sperimentale e definizioni di base.}
+  \label{fig:pendolo}
+\end{figure}
+
+Un qualunque oggetto fissato ad un punto di sospensione $P$ (che disti $d$
+dal centro di massa) e soggetto alla gravit\`a costituisce un pendolo fisico.
+Se il pendolo viene spostato di un angolo $\theta$ dalla posizione di
+equilibrio, il momento della forza di gravit\`a (rispetto al polo $P$) vale
+allora
+\begin{align*}
+  \tau = -mgd \sin\theta,
+\end{align*}
+che ad angoli \emph{piccoli} (cosa significa?) diventa
+\begin{align}\label{eq:tau_small}
+  \tau = - mgd\theta.
+\end{align}
+D'altra parte, per la seconda equazione cardinale, si ha
+\begin{align*}
+  \tau = \frac{dL}{dt},
+\end{align*}
+ed usando le relazioni $L = I\omega$ e $\omega = d\theta/dt$ abbiamo
+\begin{align}\label{eq:eq_motion}
+  \tau = I \frac{d^2\theta}{dt^2}
+\end{align}
+
+La \eqref{eq:tau_small} e la \eqref{eq:eq_motion} permettono di scrivere
+\begin{align}
+\frac{d^2\theta}{dt^2} + \frac{mgd}{I}\theta = 0.
+\end{align}
+Si tratta dell'equazione differenziale di un moto armonico di pulsazione
+angolare e periodo date rispettivamente da
+\begin{align*}
+  \omega_0 = \sqrt{\frac{mgd}{I}} \quad
+  T_0 = \frac{2\pi}{\omega_0} = 2\pi\sqrt{\frac{I}{mgd}}.
+\end{align*}
+
+Sapendo che il momento di inerzia dell'asta (di massa $m$ e lunghezza $l$)
+rispetto ad un punto $P$ che dista $d$ dal centro di massa, vale
+\begin{align*}
+  I = I_{\rm cm} + md^2 = \frac{ml^2}{12} + md^2,
+\end{align*}
+si ha infine
+\begin{align}\label{eq:period}
+  T(d) = 2\pi\sqrt{\frac{(l^2/12 + d^2)}{gd}}.
+\end{align}
+
+
+\labsubsection{Dipendenza del periodo da $d$}
+
+Si misuri il periodo di oscillazione $T$ al variare della distanza $d$ del
+punto di sospensione dal centro di massa (per i valori $d_i$ corrispondenti ai
+fori nella sbarra) e si riporti su di un grafico di dispersione i valori
+misurati $T_i$ in funzione delle distanze $d_i$.
+
+Si esegua un fit dei dati con il modello~(\ref{eq:period}), usando $l$ come
+parametro libero, e si confronti il valore di \emph{best-fit} $\hat{l}$ con la
+lunghezza misurata dell'asta.
+
+Si faccia un grafico dei residui
+\begin{align*}
+  r_i = T_i - 2\pi\sqrt{\frac{(\hat{l}^2/12 + d_i^2)}{gd_i}}.
+\end{align*}
+in funzione di $d_i$ per studiare qualitativamente l'accordo del modello con i
+dati raccolti.
+
+
+
+\secconsiderations
+
+\labsubsection{Misura del periodo}
+
+Anche se la risoluzione del cronometro usato vale 0.01~s, \`e illusorio
+pensare che questo sia l'errore di misura da attribuire a misurazioni di tempo
+manuali.
+Per ridurre l'impatto del tempo di reazione, si consiglia
+di misurare il tempo $\tau$ che il sistema impiega a compiere $10$
+oscillazioni complete. Per stimare l'errore associato a $\tau$ si ripeta la
+misure $n$ volte (con $n \geq 5$) e si prenda il valor medio e la deviazione
+standard della media delle misure come miglior stima del misurando ed incertezza
+associata, rispettivamente.
+(Va da s\'e che si passa da $\tau$ a $T$ dividendo per $10$ sia la misura che l'errore.)
+
+\onecolumn
+
+\input{sniptex/pendolo_fisico}
+
+
+\end{article}
+\end{document}

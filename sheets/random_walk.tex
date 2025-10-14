@@ -1,0 +1,142 @@
+\documentclass{lab1-article}
+
+\title{Random walk}
+
+\usepackage{fancyvrb}
+\input{code/python}
+
+
+\begin{document}
+
+
+\begin{article}
+\selectlanguage{italian}
+
+\maketitle
+
+\secsummary
+Lo scopo dell'esperienza \`e quello di simulare un random walk in due dimensioni
+e studiare alcune delle propriet\`a statistiche del fenomeno.
+
+\secmaterials
+
+\begin{itemize}
+    \item Calcolatore dotato di Python e dell'ecosistema scientifico associato.
+\end{itemize}
+
+\secmeasurements
+
+Nella sua versione pi\`u semplice, un random walk in due dimensioni consiste in
+una sequenza di passi di lunghezza fissata (che per comodit\`a possiamo assumere
+uguale ad $1$ in qualche unit\`a di misura), in direzioni casuali.
+Formalmente, dato un sistema di riferimento cartesiano, e assumendo di partire
+dalla posizione $(x,~y) = (0,~0)$ ad ogni passo dobbiamo:
+\begin{itemize}
+    \item estrarre una direzione casuale $\phi \in [0,~2\pi]$;
+    \item aggiornare la posizione corrente secondo la relazione
+        $(x,~y) \rightarrow (x + \cos\phi,~y + \sin\phi)$.
+\end{itemize}
+
+
+\labsubsection{Rappresentazione grafica}
+
+Per cominciare rappresentate graficamente una particolare realizzazione del processo
+con un numero di passi a vostra scelta, ad esempio $1000$. (Sperimentate liberamente
+e scegliete la configurazione che vi sembra pi\`u interessante).
+
+Operativamente potete realizzare un ciclo \texttt{for} in cui riempite una lista
+con le posizioni ad ogni passo, e poi utilizzare la funzione \texttt{plot} del modulo
+\texttt{matplotlib}, esattamente come se si trattasse di un grafico di dispersione.
+Cercate di curare la presentazione grafica, ed inserite l'immagine ottenuta nella
+relazione.
+
+
+\labsubsection{Studio delle propriet\`a statistiche}
+
+Per studiare le propriet\`a statistiche del random walk, dovrete creare un certo
+numero di realizzazioni del processo, mantenendo costante il numero di passi.
+Le cose che ci interessano sono essenzialmente la posizione finale $(x,~y)$ del
+random walk, e la distanza corrispondente $d = \sqrt{x^2 + y^2}$ dall'origine, per
+cui in questo caso, all'interno del nostro ciclo \texttt{for}, non \`e necessario
+tener traccia di tutte le posizioni---\`e sufficiente aggiornare una sola coppia
+ordinata $(x,~y)$. Operativamente potete creare una funzione che accetti come unico
+parametro il numero di passi, e restituisca la posizione finale nella forma di una
+tupla.
+
+Cominciate con lo scegliere un numero di passi $n$ (ad esempio $100$), e generate un
+gran numero $N$ di realizzazioni (ad esempio $10000$) del processo. Create gli istogrammi
+di $x$ (oppure $y$ che dovrebbe essere qualitativamente simile) e $d$ e verificate
+che seguano le distribuzioni attese attraverso un test del $\chi^2$. Notate in particolare
+che:
+\begin{itemize}
+    \item $x$ e $y$ dovrebbero essere distributi gaussianamente con media $0$ e
+        $\sigma = \sqrt{n / 2}$;
+    \item $d^2$ \`e la somma di due gaussiane al quadrato, per cui la sua funzione
+    di distribuzione \`e legata a quella di un $\chi^2$ a due gradi di libert\`a,
+    ovverosia una distribuzione esponenziale con media $n$:
+    \begin{align*}
+        p(d^2; n) = \frac{1}{n} e^{-\frac{d^2}{n}};
+    \end{align*}
+    la funzione di distribuzione per $d$ si pu\`o ottenere da questa con un cambio
+    di variabile
+    \begin{align}\label{eq:pdf_d}
+        p(d;~n) = \frac{2d}{n} e^{-\frac{d^2}{n}}.
+    \end{align}
+    (In pratica l'unica differenza \`e lo Jacobiano $2d$ della trasformazione
+    $d^2 \rightarrow d$.)
+\end{itemize}
+
+Notate che il valor medio di $d$ si pu\`o calcolare a partire dalla funzione di
+distribuzione~\eqref{eq:pdf_d}
+\begin{align}
+    E[d] = \int_0^\infty d p(d; n) dd = \frac{\sqrt{\pi}}{2} \sqrt{n}.
+\end{align}
+e scala come $\sqrt{n}$, come potete verificare direttamente cambiando $n$, se
+siete particolarmente motivati.
+
+% \labsubsection{Legge di scala per il valor medio di $d$}
+
+% Si studi come varia il valor medio di $d$ al variare del numero di passi $N$.
+% A questo scopo, fissata una griglia di valori di $N$ (ad esempio 10, 25, 50, 100,
+% 250, 500, 1000) si generi un certo numero di realizzazioni del nostro random walk e
+% si faccia un grafico di $\left<d\right>$ in funzione di N. Verificare con un fit
+% ed un test del $\chi^2$ che
+% \begin{align}
+%     \left<d\right> = \frac{\sqrt{\pi}}{2} \sqrt{N}.
+% \end{align}
+
+
+
+\secconsiderations
+
+Per lo svolgimento dell'esperienza utilizzerete principalmente il generatore di
+numeri pseudo-casuali disponibile nel modulo \texttt{random} della libreria \texttt{numpy},
+come mostrato negli esempi nella prossima pagina. (Non c'\`e niente di profondo, ma
+\`e computazionalmente pi\`u efficiente generare \emph{array} di numeri con
+\texttt{numpy}, piuttosto che fare un loop esplicito in Python.)
+
+Quando fate il test del chi quadro per gli istogrammi userete la definizione
+\begin{align}
+    \chi^2 = \sum_i \frac{(o_i - e_i)^2}{e_i},
+\end{align}
+in cui $o_i$ sono le occorrenze osservate (ovvero il contenuto dei canali, o \emph{bin},
+dell'istogramma), $e_i$ sono le occorrenze attese in base al modello, e l'indice
+$i$ scorre su tutti i \emph{bin}. Quando calcolate i valori attesi $e_i$ ricordate
+due cose fondamentali:
+\begin{itemize}
+  \item il modello deve essere normalizzato alla somma $N$ dei contenuti
+    dei bin, e non a $1$ (i.e., dovete moltiplicare per $N$ le funzioni di distribuzione);
+  \item  formalmente dovreste integrare il modello tra gli estremi dei bin, ma se
+    questi ultimi non sono troppo grandi potete prendere il valore della funzione
+    al centro del bin, moltiplicando per la larghezza del bin stesso.
+\end{itemize}
+
+
+
+\onecolumn
+
+\input{code/random_walk_hints}
+
+
+\end{article}
+\end{document}

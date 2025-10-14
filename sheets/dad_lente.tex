@@ -1,0 +1,114 @@
+\documentclass{lab1-article}
+
+\title{Lente cilindrica}
+
+\usepackage{fancyvrb}
+\usepackage{hyperref}
+\input{code/python}
+
+\begin{document}
+
+
+\begin{article}
+\selectlanguage{italian}
+
+\maketitle
+
+\secintro
+
+
+Lo scopo dell'esperienza \`e la misura della lunghezza focale di una lente
+cilindrica.
+
+
+\secmaterialsdad
+
+\begin{itemize}
+\item Un bicchiere di forma cilindrica.
+\item Metro a nastro.
+\item Smartphone.
+\end{itemize}
+
+
+\secmeasurements
+
+In questa esperienza realizzeremo una misura di lunghezza focale con materiale
+che dovreste avere tutti a disposizione a casa: un bicchiere pieno d'acqua
+utilizzato come lente cilindrica, il led dello \emph{smartphone} utilizzato
+come sorgente luminosa ed un qualsiasi oggetto piano e monocolore, e.g., un
+blocco di carta, utilizzato come schermo.
+
+\begin{figure}[!htb]
+  \includegraphics[width=\linewidth]{figures/lente_cilindrica}
+  \caption{Esempio di apparato sperimentale per la misura della focale di una
+  lente sferica.}
+\end{figure}
+
+Realizzate un \emph{setup} sperimentale, con il materiale a disposizione,
+simile a quello in figura. Dovrete misurare una serie di coppie di valori di
+$p$ (distanza della sorgente dal centro della lente) e $q$ (distanza del centro
+della lente dall'immagine a fuoco), per cui mettetevi nelle condizioni di farlo
+agevolmente. (Potete tenere il bicchiere immobile, create un supporto per lo
+\emph{smartphone} con un nasino e muovere lo schermo con la mano, ma sentitevi
+liberi di dare sfogo alla vostra creativit\`a.)
+
+Fate un grafico di dispersione di $1/p$ vs. $1/q$ ed usate la legge dei punti
+coniugati
+\begin{align}
+  \frac{1}{p} + \frac{1}{q} = \frac{1}{f}
+\end{align}
+per ricavare il valore della lughezza focale $f$ attraverso un \emph{fit} di tipo
+generale. Per completezza, fatto il cambio di variabile $x = 1/p$ e $y = 1/q$,
+i punti dovrebbero disporsi su una retta
+\begin{align*}
+  y = \frac{1}{f} - x
+\end{align*}
+in cui la lunghezza focale \`e l'inverso dell'intercetta ed il coefficiente
+angolare dovrebbe essere compatibile con $-1$. Inutile dire che, in questo caso,
+con ogni probabilit\`a le incertezze sulla variabile indipendente non saranno
+trascurabili.
+
+\begin{figure}[htb!]
+\begin{center}
+  \begin{tikzpicture}[scale=2]
+    %\draw (0, 0) -- (1,1);
+    \draw (0.5, 0) -- (4,0);
+    \draw[->] (2, 0) -- (2,1);
+    \draw[->] (2, 0) -- (2,-1);
+    \draw [fill] (1.5,0) circle [radius=0.02];
+    \draw [fill] (2.5,0) circle [radius=0.02];
+    \draw[thick, ->] (1.25, 0) -- (1.25,0.5); % object
+    \draw (1.25,0.5) -- (2, 0.5) -- (3.5, -1); %()
+    \draw (1.25,0.5) -- (3.5, -1); %(2, 0)
+    \draw[thick, ->] (3.5, 0) -- (3.5,-1); % image
+    % notation
+    \draw[<->] (1.25, -1.25) -- (2, -1.25);
+    \node [below] at (1.625,-1.25) {$p$};
+    \draw[<->] (2, -1.25) -- (3.5,-1.25);
+    \node [below] at (2.75,-1.25) {$q$};
+  \end{tikzpicture}
+  \caption{Schema ottico per la misura delle focale di una lente convergente.}
+  \label{fig:convergente}
+\end{center}
+\end{figure}
+
+
+Confrontate il valore di $f$ da voi ottenuto con il valore previsto dalla
+teoria per una lente spessa nella nostra configurazione
+\begin{align}
+  \frac{1}{f} =(n-1) \frac{2}{r} \left(1 - \frac{(n-1)}{n} \right)
+\end{align}
+(dove $r$ \`e il raggio del bicchiere e $n$ l'indice di rifrazione dell'acqua).
+
+
+\secconsiderations
+
+Assicuratevi che il bicchiere che utilizzate abbia una forma cilindrica---in caso
+contrario la modellizzazione diventa pi\`u complicata.
+
+Quando misurerete la distanza $q$ dalla lente all'immagine vi accorgerete che
+non \`e banale capire quando quest'ultima \`e esattamente a fuoco. Tenetelo
+in considerazione nella stima dell'incertezza.
+
+\end{article}
+\end{document}

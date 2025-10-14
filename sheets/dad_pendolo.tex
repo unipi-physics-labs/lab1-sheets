@@ -1,0 +1,112 @@
+\documentclass{lab1-article}
+
+\title{Periodo di un pendolo}
+
+\usepackage{fancyvrb}
+\usepackage{hyperref}
+\input{code/python}
+
+\begin{document}
+
+
+\begin{article}
+\selectlanguage{italian}
+
+\maketitle
+
+\secintro
+Lo scopo dell'esperienza \`e la misura della dipendenza del periodo di un
+pendolo dalla sua lunghezza e dall'ampiezza iniziale di oscillazione.
+
+
+\secmaterialsdad
+
+\begin{itemize}
+\item Filo e pesetto
+\item Righello o metro a nastro
+\item Cronometro digitale o \emph{smartphone}
+\end{itemize}
+
+
+\secdefinitions
+
+Un pendolo semplice \`e tipicamente schematizzato come una massa puntiforme
+appesa ad un punto fisso attraverso un filo inestensibile di massa nulla.
+
+\begin{figure}[htb!]
+  \begin{tikzpicture}[scale=1]
+    \pgfmathsetmacro{\xc}{2.25}
+    \pgfmathsetmacro{\yc}{0}
+    \pgfmathsetmacro{\r}{4.5}
+    \pgfmathsetmacro{\rangle}{1}
+    \pgfmathsetmacro{\thetazero}{40}
+    \node at (0, 0) {};
+    \draw[style=densely dashed] (\xc, \yc) -- (\xc, \yc - \r);
+    \draw (\xc, \yc) -- (\xc + \r*sin{\thetazero}, \yc - \r*cos{\thetazero});
+    \draw[style=densely dashed] (\xc, \yc - \r) arc (270:270+\thetazero:\r);
+    \draw[style=densely dashed] (\xc, \yc - \r*cos{\thetazero}) --%
+    (\xc + \r*sin{\thetazero}, \yc - \r*cos{\thetazero});
+    \draw (\xc, \yc - \rangle) arc (270:270+\thetazero:\rangle);
+    \fill (\xc + \r*sin{\thetazero}, \yc - \r*cos{\thetazero}) circle%
+          [radius=0.15];
+    \node at (\xc - 0.25, 0) {$0$};
+    \node[anchor=east] at (\xc , \yc - 0.5*\r) {$l\cos\theta_0$};
+    \node[anchor=south] at%
+    (\xc + 0.5*\r*sin{\thetazero}, \yc - \r*cos{\thetazero}) {$l\sin\theta_0$};
+    \node at (\xc + 0.5*\r*sin{\thetazero} + 0.5, \yc - 0.5*\r*cos{\thetazero})%
+          {$l$};
+    \node at (\xc + \r*sin{\thetazero} + 0.5, \yc - \r*cos{\thetazero}) {$m$};
+    \node at (\xc + 0.6, \yc - 1.3) {$\theta_0$};
+  \end{tikzpicture}
+  \caption{Schematizzazione dell'apparato sperimentale e definizioni di base.}
+  \label{fig:pendolo}
+\end{figure}
+
+La lunghezza $l$ \`e la distanza tra il punto di sospensione ed
+il centro di massa del pendolo stesso.
+L'ampiezza di oscillazione $\theta_0$ \`e l'angolo formato dal filo con la
+verticale all'inizio dell'oscillazione.
+Il periodo di oscillazione $T$ \`e il tempo che il pendolo impiega a
+compiere un'oscillazione completa.
+
+L'espressione per il periodo del pendolo si pu\`o sviluppare in serie come
+\begin{align}\label{eq:periodo_pendolo}
+  T = 2\pi\sqrt{\frac{l}{g}} \left( 1 + \frac{1}{16}\theta_0^2 +
+  \frac{11}{3072}\theta_0^4 + \cdots \right).
+\end{align}
+
+
+\secmeasurements
+
+Realizzate un \emph{pendolo semplice} (per quanto praticamente possibile) con il
+materiale che avete a disposizione a casa. Fate in modo che la lunghezza sia
+modificabile con facilit\`a.
+
+\labsubsection{Misure da effettuare}
+
+Si misuri con il cronometro (o con lo \emph{smartphone} utilizzato come cronometro)
+il periodo del pendolo per diversi valori:
+\begin{itemize}
+    \item della lunghezza $l$ (ad ampiezza di oscillazione fissata);
+    \item dell'ampiezza iniziale di oscillazione $\theta_0$ (a lunghezza fissata),
+\end{itemize}
+e si confrontino i risultati ottenuti con quanto atteso dalla teoria.
+
+Va da s\'e che, nell'esecuzione della misura, si deve far tesoro di
+quanto imparato nelle esercitazioni precedenti.
+
+
+\secconsiderations
+
+\emph{Non utilizzate strumenti pericolosi, o con i quali non vi sentite
+  perfettamente a vostro agio, nella realizzazione dell'esperienza. Non \`e
+  necessario per la buona riuscita dell'eseperienza stessa!}
+
+Parte integrante dell'esperienza \`e la scelta di una griglia ragionevole di
+valori di lunghezza e di ampiezza iniziale di oscillazione. Per la seconda, in
+particolare, bisogna assicurarsi di arrivare ad un'ampiezza tale che la
+deviazione dal regime di piccole oscillazioni sia chiaramente misurabile.
+
+
+\end{article}
+\end{document}

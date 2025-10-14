@@ -1,0 +1,122 @@
+\documentclass{lab1-article}
+
+\title{Moto di un volano}
+
+\input{plasduino}
+
+\begin{document}
+
+
+\begin{article}
+\selectlanguage{italian}
+
+\maketitle
+
+\secsummary
+
+Lo scopo dell'esperienza \`e lo studio del moto di un volano sotto l'azione
+di una forza esterna.
+
+\secmaterials
+
+\begin{itemize}
+\item Un volano dotato di \emph{encoder};
+\item un piattino ed una serie di pesetti;
+\item sistema di acquisizione.
+\end{itemize}
+
+\secmeasurements
+
+L'equazione fondamentale che regola il moto del nostro sistema \`e
+\begin{align}\label{eq:eq_moto}
+  I \frac{d\overrightarrow\omega}{dt} = \overrightarrow\tau,
+\end{align}
+dove $I$ \`e il momento di inerzia del volano (i.e., di \emph{tutte} le
+componenti del volano), $\overrightarrow\omega$ la sua velocit\`a angolare e
+$\overrightarrow\tau$ il momento totale delle forze esterne.
+
+
+\labsubsection{Misura del momento della forza di attrito}
+
+Nel caso di moto libero l'unica forza esterna che fa momento \`e quella di
+attrito. La prima misura richiesta \`e proprio la stima del modulo $\tau_a$
+del momento della forza di attrito attraverso la misura
+dell'accelerazione (o, meglio, decelerazione) angolare per il moto
+libero. Assumendo che $\tau_a$ non dipenda da $\omega$ (si tratta di un'ipotesi
+di lavoro da verificare a posteriori), per la~\eqref{eq:eq_moto} si ha
+\begin{align}
+  \omega(t) = \omega_0 - \frac{\tau_a}{I}t.
+\end{align}
+Si costruisca un grafico cartesiano della velocit\`a in funzione del tempo e si
+esegua un \emph{fit} con una retta. Dal coefficiente angolare, e avendo
+preliminarmente stimato $I$, si pu\`o ricavare $\tau_a$.
+Per la stima di $I$ si schematizzi la parte mobile dell'apparato come una serie
+di dischi coassiali di alluminio ($\varrho_{\rm Al} = 2.70 \pm 0.02$~g/cm$^3$),
+ricordando che il momento di inerzia $I_d$ di un disco di raggio $r_d$ e massa
+$m_d$ \`e
+\begin{align}
+  I_d = \frac{1}{2}m_dr_d^2.
+\end{align}
+
+L'ipotesi di lavoro iniziale (cio\`e la costanza del momento della forza
+di attrito) \`e verificata?
+
+
+\labsubsection{Moto sotto l'azione di una forza esterna}
+
+Si avvolga un filo di nylon attorno al rocchetto (di raggio $r$) coassiale con
+il volano. All'estremit\`a libera del filo, tramite un piattello, si appenda
+una massa sufficiente a mettere in moto il volano (nel seguito chiameremo
+$m$ la massa totale di pesino pi\`u piattello).
+
+Durante la fase di discesa del pesino, detto $T_d$ il modulo della tensione del
+filo e $z$ la posizione verticale del pesino, le equazioni del moto del
+sistema sono
+\begin{align}
+  m\ddot{z_d} &= mg - T_d\\
+  I \frac{d\omega_d}{dt} &= T_dr - \tau_a,
+\end{align}
+(abbiamo assunto l'asse $z$ orientato verso il basso). A queste due va
+aggiunta la condizione di inestensibilit\`a del filo, che si scrive come
+\begin{align}
+  \ddot{z_d} = r\frac{d\omega_d}{dt},
+\end{align}
+che permette di scrivere la soluzione in forma chiusa:
+\begin{align}
+  \frac{d\omega_d}{dt} = \frac{mgr - \tau_a}{I + mr^2} \quad (> 0).
+\end{align}
+Analogamente per la fase di salita:
+\begin{align}
+  \frac{d\omega_s}{dt} = \frac{-mgr - \tau_a}{I + mr^2} \quad (<0). 
+\end{align}
+
+Si misurino le accelerazioni angolari del sistema durante la salita e la
+discesa e si confrontino i valori ottenuti con quelli attesi dalla teoria.
+
+
+\secconsiderations
+
+Si consiglia di eseguire la misura iniziale di $\tau_a$ per valori di
+$\omega$ non troppo diversi da quelli che si registrano durante il moto
+forzato.
+
+Per completezza, il momento di inerzia $I$ del sistema dovrebbe essere
+dell'ordine $\sim 3 \times 10^5$~g~cm$^2$.
+
+
+\subsecdataformat
+
+Il programma di acquisizione fornisce un \emph{file} di uscita contenente due
+colonne che rappresentano, rispettivamente:
+\begin{enumerate}
+\item il tempo $t$ (in s), dall'inizio dell'acquisizione;
+\item la velocit\`a angolare (in rad/s) mediata sull'ultimo $1/20$ di giro
+(l'\emph{encoder} \`e a 20 segmenti).
+\end{enumerate}
+
+\plasduinodoc{Wheel}
+
+\plasduinosave
+
+\end{article}
+\end{document}

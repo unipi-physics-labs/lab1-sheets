@@ -1,0 +1,118 @@
+\documentclass{lab1-article}
+
+\title{Misure di densit\`a}
+
+\usepackage{fancyvrb}
+\input{python}
+
+\begin{document}
+
+
+\begin{article}
+\selectlanguage{italian}
+
+\maketitle
+
+\secsummary
+Sappiamo che una quantit\`a fissata di qualunque sostanza o materiale occupa un
+volume che varia soltanto se variano le condizioni in cui tale sostanza o
+materiale si trova (ad esempio se dovesse passare dallo stato solido allo stato
+liquido, o se cambiano la temperatura o la pressione).
+
+La massa per unit\`a di volume \`e nota come densit\`a:
+\begin{align}
+  \rho = \frac{m}{V}, \quad [\rho]= \mathrm{kg/m}^3.
+\end{align}
+Si pu\`o distinguere, ad esempio, un metallo da un altro misurandone la
+densit\`a.
+
+
+\secmaterials
+
+\begin{itemize}
+\item Calibro ventesimale (risoluzione 0.05~mm).
+\item Calibro Palmer (risoluzione 0.01~mm).
+\item Bilancia di precisione (risoluzione 1~mg).
+\item Una serie di solidi in alluminio, acciaio e ottone.
+
+\end{itemize}
+
+
+%\secdefinitions
+
+
+%\secconsiderations
+
+
+\secmeasurements
+
+\labsubsection{Misure preliminari}
+
+Si misurino le dimensioni (raggi, altezze, spessori, etc.) dei vari corpi
+solidi e se ne calcoli il volume e la corrispondente incertezza di
+misura---attraverso le regole usuali della propagazione dell'errore statistico
+per grandezze indipendenti (i.e., utilizzando la somma in quadratura).
+
+Si misuri anche la massa dei vari corpi e si costruisca una tabella
+contenente i valore dei volumi e delle masse.
+
+
+\labsubsection{Stima delle densit\`a}
+
+Su un grafico cartesiano si riportino i valori dei volumi in ascisse e quelli
+delle masse in ordinate. Poich\'e
+\begin{align}
+  m = \rho V,
+\end{align}
+i gruppi di punti corrispondenti allo stesso materiale dovrebbero disporsi su
+linee rette passanti per l'origine, il cui coefficiente angolare coincide
+proprio con la densit\`a del materiale in questione.
+
+Si esegua un \emph{fit} al calcolatore a ciascuno dei gruppi di punti che
+si dispongono su queste rette e si stimi la densit\`a per i vari materiali.
+
+
+\labsubsection{Legge di scala per le sfere}
+
+Si considerino le sole sfere e si costruisca un grafico, in scala
+bilogaritmica, della massa $m$ in funzione del raggio $r$. Poich\'e la relazione
+tra massa e raggio \`e di tipo legge di potenza:
+\begin{align}
+  m = \frac{4}{3}\pi r^3 \rho = kr^3,
+\end{align}
+i punti in scala bilogaritmica dovrebbero disporsi su una retta.
+Si confronti il coefficiente angolare della retta con il valore atteso
+$3$ e l'intercetta (con l'asse $r = 1$) con il valore
+\begin{align}
+  k = \frac{4}{3}\pi\rho,
+\end{align}
+data la densit\`a misurata precedentemente.
+
+
+\secappendix{densit\`a tabulate}
+
+Si riportano di seguito i valori tabulati per i materiali rilevanti
+per l'esperienza.
+
+\medskip
+
+\begin{center}
+  \begin{tabular}{p{0.65\linewidth}@{}p{0.3\linewidth}}
+    \hline
+    Materiale & $\rho$ kg/m$^3$\\
+    \hline
+    \hline
+    Alluminio & 2710\\
+    Acciaio inossidabile  & 7480--8000\\
+    Ottone (lega Cu-Zn)   & 8400--8700\\
+    \hline
+  \end{tabular}
+\end{center}
+
+\onecolumn
+
+\input{sniptex/densita}
+
+
+\end{article}
+\end{document}

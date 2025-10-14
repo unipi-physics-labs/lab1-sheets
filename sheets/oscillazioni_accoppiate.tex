@@ -1,0 +1,147 @@
+\documentclass{lab1-article}
+
+\title{Oscillazioni accoppiate}
+
+\input{plasduino}
+
+\begin{document}
+
+
+\begin{article}
+\selectlanguage{italian}
+
+\maketitle
+
+\secsummary
+
+Lo scopo di questa esperienza \`e lo studio del moto di due pendoli accoppiati
+e, in particolare, del fenomeno dei \emph{battimenti}.
+
+
+\secmaterials
+
+\begin{itemize}
+\item Due pendoli accoppiati attraverso una molla;
+\item due smorzatori (galleggianti da pesca);
+\item sistema di acquisizione per registrare la posizione di ciascun pendolo
+  in funzione del tempo.
+\end{itemize}
+
+
+\secmeasurements
+
+Si considerino due pendoli uguali realizzati con due aste rigide collegate tra
+loro da una molla. Sebbene, in generale, il moto del sistema possa essere
+molto complicato, vi sono due configurazioni iniziali (corrispondenti ai
+cosiddetti \emph{modi normali} di oscillazione) per cui il moto di entrambi i
+pendoli \`e armonico: quella in cui essi si muovono in fase e quella
+in cui essi si muovono in controfase.
+
+
+\labsubsection{Oscillazioni di un pendolo singolo}
+
+Si metta in oscillazione un pendolo da solo, senza lo smorzatore, se ne
+misuri la pulsazione angolare $\omega_0$ e si confronti il valore con quello
+previsto dalla teoria
+\begin{align}
+  \omega_0 = \sqrt{\frac{mgl}{I}}.
+\end{align}
+Si aggiunga adesso lo smorzatore e si ripeta la misura, stimando il tempo
+di decadimento $\tau$ dell'ampiezza di oscillazione
+\begin{align}
+  \theta_0(t) = \theta_0(0) e^{-t/\tau}.
+\end{align}
+Il periodo \`e cambiato significativamente?
+
+
+\labsubsection{Oscillazioni in fase e controfase}
+
+Si pu\`o eccitare il sistema in modo che oscilli secondo l'uno o l'altro dei due
+modi normali: per avere il primo basta spostare i pendoli nello stesso verso,
+di uguali ampiezze e lasciarli andare contemporaneamente. In queste condizioni
+la molla, non sollecitata, non influenzer\`a il movimento dei due pendoli, che
+oscilleranno (sincroni) alla frequenza alla quale oscillerebbe un pendolo non
+accoppiato. Se invece i pendoli vengono spostati di ampiezze uguali ma in verso
+opposto si hanno oscillazioni in controfase. 
+
+Si misurino le pulsazioni angolari $\omega_{\rm f}$ ed $\omega_{\rm c}$ delle
+oscillazioni in fase e controfase. Si verifichi che
+$\omega_{\rm f} \sim \omega_0$ e che $\omega_{\rm c} > \omega_{\rm f}$
+(se la costante elastica $k$ della molla \`e piccola, la differenza non sar\`a
+grande).
+
+
+\labsubsection{Battimenti}
+
+Se si sposta uno dei due pendoli tenendo l'altro fermo nella sua posizione
+di equilibrio e si lascia oscillare il sistema con questa configurazione
+iniziale, il moto risultante \`e dato dalla somma (con uguali ampiezze)
+dei due modi normali
+\begin{align}
+  x(t) = A_0 \left[ \cos(\omega_{\rm f}t + \phi_1) +
+    \cos(\omega_{\rm c}t + \phi_2)\right]
+\end{align}
+o, per le formule di prostaferesi
+\begin{align}
+  x(t) & = 2A_0 \left\{
+    \cos\left[\frac{(\omega_{\rm c} + \omega_{\rm f})t}{2} +
+      \frac{(\phi_2 + \phi_1)}{2} \right] \cdot \right. \nonumber\\
+     & \left. \cos\left[\frac{(\omega_{\rm c} - \omega_{\rm f})t}{2} +
+      \frac{(\phi_2 - \phi_1)}{2} \right]
+    \right\}.
+\end{align}
+Fisicamente l'oscillazione risultante, di pulsazione angolare portante
+\begin{align}
+  \omega_{\rm p} = \frac{(\omega_{\rm c} + \omega_{\rm f})}{2}
+  \approx \omega_{\rm c},\omega_{\rm f}
+\end{align}
+\`e \emph{modulata} da un'onda sinusoidale di pulsazione angolare
+$\omega_{\rm b}$ molto pi\`u piccola
+\begin{align}
+  \omega_{\rm b} = \frac{(\omega_{\rm c} - \omega_{\rm f})}{2} \ll
+  \omega_{\rm c},\omega_{\rm f}
+\end{align}
+(e, di conseguenza, di periodo molto pi\`u grande).
+
+Si misurino le pulsazioni angolari portante e modulante (o dei battimenti)
+e si confrontino i valori ottenuti con la teoria, sulla base dei valori
+di $\omega_{\rm f}$ e $\omega_{\rm c}$ misurati prima.
+
+
+\secconsiderations
+
+Una volta terminata l'acquisizione \`e possibile \emph{zooomare} con il
+puntatore del \emph{mouse} (tenendo premuto il tasto sinistro) su un rettangolo
+generico del grafico.
+(Si torna alla visualizzazione intera premendo il tasto destro del mouse
+con il puntatore posizionato su un punto qualsiasi del grafico.)
+Accanto al puntatore vengono visualizzate le coordinate della posizione
+corrente, per cui differenze di tempo e posizione possono essere 
+misurate direttamente sul grafico---e questo, in linea di principio, \`e
+sufficiente per l'esperienza.
+
+\subsecdataformat
+
+In aggiunta, il programma di acquisizione fornisce un \emph{file} di uscita
+contenente quattro colonne che rappresentano, rispettivamente:
+\begin{enumerate}
+\item il tempo $t_1$, dall'inizio dell'acquisizione, a cui \`e stata campionata
+  la posizione del primo pendolo;
+\item la posizione del primo pendolo all'istante $t_1$;
+\item il tempo $t_2$, dall'inizio dell'acquisizione, a cui \`e stata campionata
+  la posizione del secondo pendolo;
+\item la posizione del secondo pendolo all'istante $t_2$;
+\end{enumerate}
+(notate che, per come \`e implementato il sistema di acquisizione, le posizioni
+dei due pendoli non sono misurate allo stesso istante).
+
+Il \emph{file} in uscita pu\`o essere utilizzato per un'analisi pi\`u
+dettagliata del moto del sistema.
+
+
+\plasduinodoc{Pendolum View}
+
+\plasduinosave
+
+\end{article}
+\end{document}

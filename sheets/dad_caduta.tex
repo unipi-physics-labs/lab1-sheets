@@ -1,0 +1,104 @@
+\documentclass{lab1-article}
+
+\title{Caduta di un grave}
+
+\usepackage{fancyvrb}
+\usepackage{hyperref}
+\input{code/python}
+
+\begin{document}
+
+
+\begin{article}
+\selectlanguage{italian}
+
+\maketitle
+
+\secintro
+
+
+Lo scopo dell'esperienza \`e lo studio della legge oraria di un corpo in caduta
+libera analizzando un filmato registrato con lo \emph{smartphone}.
+
+\secmaterialsdad
+
+\begin{itemize}
+\item Un grave\footnote{La cosa \`e probabilmente ovvia, ma scegliete un oggetto
+  che: (i) non metta a repentaglio in alcun modo la vostra incolumit\`a;
+  (ii) non rischi di danneggiare il pavimento o l'arredo;
+  (iii) non rischi di rompersi cadendo.}.
+\item Metro a nastro.
+\item Smartphone o macchina fotografica digitale.
+\end{itemize}
+
+
+\secmeasurements
+
+Misureremo, a tempi fissati, le posizioni dell'oggetto durante la caduta
+analizzando i singoli fotogrammi del filmato realizzato con il nostro
+\emph{smartphone}.
+
+\begin{figure}[!htb]
+  \includegraphics[width=\linewidth]{figures/caduta}
+\end{figure}
+
+
+Per fissare le idee, il tempo di caduta di un oggetto da un'altezza iniziale
+$h_0 = 2$~m \`e
+\begin{align*}
+  t_0 = \sqrt{\frac{2h_0}{g}} \sim 0.64~\text{s},
+\end{align*}
+che, alla frequenza tipica di $30$~fotogrammi al secondo, ci permette di
+campionare la caduta in almeno una ventina di punti.
+
+
+\labsubsection{Analisi del file video}
+
+Per analizzare il file video avrete bisogno di un \emph{editor} che vi permetta
+di navigare i fotogrammi. Se non avere particolari preferenze,
+\href{https://shotcut.org/}{Shotcut} \`e un \emph{editor open-source} e
+multi-piattaforma che fa al caso vostro. (Ma la cosa \`e talmente semplice che
+qualsiasi programa va bene.)
+
+Il modo pi\`u semplice per misurare l'altezza dell'oggetto fotogramma
+per fotogramma \`e quello di avere una guida centimetrata sullo sfondo,
+come mostrato in figura.
+
+
+\labsubsection{Fit della legge oraria}
+
+Realizzate un grafico dell'altezza $h(t_i)$ in funzione dei tempi $t_i$ dei
+fotogrammi interessanti (i.e., quelli in cui effettivamente l'oggetto sta
+cadendo). Fittate il grafico di dispersione con una parabola
+\begin{align}
+  h(t) = \frac{1}{2}at^2 + v_0 t + h_0
+\end{align}
+confrontate il valore di \emph{best-fit} per l'accelerazione $a$ con
+l'accelerazione di gravit\`a $g$.
+
+Fate un grafico dei residui per valutare qualitativamente la bont\`a del modello.
+
+
+\secconsiderations
+
+Come vedete dalla figura, un fotogramma non \`e un immagine \emph{istantanea},
+ma un integrale su un intervallo di tempo piccolo ma finito, per cui \`e
+perfettamente normale che gli oggetti in movimento possano apparire sfuocati.
+Nel nostro caso particolare, la cosa pu\`o avere impatto sulla stima dell'incertezza
+di misura sulla posizione---che potenzialmente \`e maggiore quanto pi\`u velocemente
+si muove l'oggetto.
+
+Fate bene attenzione a come sono indicati i tempi dei frame nel programma
+di \emph{editing} video che utilizzate per l'analisi: secondi con parte decimale,
+indice del fotogramma oppure un misto? (Nella figura, ad esempio,
+\texttt{00:00:01:29} significa: $0$ ore, $0$ minuti, $1$ secondo e $29$ fotogrammi.)
+Va da s\'e che per passare da fotogrammi a frazione di secondo dovete dividere
+per il \emph{frame rate} (tipicamente 30 fps), che \`e quindi importante sapere.
+
+\onecolumn
+
+\input{code/dad_caduta}
+
+
+\end{article}
+\end{document}

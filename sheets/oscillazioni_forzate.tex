@@ -1,0 +1,116 @@
+\documentclass{lab1-article}
+
+\title{Oscillazioni forzate}
+
+\input{plasduino}
+
+\begin{document}
+
+
+\begin{article}
+\selectlanguage{italian}
+
+\maketitle
+
+\secsummary
+
+Lo scopo dell'esperienza \`e lo studio del fenomeno della risonanza.
+
+\secmaterials
+
+\begin{itemize}
+\item Un pendolo dotato di smorzatore;
+\item un motorino collegato al pendolo tramite due molle;
+\item sistema di acquisizione per controllare il motorino e registrare la
+  posizione del pendolo.
+\end{itemize}
+
+
+\secmeasurements
+
+L'equazione differenziale che descrive il moto di un pendolo fisico
+(in approssimazione di piccole oscillazioni) sollecitato
+da una forza esterna variabile in modo sinusoidale nel tempo \`e
+\begin{align}\label{eq:eq_moto}
+  \frac{d^2\theta}{dt^2} + 2\gamma\frac{d\theta}{dt} + \omega_0^2\theta = 
+  F_0 \cos(\omega t).
+\end{align}
+Nella~\eqref{eq:eq_moto} $\omega_0$ \`e la pulsazione angolare propria
+(fissata) del pendolo, da non confondere con la pulsazione $\omega$ (variabile)
+della forzante (cio\`e del motorino); $\gamma$ \`e proporzionale alla
+forza di attrito che smorza il moto e $F_0$ \`e proporzionale alla massima
+intensit\`a della forza esterna.
+
+Detta $\omega_s$ \`e la pulsazione del moto armonico smorzato
+\begin{align}
+  \omega_s = \sqrt{\omega_0^2 - \gamma^2},
+\end{align}
+la soluzione della~\eqref{eq:eq_moto} \`e data dalla somma
+di due termini---il primo smorzato esponenzialmente ed il secondo, alla
+pulsazione della forzante, non smorzato:
+\begin{align}
+  \theta(t) = C_1 e^{-\gamma t} \cos( \omega_s t + \phi_1) + 
+  C_2 \cos(\omega t + \phi_2).
+\end{align}
+
+Se aspettiamo sufficientemente a lungo il primo di questi due moti si smorza
+completamente e si ha:
+\begin{align}\label{eq:legge_oraria_asintotica}
+  \theta(t) = C_2 \cos(\omega t + \phi_2), \quad t \gg \frac{1}{\gamma}.
+\end{align}
+Sostituendo la soluzione~\eqref{eq:legge_oraria_asintotica} nella
+\eqref{eq:eq_moto} si pu\`o calcolare la costante $C_2$ come funzione di
+$\omega$:
+\begin{align}\label{eq:curva_risonanza}
+  C_2(\omega) = \frac{F_0}{\sqrt{(\omega_0^2 - \omega^2)^2 + 4\gamma^2\omega^2}}.
+\end{align}
+
+
+\labsubsection{Misura dello smorzamento}
+
+Si faccia oscillare il pendolo a motorino spento e si stimino (graficamente
+o mediante un \emph{fit} analitico) i valori di $\omega_0$ e $\gamma$.
+Per il \emph{fit} analitico si pu\`o utilizzare il modello
+\begin{align}
+  \theta(t) = C_0 + C_1 e^{-\gamma t} \cos( \omega_s t + \phi_1),
+\end{align}
+in cui il termine $C_0$ \`e necessario perch\'e il riferimento per il sistema
+di acquisizione non coincide con la posizione di riposo dell'oscillatore.
+
+
+\labsubsection{Curva di risonanza}
+
+Si metta il motorino in rotazione e si misuri l'ampiezza delle oscillazioni per
+varie pulsazioni $\omega$ del motorino stesso.
+Si costruisca il grafico dell'ampiezza in funzione di $\omega$ e verifichi
+quantitativamente l'accordo con la~\eqref{eq:curva_risonanza}.
+
+\begin{figure}[htbp]
+  \centering\includegraphics[width=0.92\linewidth]%
+                            {figures/pendulumdrive_resonance}
+  
+  \caption{Esempio di curva di risonanza ottenuta con l'apparato sperimentale
+    in uso per questa esperienza.}
+\end{figure}
+
+\secconsiderations
+
+Fissata la velocit\`a del motorino, la pulsazione angolare e l'ampiezza di
+oscillazione si possono stimare entrambe dal grafico (con il \emph{mouse} o
+facendo un \emph{fit} analitico).
+
+Per la curva di risonanza si consiglia di eseguire un buon numero di misure
+(20-­30) allo scopo di campionare con sufficiente dettaglio la curva stessa,
+in particolar modo in prossimit\`a del picco.
+
+Per alcuni valori della velocit\`a del motorino il sistema di fatto non va
+mai a regime. In questi casi non preoccupatevi troppo e cercate di selezionare
+un periodo di $\sim 20$~s in cui l'ampiezza sia approssimativamente costante.
+
+
+\plasduinodoc{Pendolum Drive}
+
+\plasduinosave
+
+\end{article}
+\end{document}

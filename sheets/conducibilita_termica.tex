@@ -1,0 +1,130 @@
+\documentclass{lab1-article}
+
+\title{Conducibilit\`a termica}
+
+\usepackage{fancyvrb}
+\usepackage{hyperref}
+\input{python}
+
+\input{plasduino}
+
+
+\begin{document}
+
+
+\begin{article}
+\selectlanguage{italian}
+
+\maketitle
+
+\secsummary
+Abbiamo a disposizione due barre cilindriche (riscaldate da una resistenza
+elettrica da una parte e raffreddate da un sistema di acqua corrente dall'altra)
+e possiamo misurare la temperatura all'interno delle barre stesse in
+funzione della distanza da un estremo.
+Lo scopo dell'esperienza \`e quello di ricavare dalla misure effettuate
+la conducibilit\`a termica del materiale.
+
+
+\secmaterials
+
+\begin{itemize}
+\item Due barre cilindriche.
+\item Due termistori per la misura di temperatura.
+\item Calcolatore con programma di acquisizione.
+\item Un alimentatore chiuso su due resistenze in paralello.
+\item Un circuito di acqua corrente.
+\end{itemize}
+
+
+\secmeasurements
+
+La quantit\`a di calore che si trasmette per conduzione nell'unit\`a di tempo
+\begin{align}
+  W = \frac{dQ}{dt}
+\end{align}
+\`e detta \emph{flusso di calore} e nel sistema MKS si misura in Watt.
+All'equilibrio termico il flusso di calore attraverso la barra risulta costante
+(se non ci sono perdite tutta l'energia erogata dalla resistenza non pu\`o che
+essere assorbita dall'acqua all'altra estremit\`a). Se $S$ \`e la sezione
+della barra, $T$ la temperatura ed $x$ la posizione lungo la barra, la
+teoria prevede che
+\begin{align}\label{eq:conduction}
+  W = -\lambda S \frac{\Delta T}{\Delta x},
+\end{align}
+dove la costante di proporzionalit\`a $\lambda$ \`e detta conducibilit\`a
+termica del materiale (dato che il calore si propaga verso zone a temperatura
+pi\`u bassa, orientato l'asse $x$ nel verso in cui si propaga il calore,
+$\Delta T/\Delta x$ risulta negativo ed \`e necessario il segno meno).
+
+
+\labsubsection{Misure di temperatura}
+
+Si misurino le temperature $T_i$ di una serie di punti interni della barra,
+rispettivamente a distanza $x_i$ dall'estremo riscaldato. Applicando
+la~\eqref{eq:conduction} e ponendo $\Delta x = x_i - x_0$ (e anzi
+$\Delta x = x_i$, se si fissa l’origine delle ascisse in $x_0$) e
+$\Delta T = T_i - T_0$ si avr\`a
+\begin{align}
+  W = -\lambda S \frac{(T_i - T_0)}{x_i},
+\end{align}
+ovvero
+\begin{align}
+  T_i = T_0 - \frac{W}{\lambda S} x_i
+\end{align}
+(cio\`e ci aspettiamo che la temperatura decresca linearmente dall'estremit\`a
+pi\`u calda a quella pi\`u fredda).
+
+
+\labsubsection{Stima della conducibilit\`a}
+
+Sulla base delle misure effettuate si costruisca il grafico della temperatura
+in funzione della posizione lungo ciascuna delle due barre.
+Il coefficiente angolare della retta di \emph{best fit} rappresenta la nostra
+stima della grandezza $-W/\lambda S$.
+
+Per stimare $\lambda$ \`e necessario utilizzare il fatto che, in assenza di
+perdite verso l'ambiente esterno, $W$ \`e il calore ceduto per effetto Joule
+dalla resistenza. In termini della tensione $V$ e della corrente $I$ che si
+leggono (rispettivamente in Volt e Ampere) sul display dell'alimentatore si ha
+\begin{align}
+  W = \frac{V I}{2}
+\end{align}
+(visto che si alimentano due resistenze in parallelo).
+
+
+\plasduinodoc{Temperature Monitor}
+
+\plasduinosave
+
+
+\secappendix{valori tabulati}
+
+Si riportano di seguito i valori indicativi di conducibilit\`a termica a
+temperatura ambiente per alcuni materiali rilevanti per l'esperienza.
+Nel sistema MKS la conducibilit\`a termica si misura in
+W~m$^-1$~$^\circ$C$^{-1}$, ma spesso vengono utilizzate anche le unit\`a
+ibride W~cm$^-1$~$^\circ$C$^{-1}$.
+
+\medskip
+
+\begin{center}
+\begin{tabular}{p{0.65\linewidth}@{}p{0.3\linewidth}}
+\hline
+Materiale & $\lambda$ [W~m$^-1$~$^\circ$C$^{-1}$]\\
+\hline
+\hline
+Alluminio & $\sim 200$\\
+Rame & $\sim 400$\\
+Ottone & $\sim 110$\\
+\hline
+\end{tabular}
+\end{center}
+
+\onecolumn
+
+\input{sniptex/conducibilita_termica}
+
+
+\end{article}
+\end{document}

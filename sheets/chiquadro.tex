@@ -1,0 +1,145 @@
+\documentclass{lab1-article}
+
+\title{Test del $\chi^2$}
+
+
+\begin{document}
+
+
+\begin{article}
+\selectlanguage{italian}
+
+\maketitle
+
+\secsummary
+
+In questa esperienza cercheremo di familiarizzare con il test del $\chi^2$ in
+alcune situazioni tipiche.
+
+
+\secmaterials
+
+\begin{itemize}
+\item Computer, carta e penna.
+\item Dati del pendolo fisico e della misura di g, buona volont\`a.
+\end{itemize}
+
+
+\secdefinitions
+
+Data una serie di $n$ dati sperimentali $(x_i, y_i)$, con errori associati
+$\sigma_{x_i}$ e $\sigma_{y_i}$, ed un modello $f(x_i;p_1\ldots p_m)$ dipendente
+da $m$ parametri \emph{stimati dai dati}, la quantit\`a
+\begin{align}\label{eq:chi2_series}
+  S = \sum_{i = 1}^{n}
+  \left( \frac{y_i - f(x_i;p_1\ldots p_m)}{\sigma_{y_i}} \right)^2
+\end{align}
+\`e una misura della \emph{distanza} dei dati stessi dal modello. Nell'ipotesi
+in cui gli errori $\sigma_{x_i}$ siano \emph{trascurabili} ed i valori $y_i$
+fluttuino gaussianamente attorno al modello con deviazione standard
+$\sigma_{y_i}$, la variabile casuale $S$ \`e distribuita come un $\chi^2$ a
+$\nu = n - m$ gradi di libert\`a.
+
+Nel caso di una distribuzione, in cui si confrontano i conteggi osservati
+$o_i$ nei canali del nostro istogramma sperimentale con i valori $e_i$ predetti
+dal modello, la \eqref{eq:chi2_series} pu\`o essere riscritta come
+\begin{align}
+   S = \sum_{i = 1}^{n} \left( \frac{o_i - e_i}{\sqrt{e_i}} \right)^2 =
+   \sum_{i = 1}^{n} \frac{(o_i - e_i)^2}{e_i}.
+\end{align}
+In questo caso, se il numero totale $n$ di canali \`e fissato,
+il numero di gradi di libert\`a \`e $n - m - 1$.
+
+
+\secconsiderations
+
+\labsubsection{Stima dei conteggi attesi per una distribuzione}
+
+Supponiamo di avere un istogramma (realizzato sperimentalmente) il cui
+i-esimo canale contenga $o_i$ conteggi. Supponiamo ancora che il nostro
+modello $f(x;p_1\ldots p_m)$ dipenda dalla variabile continua $x$.
+Detti $x^L_i$ ed $x^H_i$ gli estremi inferiore e superiore del canale i-esimo,
+il valore predetto dal modello sar\`a
+\begin{align}
+  e_i = n\int_{x^L_i}^{x^H_i} f(x;p_1\ldots p_m) \text{d}x,
+\end{align}
+dove $n$ \`e il numero totale di conteggi nell'istogramma. Notiamo
+esplicitamente che, mentre $o_i$ \`e una variabile discreta, $e_i$ non
+\`e necessariamente un numero intero.
+
+Nel caso in cui il modello sia gaussiano non \`e possibile calcolare
+analiticamente l'integrale, ma bisogna passare alla variabile in forma
+standard ed utilizzare le tavole o il calcolatore.
+
+
+\labsubsection{Realizzazione di un istogramma}
+
+Il numero e la larghezza dei canali dovrebbero essere scelti in modo
+che il numero medio di conteggi per canale sia ragionevole---in modo, cio\`e,
+da non avere molti canali senza nessun conteggio o tutti i conteggi concentrati
+in pochi canali. Per un numero totale di conteggi $n$, $~\sqrt{n}$
+canali \`e tipicamente una scelta \emph{ragionevole}.
+
+Per il test del $\chi^2$ si consiglia di raggruppare insieme i canali meno
+popolati dell'istogramma in modo da non avere canali con meno di $2$ o
+$3$ conteggi (ovviamente i corrispondenti valori attesi si sommano).
+
+
+\secmeasurements
+
+\labsubsection{Test per un modello completamente specificato}
+
+Si consideri la serie di dati relativa all'esperienza del pendolo fisico
+(in cui si misurava il periodo $T$ in funzione della distanza $d$ tra il
+punto di sospensione ed il centro di massa) e si esegua un test del $\chi^2$
+utilizzando il modello
+\begin{align}
+  T(d) = 2\pi\sqrt{\frac{(l^2/12 + d^2)}{gd}}.
+\end{align}
+
+Si consideri il modello \emph{completamente specificato} (cio\`e si
+prendano i valori misurati di $l$ e $d$).
+In questo caso, dati $n$ punti sperimentali, il numero di gradi di libert\`a
+\`e semplicemente $\nu = n$.
+
+
+\labsubsection{Test per un fit ad una serie di dati}
+
+Si prenda una serie di dati, tra quelle acquisite in laboratorio durante il
+semestre, che possa essere ragionevolmente descritta da un modello lineare---ad
+esempio i periodi al quadrato, $T^2$, della molla con massa sul piattello $m$.
+Si eseguano due fit con le funzioni
+\begin{align}
+  f_1(x) = a_1 x,\;\;f_2(x) = a_2 x + b
+\end{align}
+e si stimino i parametri $a_1, a_2, b$. Si esegua il test del $\chi^2$ per
+scegliere la funzione che descrive meglio i dati calcolando i \emph{p-value}
+corrispondenti. Si determini la massa \emph{mancante} a $m$.
+
+\labsubsection{Test per una distribuzione}
+
+Si considerino i dati nella tabella in appendice, in cui ognuno dei $70$ valori
+corrisponde alla media di $10$~misure della stessa grandezza (nel caso
+specifico il periodo di un pendolo, misurato in s).
+
+Si realizzi un istogramma dei dati stessi, scegliendo opportunamente il numero
+e la larghezza dei canali. Si calcolino quindi la media $m$ e la deviazione
+standard $s$ del campione e si esegua un test di compatibilit\`a del $\chi^2$
+con una distribuzione gaussiana di media $m$ e deviazione standard $s$.
+In questo caso, dati $n$ canali per l'istogramma, il numero di gradi di
+libert\`a \`e $\nu = n - 2$.
+
+
+\begin{table*}
+  \renewcommand\arraystretch{1.25}
+  \begin{center}
+    \input{../macro/data/pendolo.tex}
+  \end{center}
+  \caption{Tabella delle misure di periodo. Ogni valore rappresenta la media
+  di $10$ misurazioni dirette. Per facilitare la realizzazione dell'istogramma
+  le medie sono riportate in ordine crescente.}
+\end{table*}
+
+
+\end{article}
+\end{document}

@@ -1,0 +1,125 @@
+\documentclass{lab1-article}
+
+\title{Misura della velocit\`a del suono}
+
+\usepackage{fancyvrb}
+\usepackage{hyperref}
+\input{code/python}
+
+\begin{document}
+
+
+\begin{article}
+\selectlanguage{italian}
+
+\maketitle
+
+\secintro
+
+Il suono si propaga nell'ambiente con una velocit\`a caratteristica del mezzo
+e delle propriet\`a di quest'ultimo (e.g., la temperatura)---la velocit\`a del
+suono in aria a 20$^\circ$~C, ad esempio, \`e di circa $v_s = 343$~m~s$^{-1}$.
+
+Lo scopo dell'esperienza \`e la \emph{progettazione} e l'esecuzione di un
+semplice esperimento per la misura della velocit\`a del suono nell'aria.
+
+\secmaterialsdad
+
+\begin{itemize}
+  \item Uno \emph{smartphone} da utilizzare come registratore di suoni per
+    le misure di tempo;
+  \item un metronomo (o un secondo \emph{smartphone} con una delle innumerevoli
+    \emph{app} per metronomo a disposizione);
+  \item calcolatore con un'istallazione del \emph{software} utilizzato in
+    laboratorio.
+\end{itemize}
+
+
+\secmeasurements
+
+Si tratta dell'ultima esperienza del secondo semestre, e l'idea \`e quella di
+mettere a frutto tutto il bagaglio di conoscenze che avete acquisito durante
+l'anno per una vera misura di Fisica.
+
+Supponiamo di far partire il nostro metronomo con una frequenza $f_0$ e di
+registrare con lo \emph{smartphone} una serie di battiti, producendo una
+traccia audio da analizzare esattamente come avete fatto per l'esperienza dei
+rimbalzi di una pallina. Se il registratore \`e in quiete rispetto al
+metronomo, dovreste rivelare una serie di impulsi che distano tra loro
+esattamente
+\begin{align*}
+  \Delta_T(0) = \frac{1}{f_0}
+\end{align*}
+(e.g., se il metronomo batte a 120 bpm, o 2~Hz, dovreste registrare un impulso
+ogni mezzo secondo.)
+Notiamo eplicitamente che in questo caso il tempo che il suono impiega a
+propararsi tra la sorgente ed il registratore \`e lo stesso per tutti gli
+impulsi, per cui \`e irrilevante nella misura delle differenze di tempo.
+
+Supponiamo adesso di eseguire una nuova registrazione, ma in questo caso con
+lo \emph{smartphone} in movimento rispetto al metronomo---o viceversa, \`e
+esattamente la stessa cosa---con una velocit\`a costante $v$. In questo caso,
+nell'intervallo di tempo tra due battiti successivi, il nostro registratore
+si \`e spostato di una distanza
+\begin{align*}
+  \Delta_x = v \Delta_T(0) = \frac{v}{f_0},
+\end{align*}
+e la distanza temporale \emph{misurata} risulta pi\`u grande o pi\`u piccola
+di quella alla sorgente (a seconda che ci allontaniamo o ci avviciniamo ad essa):
+\begin{align}\label{eq:deltat}
+  \Delta_T(v) \approx \frac{1}{f_0}\left( 1 + \frac{v}{v_s} \right)
+\end{align}
+
+A questo il gioco \`e fatto: se misuriamo la distanza media tra i battiti per diversi
+valori di $v$, possiamo fittare i nostri dati con una retta ed utilizzare
+la~\eqref{eq:deltat} per esprimere la velocit\`a del suono $v_s$ in funzione
+del coefficiente angolare di \emph{best-fit} m:
+\begin{align}
+  m = \frac{1}{f_0 v_s} \quad \text{ovvero} \quad v_s = \frac{1}{m f_0}
+\end{align}
+
+
+\section*{Progettazione dell'esperimento}
+
+Dedicate la prima parte della relazione ad una illustrazione dettagliata di
+come avete \emph{progettato} la misura, ovverosia di come avete scelto i parametri
+liberi. Per aiutarvi, provate a rispondere alle seguenti domande:
+\begin{itemize}
+  \item qual \`e la risoluzione temporale minima che serve per una misura
+    sensata, dato il valore tabulato di $v_s$?
+  \item con la risoluzione temporale praticamente ottenibile con il vostro
+    sistema, quale incertezza potete attendervi sulla misura di $v_s$?
+  \item quali considerazioni intervengono nella scelta della frequenza $f_0$ del
+    metronomo?
+  \item qual \`e la velocit\`a massima $\left| v \right|$ che potete
+    realizzare in pratica?
+  \item come si potrebbe migliorare l'esperimento?
+\end{itemize}
+
+
+\secconsiderations
+
+Per le misure in movimento potete semplicemente camminare con lo \emph{smatrphone}
+in mano cercando di muoveri con velocit\`a costante, e stimare quest'ultima
+con il rapporto tra lo spazio percorso ed il tempo impiegato. In principio
+potete eseguire un numero arbitrario di misure, con valori diversi di $v$; in
+pratica, data la difficolt\`a nel controllare la velocit\`a, fate come minimo
+tre misure: una a riposo, una avvicinandovi al metronomo ed una allontanandovi da
+esso.
+
+Dato che, assumendo $v$ costante, misurare una serie di differenze di tempo
+che dovrebbero essere identiche, per ogni valore di $v$ potete stimare i tempi
+di tutti i battiti del metronomo, fare le differenze di tempo tra battiti
+consecutivi, ed utilizzare la media e la deviazione standard della media di
+queste ultime come valori centrali ed incertezze da utilizzare nel vostro fit
+come variabile dipendente.
+
+(Suggerimento: maggiore \`e la velcocit\`a $v$ a cui vi muovete, maggiore \`e
+l'effetto su $\Delta_T$---e quindi pi\`u facile da misurare. D'altra parte, con
+ogni probabilit\`a, avrete uno spazio limitato in cui muovervi, per cui
+pi\`u grande \`e la velcit\`a, minore \`e il numero di battiti utili del
+metronomo che potete utilizzare nella vostra misura. Come giocano le due cose?)
+
+
+\end{article}
+\end{document}

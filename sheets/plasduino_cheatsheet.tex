@@ -1,0 +1,113 @@
+\documentclass{lab1-article}
+
+\usepackage{hyperref}
+
+
+\title{Breve guida al programma di acquisizione}
+
+
+\begin{document}
+
+
+\begin{article}
+\selectlanguage{italian}
+
+\maketitle
+
+\secsummary
+Di seguito alcune brevi note sull'utilizzo del programma di acquisizione dati
+in uso nei laboratori didattici del primo anno. Si consiglia di leggere
+questo breve documento almeno una volta e di utilizzarlo come riferimento.
+
+
+\labsection{L'interfaccia grafica principale}
+
+Una volta acceso il calcolatore, selezionare dal men\`u principale
+(sulla barra superiore del \emph{Desktop}, in alto a sinistra)
+\menuitem{Application}~$\rightarrow$~\menuitem{Education}~$\rightarrow$~%
+\menuitem{plasduino}. Questo dovrebbe mostrare la finestra principale del
+programma di acquisizione, che contiene una lista dei moduli (cio\`e delle
+applicazioni specifiche ad ogni singola esperienza) disponibili.
+
+
+\labsection{Selezionare e lanciare un modulo}
+
+Il modulo specifico per l'esperienza (che sar\`a specificato di volta in volta
+nella traccia a vostra disposizione) si seleziona tramite un doppio click
+(del tasto sinistro del \emph{mouse}) sul nome del modulo oppure selezionando
+il nome stesso (click sinistro singolo) e premendo il tasto \menuitem{Open}.
+
+
+\labsection{Iniziare e terminare l'acquisizione}
+
+Di norma l'acquisizione dati si avvia e si interrompe premendo i tasti opportuni
+(rispettivamente quelli che assomigliano ai tasti di \emph{Play} e \emph{Stop}
+di un lettore multimediale) sulla barra di trasporto nella parte inferiore
+dell'interfaccia grafica di ogni modulo. Se siete incerti, posizionate il
+\emph{mouse} sul bottone in questione: una piccola finestrella grafica
+contenente una breve spiegazione dovrebbe venirvi in aiuto.
+
+Ogni sessione di acquisizione dati, dal momento in cui si avvia al momento in
+cui si termina l'acquisizione stessa, \`e univocamente identificata da un
+numero, il \emph{Run number}, visibile sull'interfaccia grafica di ciascun
+modulo. Il \emph{Run number}, che viene incrementato di una unit\`a all'inizio
+di ciascuna sessione, \`e utilizzato internamente dal programma per archiviare
+i dati in modo coerente.
+
+
+\labsection{Salvare i dati}
+
+Di norma il programma di acquisizione%
+\footnote{Fanno eccezione i moduli \emph{Plane}, per cui i dati non vengono
+  scritti su disco e devono essere annotati manualmente, ed il modulo
+  \emph{Video Click}, per cui il salvataggio dei dati deve essere fatto
+  manualmente dall'apposito men\`u a tendina.}
+salva automaticamente tutti i dati raccolti in due \emph{file} distinti: uno
+\emph{grezzo}, in formato binario, ed uno, opportunamente elaborato, in formato
+testo. Quest'ultimo \`e quello da utilizzare, quando necessario, in fase di
+analisi. Nel terminale che viene aperto al lancio dell'interfaccia grafica
+trovate stampato il percorso completo di ogni \emph{file} salvato in uscita.
+
+Se l'apposita opzione \`e abilitata, al termine di ogni sessione di presa dati
+il programma vi chiede se volete salvare una copia del \emph{file} di testo
+con i dati da analizzare in una cartella a vostra scelta. Nel caso in cui
+questa funzionalit\`a dovesse essere disabilitata potete ri-abilitarla
+attraverso il men\`u di plasduino
+\menuitem{Configuration}~$\rightarrow$~\menuitem{Change settings}:
+nella finestra che si apre selezionate il \emph{tab}~\menuitem{daq} e abilitate
+l'opzione \menuitem{prompt-save-dialog} (cliccando sul piccolo quadratino a
+destra della finestra di configurazione e selezionando \emph{True}),
+quindi riavviate il programma.
+
+
+\labsection{I moduli con grafici interattivi}
+
+Alcuni moduli, tra cui \emph{Temperature Monitor}, \emph{Pendulum View} e
+\emph{Pendulum Drive}, sono caratterizzati da grafici, integrati
+nell'interfaccia di acquisizione, che si aggiornano automaticamente al
+procedere della sessione. Alcuni suggerimenti su come utilizzarli al meglio:
+\begin{itemize}
+\item Posizionando il \emph{mouse} all'interno dell'area del grafico il
+  sistema mostra le coordinate corrispondenti alla posizione del
+  puntatore.
+\item Dall'istante in cui si termina la sessione di acquisizione il grafico
+  diviene interattivo ed \`e possibile ingrandirne porzioni specifiche.
+  Per fare uno \emph{zoom} \`e sufficiente selezionare il rettangolo
+  desiderato tenendo premuto (e poi rilasciando) il tasto sinistro del
+  \emph{mouse}. Un click singolo del tasto destro riporta alla visualizzazione
+  di partenza.
+\end{itemize}
+
+
+\labsection{Commenti?}
+
+Il programma di acquisizione \`e in fase di sviluppo. Se pensate di aver
+identificato un \emph{bug} oppure avete idee per migliorarlo potete parlare con
+il vostro esercitatore o, meglio ancora, esporre le vostre idee su
+\url{https://bitbucket.org/lbaldini/plasduino/issues}
+(utilizzando il tasto \emph{Create issue}).
+
+
+\end{article}
+\end{document}
+

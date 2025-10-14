@@ -1,0 +1,117 @@
+\documentclass{lab1-article}
+
+\title{Equazione della catenaria}
+
+\usepackage{fancyvrb}
+\usepackage{hyperref}
+\input{python}
+
+\begin{document}
+
+
+\begin{article}
+\selectlanguage{italian}
+
+\maketitle
+
+\secintro
+
+Una corda inestensibile ed omogenea, vincolata ai due estremi e lasciata pendere
+sotto la sola azione del suo peso, si dispone nel piano verticale secondo una
+curva nota come \emph{catenaria}. L'equazione di una catenaria si scrive, in
+generale, come
+\begin{align}
+  y = \mathcal{C}(x; a, x_0, y_0) = y_0 + a\cosh\left( \frac{x - x_0}{a} \right).
+\end{align}
+Potete verificare che, in questo modello, la coordinata del punto
+pi\`u basso \`e $(x_0,\;y_0 + a)$.
+
+Lo scopo di questa esperienza \`e cercare di capire se e quanto questa semplice
+schematizzazione descriva bene la realt\`a in un \emph{setup} sperimentale
+concreto.
+
+\secmaterialsdad
+
+\begin{itemize}
+\item Una corda (oppure un filo o una catena).
+\item Righello o metro a nastro.
+\item Smartphone o macchina fotografica digitale.
+\end{itemize}
+
+
+\secmeasurements
+
+Campioneremo la posizione della nostra corda in un certo numero di punti
+attraverso l'analisi di una fotografia digitale del nostro \emph{setup}
+sperimentale. Una volta trovata la catenaria di \emph{best-fit}, studieremo
+le deviazioni dei dati sperimentali dal nostro modello attraverso un grafico
+dei residui.
+
+\begin{figure}[!hb]
+  \includegraphics[width=\linewidth]{figures/catenaria}
+\end{figure}
+
+\labsubsection{Analisi dell'immagine}
+
+Per misurare le coordinate dei punti di interesse potete aprire l'immagine in
+matplotlib (come illustrato nell'esempio alla pagina seguente), posizionanddo il
+mouse sui punti stessi e leggendo le coordinate sulla barra inferiore della
+finestra. Se preferite, esiste un certo numero di alternative viabili, tra cui
+l'utilizzo di un qualsiasi programma di manipolazione di immagini
+(e.g., \url{https://www.gimp.org/}) oppure di una utility apposita come
+\url{https://automeris.io/WebPlotDigitizer/}.
+
+Notate che, in questo modo, tutte le vostre coordinate saranno espresse in
+\emph{pixel}. Per convertire (e misurare il parametro $a$) in unit\`a fisiche
+avrete bisogno di ricavare il fattore si scala corrispondente a partire da un
+elemento di lunghezza nota nella vostra immagine.
+
+Fate attenzione alla stima delle incertezze di misura. Se siete sicuri di
+riuscire ad identificare con sicurezza il pixel corrispondente al punto di
+interesse, potete assumere che la misura sia \emph{digitale}, con una risoluzione
+di 1~pixel. Ma quali sono i fattori che potrebbero invalidare questa assunzione?
+
+
+\labsubsection{Fit e grafico dei residui}
+
+Una volta eseguito il fit, potete valutare l'accordo tra modello e dati
+attraverso l'esame del grafico dei residui:
+\begin{align}
+  r_i = y_i - \mathcal{C}(x; \hat{a}, \hat{x_0}, \hat{y0}) \quad \text{e}
+  \quad \sigma_{r_i} = \sigma_{y_i}.
+\end{align}
+Se il modello, valutato in corrispondenza dei parametri di \emph{best fit},
+fornisce una buona descrizione dei dati, allora i residui debbono oscillare
+intorno allo zero con fluttuazioni paragonabili all'ampiezza delle barre
+d'errore. Qualsiasi deviazione indica un potenziale problema con il modello o
+con la stima delle incertezze (o entrambe).
+
+Cosa concludete dall'analisi del grafico dei residui?
+
+
+\secconsiderations
+
+Si consiglia di scegliere una corda (o una catena) con una densit\`a lineare
+non troppo piccola, ma allo stesso tempo quanto pi\`u possibile flessibile
+(e, ovviamente, omogenea). Sperimentate diverse soluzioni per trovare quella che
+fa al caso vostro.
+
+La parte pi\`u difficoltosa dell'esperienza sar\`a probabilmente  il riuscire a
+scattare una foto con un angolazione tale da evitare deformazioni significative
+nel piano della corda. A questo scopo potete aiutarvi con due o pi\'u di fili a
+piombo---o addirittura con una griglia disegnata su un foglio di carta ed appesa
+opportunemente sullo sfondo (che vi aiuterebbe anche nella conversione tra
+pixel ed unit\`a fisiche).
+
+Nella stesura della relazione siete caldamente incoraggiati ad essere prodighi
+di dettagli sul \emph{setup} sperimentale che avete usato (e.g., foto) e a
+mettere in evidenza le difficolt\`a che avete incontrato nella misura
+(e gli accorgimenti che avete utilizzato per superarle).
+
+\onecolumn
+
+\input{sniptex/dad_catenaria}
+
+
+\end{article}
+\end{document}

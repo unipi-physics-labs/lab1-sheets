@@ -1,0 +1,106 @@
+\documentclass{lab1-article}
+
+\title{Esercitazione al calcolatore}
+
+\usepackage{hyperref}
+
+\begin{document}
+
+
+\begin{article}
+\selectlanguage{italian}
+
+\maketitle
+
+\secsummary
+
+In questa esperienza cercheremo di familiarizzare con la visualizzazione e
+l'analisi dei dati al calcolatore.
+
+
+\secmaterials
+
+\begin{itemize}
+\item Computer, carta, penna e righello.
+\item Dati delle esperienze della conducibilit\`a termica e del pendolo
+  fisico.
+\item Buona volont\`a.
+\end{itemize}
+
+
+\labsection{Visualizzazione dei dati}
+
+
+\labsubsection{Conducibilit\`a termica}
+
+Trascrivete i dati relativi all'esperienza della conducibilit\`a termica
+(per una qualsiasi delle due sbarre) in un \emph{file} di testo, scegliendo
+oppurtunamente il formato. (Tipicamente scriverete quattro colonne,
+che identificheranno rispettivamente la posizione, la temperatura e le
+relative incertezze di misura.)
+
+Scrivete un breve programma in Python per leggere i dati nel \emph{file}
+di testo che avete preparato e realizzate un grafico di dispersione dei dati
+stessi. (Prestate attenzione alla rappresentazione degli errori ed indicate
+contenuto ed unit\`a di misura sugli assi.)
+
+Realizzate un fit analitico con una retta utilizzando il calcolatore per
+ricavare il gradiente di temperatura, e visualizzate la retta corrispondente
+ai vostri parametri di \emph{best fit} sul grafico.
+
+
+\labsubsection{Pendolo fisico}
+
+Trascrivete i dati relativi all'esperienza del pendolo fisico in un \emph{file}
+di testo e, analogamente a quanto fatto nel punto precedente, realizzate
+un grafico di dispersione dei valori misurati $T_i$ del periodo in funzione
+della distanza $d_i$ tra punto di sospensione e centro di massa.
+
+Aggiungete al grafico di dispersione quello corrispondente al nostro modello
+per il pendolo fisico
+\begin{align}\label{eq:period}
+  T(d) = 2\pi\sqrt{\frac{(l^2/12 + d^2)}{gd}},
+\end{align}
+utilizzando il valore misurato per la lunghezza $l$ della sbarra. Commentare sul
+livello di accordo (o disaccordo) tra dati e modello.
+
+Realizzate un grafico dei residui, cio\`e un grafico di dispersione in cui,
+in funzione dei valori misurati della distanza $d_i$ tra punto di sospensione
+e centro di massa si mostra la differenza
+\begin{align}
+  r_i = T_i - T(d_i)
+\end{align}
+tra periodo misurato e periodo previsto dalla \eqref{eq:period}. (Si faccia
+attenzione a propagare correttamente le incertezze di misura.) Il grafico
+dei residui aiuta a valutare l'accordo tra dati e modello?
+
+
+\labsection{Stesura della relazione}
+
+Se possibile relalizzate la relazione in \LaTeX\ ed inserite nel testo
+i grafici che avete realizzato.
+
+
+\secconsiderations
+
+Durante l'esercitazione sar\`a utile avere sotto mano le dispense sull'uso di
+Python disponibili a \url{https://bitbucket.org/lbaldini/computing}.
+
+Per leggere il contentuto di \emph{file} di testo potete utilizzare la
+funzione \verb|loadtxt| di \verb|numpy|.
+
+Per realizzare un grafico di dispersione potete utilizzare la funzione
+\verb|errorbar| di \verb|matplotlib.pyplot|.
+
+Per realizzare fit analitici potete utilizzare la funzione
+\verb|curve_fit| di \verb|scipy.optimize|.
+
+Per realizzare il grafico di una funzione dovete per prima cosa definire una
+serie di valori della variabile indipendente per il suo campionamento
+(ad esempio con la funzione \verb|linspace| di \verb|numpy|), poi valutare
+la funzione sui valori stessi, e infine creare il grafico, ad esempio con
+la funzione \verb|plot| di \verb|matplotlib.pyplot|.
+
+
+\end{article}
+\end{document}

@@ -1,0 +1,130 @@
+\documentclass{lab1-article}
+
+\title{Misura di $g$ utilizzando una molla}
+
+\usepackage{fancyvrb}
+\input{code/python}
+
+\begin{document}
+
+
+\begin{article}
+\selectlanguage{italian}
+
+\maketitle
+
+\secsummary
+Lo scopo dell'esperienza \`e la misura dell'accelerazione di gravit\`a al
+livello del suolo ($g$) a partire dagli allungamenti di una molla.
+
+
+\secmaterials
+
+\begin{itemize}
+\item Una molla, un piattino ed una serie di pesetti.
+\item Cronometro (risoluzione 0.01~s).
+\item Bilancia di precisione (risoluzione 1~mg).
+\item Metro a nastro (risoluzione 1~mm).
+\end{itemize}
+
+
+\secmeasurements
+
+Se gli allungamenti della molla non sono troppo grandi, vale la legge di Hooke:
+l'allungamento \`e proporzionale all'intensit\`a della forza che lo ha
+causato. In condizioni di equilibrio, risulta allora
+\begin{align}\label{eq:equilibrio}
+(m_p + m_i)g = k(l_i - l_0),
+\end{align}
+dove $m_p$ \`e la massa del piattello, $m_i$ \`e la massa posta sul piattello
+nella $i$-esima misura, $l_i$ \`e la lunghezza della molla sotto carico, $l_0$
+\`e la lunghezza della molla a riposo e $k$ la costante elastica della molla
+stessa.
+
+
+\labsubsection{Stima di $k$}
+
+Se mettiamo in oscillazione la molla (di massa $m$ non trascurabile) il periodo
+del suo moto armonico vale
+\begin{align}
+T_i = 2\pi\sqrt{\frac{(m_p + m_i + m/3)}{k}}.
+\end{align}
+Si metta in oscillazione il sistema per diversi valori di $m_i$ e si faccia
+un grafico del quadrato del periodo di oscillazione in funzione del carico:
+\begin{align}
+T^2_i = \frac{4\pi^2}{k}m_i + \frac{4\pi^2}{k}(m_p + m/3).
+\end{align}
+Dalla stima, tramite \emph{fit} al calcolatore, del coefficiente angolare \`e
+possibile stimare $k$ (e, propagando opportunamente l'errore, l'incertezza
+associata).
+
+
+\labsubsection{Stima di $g$}
+
+Dalla \eqref{eq:equilibrio}, con semplici calcoli, si ricava
+\begin{align}
+l_i = \frac{g}{k}m_i + \frac{g}{k}m_p + l_0
+\end{align}
+per cui si pu\`o ricavare $g/k$ dalla stima, tramite \emph{fit} al calcolatore,
+del coefficiente angolare della retta ottenuta riportando le coppie di dati
+$(m_i,~l_i)$ su carta millimetrata.
+
+Utilizzando la stima di $k$ ottenuta sopra si ricavi $g$ e l'incertezza
+associata $\Delta g$. Fare il confronto tra il valore trovato e il valore noto
+per Pisa 9.807~m~s$^{-2}$.
+
+
+\secconsiderations
+
+\labsubsection{Composizione del carico}
+
+Si consiglia di porre sul piattello una o pi\`u masse campione
+(2 o 3 ci stanno senza problemi) in modo da misurare una decina di allungamenti
+al variare delle masse (per esempio da 5 a 50~g).
+
+
+\labsubsection{Incertezze sulle lunghezze della molla}
+
+Il millimetro di incertezza dovuto alla risoluzione del metro a nastro potrebbe
+non essere sufficiente come stima dell'errore massimo, dato che spesso la
+misura viene letta mentre il piattello non \`e perfettamente fermo o non \`e
+perfettamente orizzontale: una stima \emph{a priori} di 2~mm per l'errore
+massimo assoluto sembra pi\`u ragionevole.
+
+In ogni caso si consiglia un controllo \emph{a posteriori} dell'errore.
+Si osservi attentamente il grafico $(m_i,~l_i)$: se le misure sono state prese
+con cura, gli scarti dei punti sperimentali dalla retta tracciata potrebbero
+risultare tutti inferiori ai 2~mm supposti \emph{a priori}. Se \`e cos\`i,
+riducete pure l'errore sulle lunghezze ad un solo mm, altrimenti confermate la
+stima di 2~mm.
+
+\labsubsection{Incertezze sulle misure di tempo}
+
+Anche se la risoluzione del cronometro usato vale 0.01~s, \`e illusorio
+pensare che questo sia l'errore di misura da attribuire alle misurazioni
+manuali della durata temporale di un qualunque fenomeno fisico.
+
+Nella fattispecie, per ridurre l'impatto del tempo di reazione, si consiglia
+di misurare il tempo $\tau$ che il sistema impiega a compiere $10$
+oscillazioni complete. Per stimare l'errore associato a $\tau$ si ripeta la
+misure $n$ volte (con $n \geq 5$); il valor medio delle varie misure effettuate
+\begin{align}
+  m_{\tau} = \frac{1}{n}\sum_{i = 1}^n \tau_i
+\end{align}
+sar\`a assunto come miglior stima della durata temporale del fenomeno e la
+deviazione standard della media
+\begin{align}
+  s_\tau = \sqrt{\frac{1}{n(n-1)}\sum_{i = 1}^n(\tau_i - m_\tau)^2}
+\end{align}
+come errore associato (nel corso dell'anno avremo occasione di discutere il
+significato quantitativo di questa espressione nel caso di piccoli campioni).
+
+Va da s\'e che si passa da $\tau$ a $T$ dividendo per $10$ (se abbiamo
+misurato $10$ oscillazioni complete) sia la misura che l'errore.
+
+\onecolumn
+
+\input{code/misura_di_g}
+
+\end{article}
+\end{document}

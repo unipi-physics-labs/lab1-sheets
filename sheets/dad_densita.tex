@@ -1,0 +1,129 @@
+\documentclass{lab1-article}
+
+\title{Misure di densit\`a}
+
+\usepackage{fancyvrb}
+\usepackage{hyperref}
+\input{code/python}
+
+\begin{document}
+
+
+\begin{article}
+\selectlanguage{italian}
+
+\maketitle
+
+\secintro
+Una quantit\`a fissata di qualunque sostanza o materiale occupa un volume che
+varia soltanto se variano le condizioni in cui tale sostanza o materiale si
+trova (ad esempio se dovesse passare dallo stato solido allo stato liquido, o se
+cambiano la temperatura o la pressione). La massa per unit\`a di volume \`e nota
+come densit\`a:
+\begin{align}
+  \rho = \frac{m}{V}, \quad [\rho]= \mathrm{kg/m}^3.
+\end{align}
+
+Lo scopo dell'esperienza \`e la stima della densit\`a dell'acqua (come misura di
+controllo) e quella di almeno un altro materiale (solido, liquido o, perch\'e
+no? gassoso) a scelta.
+
+\secmaterialsdad
+
+\begin{itemize}
+\item Righello e/o metro a nastro e/o calibro.
+\item Bilancia da cucina.
+\item Un recipiente cilindrico trasparente.
+\end{itemize}
+
+
+\secmeasurements
+
+\labsubsection{Misura della densit\`a dell'acqua}
+
+Eseguiremo la misura della densit\`a dell'acqua utilizzando un cilindro
+graduato, che si pu\`o realizzare, banalmente, con una bottiglia di plastica
+trasparente ed un pennarello---magari apponendo una striscia verticale di nastro
+di carta su un lato per scrivere pi\`u facilmente. Se misuriamo il diametro
+\emph{interno} $d$ del cilindro e l'altezza $h$ della colonna d'acqua
+(relativamente ad una altezza di riferimento arbitraria), possiamo stimare
+il volume come
+\begin{align}
+  \hat{V} = \frac{\pi}{4} d^2h \quad \text{e} \quad
+  \frac{\sigma^2_V}{V^2} = 4\frac{\sigma^2_d}{\hat{d}^2} + \frac{\sigma^2_h}{\hat{h}^2}.
+\end{align}
+La massa si misura direttamente con la bilancia, avendo cura di sottrarre la
+\emph{tara}, corrispondente al livello d'acqua di riferimento. Se ripetiamo il
+procedimento per un certo numero (e.g., 10) di valori diversi di $h$, possiamo
+stimare la densit\`a dell'acqua come il coefficiente angolare della retta di
+\emph{best-fit} del grafico massa vs. volume.
+
+
+\labsubsection{Confronto con il valore tabulato}
+
+Confrontate la vostra misura con il valore tabulato che pi\`u si adatta al
+vostro \emph{setup} di misura. All'ordine zero la densit\`a dell'acqua \`e
+$\sim 1$~g~cm$^{-3}$, ma sar\`a sufficiente una ricerca superficiale per
+convincersi che essa dipende dalla temperatura e dalla composizione chimica
+delle sostanze disciolte. Riflettete: tutto questo \`e rilevante oppure no ai
+fini del confronto in questione? Se provate a misurare la densit\`a dell'acqua
+a $\sim 4^\circ$~C (e.g., dopo averla tenuta in frigo per qualche ora) riuscite
+ad apprezzare la differenza?
+
+
+\labsubsection{Misura della densit\`a di un altro materiale}
+
+Una volta che avete sotto controllo la misura della densit\`a dell'acqua,
+misurate la densit\`a di un altro materiale (o di altri materiali, se siete
+particolarmente motivati) a vostra scelta, tra le cose che avete a disposizione
+in casa.
+
+Il procedimento che avete utilizzato per la prima misura si generalizza
+banalmente al caso di altri liquidi (e.g., olio, vino, alcool) o di solidi in
+polvere (e.g., farina, zucchero, sale). Ma sentitevi liberi di essere creativi:
+se avete a disposizione solidi omogeneei dello stesso materiale ma di forme e
+dimensioni varie potete stimarne la densit\`a misurando direttamente le
+dimensioni rilevanti con il righello e/o il metro a nastro (se la forma \`e
+regolare) oppure immergendo i campioni nel vostro cilindro graduato.
+
+Prima di cominciare cercate di fare una breve ricerca in letteratura per avere
+un riferimento con cui confrontare l'esito della vostra misure. Scoprirete che
+il web \`e pieno di spunti interessanti, come ad esempio
+\url{https://www.sciencedirect.com/science/article/abs/pii/0260877494P1608Z}.
+
+
+\secconsiderations
+
+\emph{Non utilizzate strumenti pericolosi, o con i quali non vi sentite
+  perfettamente a vostro agio, nella realizzazione dell'esperienza. Non \`e
+  necessario per la buona riuscita dell'eseperienza stessa!}
+
+Assicuratevi che il vostro cilindro graduato sia effettivamente \emph{cilindrico},
+perch\'e altrimenti la stima del volume diventa significativamente pi\`u
+complicata. (Non sar\`a difficile trovare in commercio una bottiglia, di plastica
+o di vetro, che faccia al caso vostro.)
+
+\`E estremamente probabile che il fondo del vostro cilindro non sia perfettamente
+piatto. Potete ovviare facilmente all'inconveniente versando qualche cm di
+acqua e prendendo da l\`i il riferimento---sia per la misura di $h$ che per
+quella di $m$ (ovverosia includendo la massa di questa quantit\`a iniziale di
+acqua nella tara da sottrarre).
+
+Quando leggete l'altezza $h$ dalla vostra scala graduata fate attenzione al
+fatto che in generale, a causa della tensione superficiale, la superficie
+dell'acqua assume la forma di un menisco. Prestate perci\`o attenzione alla stima
+dell'incertezza $\sigma_h$ da associare ad $h$---come del resto dovete fare con
+tutte le altre grandezze in gioco.
+
+Nella stesura della relazione siete caldamente incoraggiati ad essere prodighi
+di dettagli sul \emph{setup} sperimentale che avete usato (e.g., foto) e a
+mettere in evidenza le difficolt\`a che avete incontrato nella misura
+(e gli accorgimenti che avete utilizzato per superarle).
+
+\onecolumn
+
+\input{code/dad_densita}
+
+
+\end{article}
+\end{document}

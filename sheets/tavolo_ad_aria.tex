@@ -1,0 +1,128 @@
+\documentclass{lab1-article}
+
+\title{Tavolo ad aria}
+
+\input{plasduino}
+
+\begin{document}
+
+
+\begin{article}
+\selectlanguage{italian}
+
+\maketitle
+
+\secsummary
+
+Lo scopo dell'esperienza \`e di verificare la conservazione della quantit\`a
+di moto nell'urto di due pedine su un tavolo ad aria.
+
+
+\secmeasurements
+
+Se la risultante delle forze esterne agenti sul sistema (costituito dalla due
+pedine coinvolte nell'urto) \`e nulla, la quantit\`a di moto del sistema si
+conserva. 
+L'equazione vettoriale che esprime la legge di conservazione si pu\`o scomporre
+in due equazioni scalari per le componenti sui due assi $x$ ed $y$
+\begin{align}
+  m_1 v^{\rm i}_{1x} + m_2 v^{\rm i}_{2x} &=
+  m_1 v^{\rm f}_{1x} + m_2 v^{\rm f}_{2x} \nonumber\\
+  m_1 v^{\rm i}_{1y} + m_2 v^{\rm i}_{2y} &= m_1 v^{\rm f}_{1y} + m_2 v^{\rm f}_{2y}
+\end{align}
+in cui gli indici numerici indicano le due pedine (non dimenticate di misurare
+le masse) e le lettere ``i'' ed ``f'' indicano le quantit\`a iniziali (prima
+dell'urto) e finali (dopo l'urto).
+\emph{Il segno delle componenti della velocit\`a \`e fondamentale!}
+
+Si possono studiare urti con una delle due pedine inizialmente ferma o con
+entrambe le pedine in moto.
+
+
+\labsubsection{Stima della velocit\`a}
+
+Le componenti delle velocit\`a (medie) di ciascuna delle pedine si possono
+stimare mediante \emph{fit} con una retta dell'andamento in funzione
+del tempo della posizione (misurata) corrispondente, e.g. $v_{1x}$ si ricava dal
+\emph{fit} di $x_1$ in funzione di $t$. Per stimare le velocit\`a prima e dopo
+l'urto si deve avere cura di eseguire il \emph{fit} in un intervallo temporale
+appropriato.
+
+Il programma di analisi permette di \emph{calibrare} la misura della posizione
+(cio\`e di ricavare il fattore di conversione tra \emph{pixel} ed unit\`a
+fisiche) attraverso una lunghezza nota---anche se, in linea di principio, la
+conservazione della quantit\`a di moto pu\`o essere verificata misurando le
+velocit\`a in pixel/s.
+
+
+\secconsiderations
+
+\labsubsection{Strategia di misura}
+
+L'urto tra le due pedine viene registrato da una videocamera controllata da un
+programma di acquisizione che produce un file video della durata di
+$\sim 5$~s. Si consiglia di cercare di registrare almeno 1--2 secondi di moto
+\emph{libero} (senza urti) per ciascuna delle due pedine sia prima che dopo
+l'urto, in modo da avere abbastanza punti su cui fare il \emph{fit} in fase di
+analisi. Si consiglia anche di cercare di non coprire
+le pedine con la mano durante la registrazione. 
+
+\subsecdataformat
+
+Il programma di analisi dei filmati fornisce (nel caso di 2 pedine) un
+\emph{file} di uscita contenente 6 colonne che rappresentano, per ogni
+fotogramma analizzato:
+\begin{enumerate}
+\item il numero del fotogramma;
+\item il tempo $t$, dall'inizio del filmato;
+\item le coordinate $x_1$ ed $y_1$ della prima pedina.
+\item le coordinate $x_2$ ed $y_2$ della seconda pedina.
+\end{enumerate}
+
+Il sistema di riferimento ha origine nell'angolo in alto a sinistra
+dell'immagine, con l'asse $x$ orientato verso destra e l'asse $y$ orientato
+verso il basso.
+
+
+
+\labsection{Note sul programma di acquisizione}
+
+Il programma di acquisizione dei filmati si lancia attraverso il collegamento
+al programma ``TAVOLO'' che si trova sul desktop. Quando non si trova in 
+modalit\`a di registrazione il programma fornisce un video in tempo reale
+dalla telecamera posta sopra il tavolo. In questa fase si possono impostare la
+luminosit\`a, il numero di fotogrammi da acquisire e la velocit\`a (in
+fotogrammi al secondo) di acquisizione---ma i parametri preimpostati dovrebbero
+essere ragionevoli.
+
+A questo punto si pu\`o avviare la registrazione del filmato premendo il tasto
+``START''. Una volta terminata la registrazione, il programma chiede il nome
+con cui salvare il file del filmato (in formato avi). \`E importante prendere
+nota della cartella in cui il file viene salvato per ritrovarlo in seguito.
+(Potete ignorare la finestrella che chiede se si vuole tagliare il filmato
+producendo una copia ridotta: andate oltre.) Una volta che il filmato \`e stato
+salvato (e si \`e premuto ``OK''), il sistema \`e pronto per una nuova
+acquisizione.
+
+I filmati vanno trasferiti, tramite \emph{memory stick} USB, su un altro pc
+dove \`e installato il programma di analisi.
+
+
+\labsection{Note sul programma di analisi}
+
+\plasduinodoctext{Video Click}
+
+Potete aprire i filmati che avete registrato dal men\`u
+\menuitem{File}~$\rightarrow$~\menuitem{Open clip}.
+Il filmato \`e disponibile per l'analisi sotto forma di fotogrammi su
+cui le posizioni si misurano con un click sinistro del mouse.
+Dopo un numero di click pari al numero di oggetti impostati 
+-- 2 di default -- si porta automaticamente al fotogramma successivo, ma
+potete sempre tornare indietro a correggere. Le misure si salvano da
+\menuitem{File}~$\rightarrow$~\menuitem{Save data to file}.
+
+Notate che non \`e necessario cliccare su \emph{tutti} i fotogrammi.
+Nel file di uscita compariranno solo i dati relativi ai fotogrammi per cui
+sono state identificate le posizioni di tutti gli oggetti.
+\end{article}
+\end{document}

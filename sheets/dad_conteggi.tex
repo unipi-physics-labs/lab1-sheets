@@ -1,0 +1,129 @@
+\documentclass{lab1-article}
+
+\title{Conteggi}
+
+\usepackage{fancyvrb}
+\usepackage{hyperref}
+\input{code/python}
+
+\begin{document}
+
+
+\begin{article}
+\selectlanguage{italian}
+
+\maketitle
+
+\secintro
+
+Lo scopo dell'esperienza \`e quello di familiarizzare con i concetti di base
+della statistica dei conteggi attraverso l'analisi di una porzione di un testo
+letterario---in particolare il primo canto dell'\emph{Inferno} della
+\emph{Divina Commedia}.
+
+\secmaterialsdad
+
+\begin{itemize}
+\item Una copia della \emph{Divina Commedia}, in formato cartaceo o elettronico;
+\item calcolatore.
+\end{itemize}
+
+
+\secmeasurements
+
+Il primo canto dell'\emph{Inferno} \`e composto da 45 terzine ed un verso finale,
+per un totale di $N_v = 136$ versi e $N_c = 4849$ caratteri.
+
+(Qui e nel seguito per \emph{caratteri} intendimo le lettere, gli spazi, gli
+apostrofi, le virgolette del discorso diretto e la punteggiatura. Per comodit\`a
+non distinguiamo le lettere maiuscole dalle minuscole, i.e., assumiamo che
+siano tutte minuscole.)
+
+
+\labsubsection{Lunghezza dei versi}
+
+Contate il numero $l_i$ di caratteri $(i=1, \ldots, 136)$ in ogni verso e
+realizzate un istogramma della lunghezza dei versi cos\`i misurata.
+
+Calcolate la media campione della lunghezza dei versi
+\begin{align}
+  m_l = \frac{1}{N_v} \sum_{i=1}^{N_v} l_i
+\end{align}
+e verificate l'ipotesi che la distribuzione di $l$ sia una Poissoniana con
+media $m_l$ tramite un test del $\chi^2$:
+\begin{align}
+  \chi^2 = \sum_{i=1}^{n} \frac{(o_i - e_i)^2}{e_i}.
+\end{align}
+(La somma sui $i$ \`e estesa su tutti i bin dell'istogramma ed i valori
+attesi si calcolano utilizzando la distribuzione di Poisson.)
+
+
+Calcolate la varianza campione della lunghezza dei versi
+\begin{align}
+  s^2_l = \frac{1}{(N_v - 1)} \sum_{i=1}^{N_v} (l_i - m_l)^2
+\end{align}
+e verificate tramite un test del $\chi^2$ l'ipotesi che la distribuzione
+della lunghezza dei versi sia una Gaussiana con media $m_l$ e
+deviazione standard $s_l$.
+
+\emph{Cosa impariamo dal confronto tra i due valori del $\chi^2$ sul modo in
+  cui il testo \`e stato scritto?}
+
+
+\labsubsection{Occorrenze di una lettera}
+
+Contate il numero di occorrenze di una lettera, ad esempio la lettera "a",
+all'interno di ogni verso, e costruite, come nel caso della lunghezza dei
+versi, l'istogramma corrispondente.
+
+Provate a verificare, tramite un test del $\chi^2$, l'ipotesi che la
+distribuzione sia binominale, utilizzando:
+\begin{itemize}
+  \item come probabilit\`a elementare $p$ il rapporto tra il numero totale di
+  occorrenze della lettera "a" ed il numero totale di caratteri $N_c$;
+  \item come numero \emph{efficace} di tentativi $N$ la lunghezza media dei
+  versi $m_l$, calcolata prima, arrotondata all'intero pi\`u vicino.
+\end{itemize}
+
+Verificare infine, sempre mediante un test del $\chi^2$, l'ipotesi che
+la distribuzione delle occorrenze della lettera "a" sia una Poissoniana con
+media $\mu = p m_l$. Quale dei due modelli risulta migliore?
+
+
+\secconsiderations
+
+Potete contare i caratteri manualmente, utilizzando una copia cartacea
+della \emph{Divina Commedia}, oppure attraverso un piccolo programma in
+Python, utilizzando una copia elettronica dell'opera (se ne trovano
+svariate su web). In questo secondo caso, se siete particolarmente motivati
+potete estendere l'analisi a pi\`u di un canto, a tutto l'\emph{Inferno},
+o addirittura all'opera intera.
+
+Essendo tutti i conteggi in questione variabili discrete, assicuratevi di avere
+un solo valore per ciascuna classe degli istogrammi rilevanti (ovvero, scegliete
+il \emph{binning} in modo che abbia passo unitario). In questo modo eviterete
+effetti di \emph{risonanza}, i.e., canali vuoti per il semplice motivo che non
+contengono nessun valore possibile della grandezza e/o canali che contengono pi\`u
+di un valore possibile di.
+
+Generalmente il test del $\chi^2$ per una distribuzione richiede che il contenuto
+di ciascun canale dell'istogramma sia abbastanza grande da poter approssimare
+la relativa distribuzione con una Gaussiana. In pratica \`e impossible dare una
+ricetta che funzioni in ogni situazione, ma evitate di avere un numero
+cospicuo di canali con 0, 1 o 2 conteggi, ad esempio raggruppandoli insieme.
+
+Per il test del $\chi^2$ con la distribuzione di Gauss (che \`e intrinsecamente
+di variabile discreta) le occorrenze attese $e_i$ si calcolano integrando la
+funzione di distribuzione entro ciascun canale dell'istogramma (i.e.,
+utilizzando la \emph{error function}). Di quanto sbagliate se approssimate
+questo integrale utilizzando il valore della densit\`a di probabilit\`a al
+centro del \emph{bin}?
+
+
+\onecolumn
+
+\input{code/dad_conteggi}
+
+
+\end{article}
+\end{document}
