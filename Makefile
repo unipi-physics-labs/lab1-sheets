@@ -6,6 +6,11 @@ all:
 		make $$i; \
 	done
 
+pdf:
+	for i in $(SHEETS); do \
+		pdflatex sheets/$$i.tex; \
+	done
+
 %:
 	python tools/py2tex.py snippy/$*.py
 	pdflatex sheets/$*.tex

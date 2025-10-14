@@ -22,7 +22,7 @@ jobs:
         uses: xu-cheng/texlive-action@v3
         with:
           os: debian
-          run: make
+          run: make pdf
 
       # --- Collect PDFs into ./artifacts ---
       - name: Collect PDFs
