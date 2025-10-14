@@ -7,7 +7,7 @@ all:
 	done
 
 %:
-	tools/py2tex.py snippy/$*.py
+	python tools/py2tex.py snippy/$*.py
 	pdflatex sheets/$*.tex
 
 clean:
