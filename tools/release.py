@@ -24,19 +24,12 @@ import argparse
 import pathlib
 import subprocess
 import shutil
-import sys
-
-from loguru import logger
-
-# Configure the logger.
-logger.remove()
-logger.add(sink=sys.stderr, colorize=True, format='>>> <level>{message}</level>')
 
 
 LAB1SHEETS_ROOT = pathlib.Path(__file__).resolve().parent.parent
 
 VERSION_FILE_PATH = LAB1SHEETS_ROOT / 'version.tex'
-#README_FILE_PATH = LAB1SHEETS_ROOT / 'README.md'
+README_FILE_PATH = LAB1SHEETS_ROOT / 'README.md'
 GITHUB_RELEASE_URL = 'https://github.com/unipi-physics-labs/lab1-sheets/releases'
 
 INCREMENT_MODES = ('major', 'minor', 'patch')
@@ -47,39 +40,39 @@ _ENCODING = 'utf-8'
 def execute_shell_command(arguments):
     """Execute a shell command.
     """
-    logger.info(f'About to execute "{" ".join(arguments)}"...')
+    print(f'About to execute "{" ".join(arguments)}"...')
     return subprocess.run(arguments, check=True)
 
 
 def copy_file(src, dest):
     """ Copy a file in another location.
     """
-    logger.info(f'Copying {src} to {dest}...')
+    print(f'Copying {src} to {dest}...')
     shutil.copy(src, dest)
 
 
 def _read_version():
     """ Read the version straight from the appropriate file.
     """
-    logger.info(f'Reading version from {VERSION_FILE_PATH}...')
+    print(f'Reading version from {VERSION_FILE_PATH}...')
     with open(VERSION_FILE_PATH, encoding=_ENCODING) as version_file:
         version = version_file.readline().strip('\n')
-    logger.debug(f'Current version is {version}')
+    print(f'Current version is {version}')
     return version
 
 
 def _write_version(version):
     """ Write the version to the appropriate file.
     """
-    logger.info(f'Writing version {version} to {VERSION_FILE_PATH}...')
+    print(f'Writing version {version} to {VERSION_FILE_PATH}...')
     with open(VERSION_FILE_PATH, 'w', encoding=_ENCODING) as version_file:
         version_file.write(f'{version}\n')
 
 
-def increment_version_file(mode) -> str:
+def increment_version_file(mode):
     """Update the version.tex file.
     """
-    logger.info(f'Bumping version file (mode = {mode})...')
+    print(f'Bumping version file (mode = {mode})...')
     if mode not in INCREMENT_MODES:
         raise RuntimeError(f'Invalid increment mode "{mode}"---valid modes are {INCREMENT_MODES}')
     old_version = _read_version()
@@ -94,7 +87,7 @@ def increment_version_file(mode) -> str:
     elif mode == 'patch':
         patch += 1
     new_version = f'{major}.{minor}.{patch}'
-    logger.info(f'Target version is {new_version}')
+    print(f'Target version is {new_version}')
     _write_version(new_version)
     return new_version
 
@@ -105,21 +98,28 @@ def increment_version_file(mode) -> str:
 #     execute_shell_command(['make'])
 
 
-# def _asset_url(name, version) -> str:
-#     """ Return the URL for an asset.
-#     """
-#     return f'{GITHUB_RELEASE_URL}/download/{version}/{name}-{version}.pdf'
+def write_readme(version):
+    """ Write the README file.
+    """
+    text = f"""
+    # lab1-sheets
 
-# def write_readme(version) -> None:
-#     """ Write the README file.
-#     """
-#     pass
+    Tracce delle esercitazioni per il laboratorio del primo anno.
 
-def release(mode) -> None:
+    L'ultima versione ({version}) delle tracce in formato pdf è disponibile
+    [qui](https://github.com/unipi-physics-labs/lab1-sheets/releases/tag/{version} "Link alla release").
+
+    """
+    with open(README_FILE_PATH, 'w', encoding=_ENCODING) as readme_file:
+        readme_file.write(text)
+
+def release(mode):
     """ Tag the package and create a release.
     """
     execute_shell_command(['git', 'pull'])
     version = increment_version_file(mode)
+
+    self.write_readme(version)
 
     msg = f'Prepare for tag {version}.'
     execute_shell_command(['git', 'commit', '-a', '-m', msg])
@@ -128,7 +128,7 @@ def release(mode) -> None:
     execute_shell_command(['git', 'tag', '-a', version, '-m', msg])
     execute_shell_command(['git', 'push', '--tags'])
     execute_shell_command(['git', 'status'])
-    logger.info(f'Release {version} completed successfully.')
+    print(f'Release {version} completed successfully.')
 
 
 if __name__ == '__main__':
