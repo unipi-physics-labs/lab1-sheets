@@ -119,7 +119,7 @@ def release(mode):
     execute_shell_command(['git', 'pull'])
     version = increment_version_file(mode)
 
-    self.write_readme(version)
+    write_readme(version)
 
     msg = f'Prepare for tag {version}.'
     execute_shell_command(['git', 'commit', '-a', '-m', msg])
