@@ -101,15 +101,15 @@ def increment_version_file(mode):
 def write_readme(version):
     """ Write the README file.
     """
-    text = f"""
-    # lab1-sheets
+    text = \
+f"""# lab1-sheets
 
-    Tracce delle esercitazioni per il laboratorio del primo anno.
+Tracce delle esercitazioni per il laboratorio del primo anno.
 
-    L'ultima versione ({version}) delle tracce in formato pdf è disponibile
-    [qui](https://github.com/unipi-physics-labs/lab1-sheets/releases/tag/{version} "Link alla release").
+L'ultima versione ({version}) delle tracce in formato pdf è disponibile
+[qui](https://github.com/unipi-physics-labs/lab1-sheets/releases/tag/{version} "Link alla release").
 
-    """
+"""
     with open(README_FILE_PATH, 'w', encoding=_ENCODING) as readme_file:
         readme_file.write(text)
 
