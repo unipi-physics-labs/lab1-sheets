@@ -21,7 +21,7 @@ liquido, o se cambiano la temperatura o la pressione).
 
 La massa per unit\`a di volume \`e nota come densit\`a:
 \begin{align}
-  \rho = \frac{m}{V}, \quad [\rho]= \mathrm{kg/m}^3.
+  \rho = \frac{m}{V}~\left[\mathrm{kg/m}^3\right].
 \end{align}
 Si pu\`o distinguere, ad esempio, un metallo da un altro misurandone la
 densit\`a.
@@ -59,17 +59,18 @@ contenente i valore dei volumi e delle masse.
 
 \labsubsection{Stima delle densit\`a}
 
-Su un grafico cartesiano si riportino i valori dei volumi in ascisse e quelli
-delle masse in ordinate. Poich\'e
+Su un grafico cartesiano si riportino i valori delle masse in ascisse e quelli
+dei volumi in ordinate. Poich\'e
 \begin{align}
-  m = \rho V,
+  V = \frac{m}{\rho},
 \end{align}
 i gruppi di punti corrispondenti allo stesso materiale dovrebbero disporsi su
 linee rette passanti per l'origine, il cui coefficiente angolare coincide
-proprio con la densit\`a del materiale in questione.
+ con l'inverso della densit\`a del materiale in questione.
 
 Si esegua un \emph{fit} al calcolatore a ciascuno dei gruppi di punti che
-si dispongono su queste rette e si stimi la densit\`a per i vari materiali.
+si dispongono su queste rette e si stimi la densit\`a per i vari materiali,
+propagando l'incertezza sul reciproco della densit\`a.
 
 
 \labsubsection{Legge di scala per le sfere}
@@ -78,10 +79,11 @@ Si considerino le sole sfere e si costruisca un grafico, in scala
 bilogaritmica, della massa $m$ in funzione del raggio $r$. Poich\'e la relazione
 tra massa e raggio \`e di tipo legge di potenza:
 \begin{align}
-  m = \frac{4}{3}\pi r^3 \rho = kr^3,
+  m = \frac{4}{3}\pi \quad r^3 \rho = kr^3,
 \end{align}
-i punti in scala bilogaritmica dovrebbero disporsi su una retta.
-Si confronti il coefficiente angolare della retta con il valore atteso
+i punti in scala bilogaritmica dovrebbero disporsi su una retta. Si trovi, con
+l'utilizzo di un \emph{tool} grafico, la retta che meglio descrive i punti e si
+confronti il coefficiente angolare della retta con il valore atteso
 $3$ e l'intercetta (con l'asse $r = 1$) con il valore
 \begin{align}
   k = \frac{4}{3}\pi\rho,
