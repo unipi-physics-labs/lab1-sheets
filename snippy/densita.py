@@ -19,11 +19,6 @@ def line(x, a, b):
     """
     return a * x + b
 
-def power_law(x, norm, index):
-    """Modello di tipo legge di potenza.
-    """
-    return norm * (x**index)
-
 plt.figure('Grafico massa-volume')
 plt.errorbar(m, V, sigma_V, sigma_m, fmt='o')
 popt, pcov = curve_fit(line, m, V)
