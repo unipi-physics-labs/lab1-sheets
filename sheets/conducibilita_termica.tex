@@ -93,25 +93,37 @@ leggono (rispettivamente in Volt e Ampere) sul display dell'alimentatore si ha
 (visto che si alimentano due resistenze in parallelo).
 
 
-\plasduinodoc{Temperature Monitor}
+\plasduinodoc{un termometro stilizzato}
 
 \plasduinosave
 
+\labsubsection{Bonus: Stima della costante di decadimento del raffreddamento}
+La costante di decadimento pu\`o essere stimata con una acquisizone lunga:
+dopo aver scaldato il termistore in un foro vicino alla resistenza 
+potete spostarlo in un foro a temperatura pi\`u bassa
+e iniziare la presa dati finch\'e non vedete che la temperatura \`e stabile.
+Ci si aspetta che l'andamento della temperatura col tempo sia un esponenziale decrescente
+opportunamente normalizzato ($N$) e traslato alla temperatura finale ($T_f$):
+\begin{align}
+  T(t; \lambda, T_f, N) = N e^{-\lambda t} + T_f
+\end{align}
+Tramite un fit dei minimi quadrati potete stimare il valore della costante di decadimento.
+Cosa succede se invece del raffreddamento studiamo il riscaldamento?
 
 \secappendix{valori tabulati}
 
 Si riportano di seguito i valori indicativi di conducibilit\`a termica a
 temperatura ambiente per alcuni materiali rilevanti per l'esperienza.
 Nel sistema MKS la conducibilit\`a termica si misura in
-W~m$^-1$~$^\circ$C$^{-1}$, ma spesso vengono utilizzate anche le unit\`a
-ibride W~cm$^-1$~$^\circ$C$^{-1}$.
+W~m$^{-1}$~$^\circ$C$^{-1}$, ma spesso vengono utilizzate anche le unit\`a
+ibride W~cm$^{-1}$~$^\circ$C$^{-1}$.
 
 \medskip
 
 \begin{center}
 \begin{tabular}{p{0.65\linewidth}@{}p{0.3\linewidth}}
 \hline
-Materiale & $\lambda$ [W~m$^-1$~$^\circ$C$^{-1}$]\\
+Materiale & $\lambda$ [W~m$^{-1}$~$^\circ$C$^{-1}$]\\
 \hline
 \hline
 Alluminio & $\sim 200$\\
