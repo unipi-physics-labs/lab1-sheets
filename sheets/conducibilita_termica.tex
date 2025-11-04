@@ -32,7 +32,7 @@ la conducibilit\`a termica del materiale.
 \item Due barre cilindriche.
 \item Due termistori per la misura di temperatura.
 \item Calcolatore con programma di acquisizione.
-\item Un alimentatore chiuso su due resistenze in paralello.
+\item Un alimentatore chiuso su due resistenze in parallello.
 \item Un circuito di acqua corrente.
 \end{itemize}
 
@@ -97,18 +97,20 @@ leggono (rispettivamente in Volt e Ampere) sul display dell'alimentatore si ha
 
 \plasduinosave
 
-\labsubsection{Bonus: Stima della costante di decadimento del raffreddamento}
+\labsubsection{Facoltativo: Stima della costante di decadimento del raffreddamento del termistore}
 La costante di decadimento pu\`o essere stimata con una acquisizone lunga:
 dopo aver scaldato il termistore in un foro vicino alla resistenza 
 potete spostarlo in un foro a temperatura pi\`u bassa
 e iniziare la presa dati finch\'e non vedete che la temperatura \`e stabile.
 Ci si aspetta che l'andamento della temperatura col tempo sia un esponenziale decrescente
-opportunamente normalizzato ($N$) e traslato alla temperatura finale ($T_f$):
+opportunamente scalato ($T_{\Delta}$) e traslato alla temperatura finale ($T_f$):
 \begin{align}
-  T(t; \lambda, T_f, N) = N e^{-\lambda t} + T_f
+  T(t; \alpha, T_f, T_{\Delta}) = T_{\Delta} e^{-\alpha t} + T_f
 \end{align}
-Tramite un fit dei minimi quadrati potete stimare il valore della costante di decadimento.
+Tramite un fit dei minimi quadrati potete stimare il valore della costante di decadimento, $\alpha$.
 Cosa succede se invece del raffreddamento studiamo il riscaldamento?
+
+\newpage
 
 \secappendix{valori tabulati}
 
