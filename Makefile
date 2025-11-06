@@ -9,6 +9,7 @@ all:
 pdf:
 	for i in $(SHEETS); do \
 		pdflatex sheets/$$i.tex; \
+		pdflatex sheets/$$i.tex; \
 	done
 
 %:
