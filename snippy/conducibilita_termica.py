@@ -18,14 +18,17 @@ def line(x, m, q):
 plt.figure('Grafico posizione-temperatura')
 # Grafico dei punti sperimentali.
 plt.errorbar(x, T, sigma_T, sigma_x, fmt='o')
+
 # Fit con una retta.
 popt, pcov = curve_fit(line, x, T, sigma=sigma_T)
-m_hat, q_hat = popt
+m0, q0 = popt
 sigma_m, sigma_q = np.sqrt(pcov.diagonal())
-print(m_hat, sigma_m, q_hat, sigma_q)
+print(f'm = {m0} +/- {sigma_m}')
+print(f'q = {q0} +/- {sigma_q}')
+
 # Grafico del modello di best fit.
 x = np.linspace(0., 40., 100)
-plt.plot(x, line(x, m_hat, q_hat))
+plt.plot(x, line(x, m0, q0))
 # Formattazione del grafico.
 plt.xlabel('Posizione [cm]')
 plt.ylabel('Temperatura [$^\\circ$C]')

@@ -21,15 +21,17 @@ def period_model(d, l):
 plt.figure('Periodo')
 # Scatter plot dei dati.
 plt.errorbar(d, T, sigma_T, sigma_d, fmt='o')
+
 # Fit---notate che questo e` un fit ad un solo parametro.
 popt, pcov = curve_fit(period_model, d, T, sigma=sigma_T)
-l_hat = popt[0]
+l0 = popt[0]
 sigma_l = np.sqrt(pcov[0, 0])
 # Confrontate i parametri di best fit con la vostra misura diretta!
-print(l_hat, sigma_l)
+print(f'l0 = {l0} +/- {sigma_l}')
+
 # Grafico del modello di best-fit.
 x = np.linspace(0.05, 0.5, 100)
-plt.plot(x, period_model(x, l_hat))
+plt.plot(x, period_model(x, l0))
 plt.xlabel('d [m]')
 plt.ylabel('Periodo [s]')
 plt.grid(which='both', ls='dashed', color='gray')
