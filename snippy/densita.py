@@ -15,22 +15,20 @@ V = 4.0 / 3.0 * np.pi * r**3.0
 sigma_V = V * 3.0 * sigma_d / d
 
 def line(x, a, b):
-    """Modello lineare di fit.
-    """
     return a * x + b
 
 plt.figure('Grafico massa-volume')
 plt.errorbar(m, V, sigma_V, sigma_m, fmt='o')
 popt, pcov = curve_fit(line, m, V)
-a_hat, b_hat = popt
+a0, b0 = popt
 sigma_a, sigma_b = np.sqrt(pcov.diagonal())
-# Attenzione alle cifre significative quando 
+# Attenzione alle cifre significative quando
 # si riportano questi valori sulla relazione:
-print(f'a = {ahat} +/- {sigma_ahat}')
-print(f'b = {bhat} +/- {sigma_bhat}')
+print(f'a = {a0} +/- {sigma_a}')
+print(f'b = {b0} +/- {sigma_b}')
 # Grafico del modello di best fit.
-x = np.linspace(0., 4000., 100)
-plt.plot(x, line(x, a_hat, b_hat))
+x = np.linspace(0., 30., 100)
+plt.plot(x, line(x, a0, b0))
 plt.ylabel('Volume [mm$^3$]')
 plt.xlabel('Massa [g]')
 plt.grid(which='both', ls='dashed', color='gray')

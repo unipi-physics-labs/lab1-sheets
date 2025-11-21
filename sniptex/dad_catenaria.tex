@@ -17,10 +17,10 @@
 \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{y [pixels]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
 \PY{n}{plt}\PY{o}{.}\PY{n}{imshow}\PY{p}{(}\PY{n}{img}\PY{p}{)}
 
-\PY{k}{def}\PY{+w}{ }\PY{n+nf}{catenary}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{a}\PY{p}{,} \PY{n}{c}\PY{p}{,} \PY{n}{x0}\PY{p}{)}\PY{p}{:}
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{catenary}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{a}\PY{p}{,} \PY{n}{c}\PY{p}{,} \PY{n}{xc}\PY{p}{)}\PY{p}{:}
 \PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Modello di catenaria.}
 \PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
-    \PY{k}{return} \PY{n}{c} \PY{o}{+} \PY{n}{a} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{cosh}\PY{p}{(}\PY{p}{(}\PY{n}{x} \PY{o}{\PYZhy{}} \PY{n}{x0}\PY{p}{)} \PY{o}{/} \PY{n}{a}\PY{p}{)}
+    \PY{k}{return} \PY{n}{c} \PY{o}{+} \PY{n}{a} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{cosh}\PY{p}{(}\PY{p}{(}\PY{n}{x} \PY{o}{\PYZhy{}} \PY{n}{xc}\PY{p}{)} \PY{o}{/} \PY{n}{a}\PY{p}{)}
 
 \PY{c+c1}{\PYZsh{} Come prima: usate il percorso al vostro file.}
 \PY{n}{file\PYZus{}path} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{../macro/data/catenaria.txt}\PY{l+s+s1}{\PYZsq{}}
@@ -38,15 +38,15 @@
 \PY{c+c1}{\PYZsh{} Fit. Notate che, per far convergere il fit, avrete bisogno di fornire una}
 \PY{c+c1}{\PYZsh{} stima iniziale ragionevole dei parametri.}
 \PY{n}{popt}\PY{p}{,} \PY{n}{pcov} \PY{o}{=} \PY{n}{curve\PYZus{}fit}\PY{p}{(}\PY{n}{catenary}\PY{p}{,} \PY{n}{x}\PY{p}{,} \PY{n}{y}\PY{p}{,} \PY{n}{p0}\PY{o}{=}\PY{p}{(}\PY{l+m+mf}{1000.}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mf}{3000.}\PY{p}{,} \PY{l+m+mf}{2300.}\PY{p}{)}\PY{p}{)}
-\PY{n}{a\PYZus{}hat}\PY{p}{,} \PY{n}{c\PYZus{}hat}\PY{p}{,} \PY{n}{x0\PYZus{}hat} \PY{o}{=} \PY{n}{popt}
-\PY{n}{sigma\PYZus{}a}\PY{p}{,} \PY{n}{sigma\PYZus{}c}\PY{p}{,} \PY{n}{sigma\PYZus{}x0} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{pcov}\PY{o}{.}\PY{n}{diagonal}\PY{p}{(}\PY{p}{)}\PY{p}{)}
-\PY{n+nb}{print}\PY{p}{(}\PY{n}{a\PYZus{}hat}\PY{p}{,} \PY{n}{sigma\PYZus{}a}\PY{p}{,} \PY{n}{c\PYZus{}hat}\PY{p}{,} \PY{n}{sigma\PYZus{}c}\PY{p}{,} \PY{n}{x0\PYZus{}hat}\PY{p}{,} \PY{n}{sigma\PYZus{}x0}\PY{p}{)}
-\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{catenary}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{a\PYZus{}hat}\PY{p}{,} \PY{n}{c\PYZus{}hat}\PY{p}{,} \PY{n}{x0\PYZus{}hat}\PY{p}{)}\PY{p}{)}
+\PY{n}{a0}\PY{p}{,} \PY{n}{c0}\PY{p}{,} \PY{n}{xc0} \PY{o}{=} \PY{n}{popt}
+\PY{n}{sigma\PYZus{}a}\PY{p}{,} \PY{n}{sigma\PYZus{}c}\PY{p}{,} \PY{n}{sigma\PYZus{}xc} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{pcov}\PY{o}{.}\PY{n}{diagonal}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{a0}\PY{p}{,} \PY{n}{sigma\PYZus{}a}\PY{p}{,} \PY{n}{c0}\PY{p}{,} \PY{n}{sigma\PYZus{}c}\PY{p}{,} \PY{n}{xc0}\PY{p}{,} \PY{n}{sigma\PYZus{}xc}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{catenary}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{a0}\PY{p}{,} \PY{n}{c0}\PY{p}{,} \PY{n}{xc0}\PY{p}{)}\PY{p}{)}
 \PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{n}{which}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{both}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{ls}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dashed}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gray}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
 \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{y [u. a.]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
 \PY{c+c1}{\PYZsh{} Grafico dei residui.}
 \PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}axes}\PY{p}{(}\PY{p}{(}\PY{l+m+mf}{0.1}\PY{p}{,} \PY{l+m+mf}{0.1}\PY{p}{,} \PY{l+m+mf}{0.8}\PY{p}{,} \PY{l+m+mf}{0.2}\PY{p}{)}\PY{p}{)}
-\PY{n}{res} \PY{o}{=} \PY{n}{y} \PY{o}{\PYZhy{}} \PY{n}{catenary}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{a\PYZus{}hat}\PY{p}{,} \PY{n}{c\PYZus{}hat}\PY{p}{,} \PY{n}{x0\PYZus{}hat}\PY{p}{)}
+\PY{n}{res} \PY{o}{=} \PY{n}{y} \PY{o}{\PYZhy{}} \PY{n}{catenary}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{a0}\PY{p}{,} \PY{n}{c0}\PY{p}{,} \PY{n}{xc0}\PY{p}{)}
 \PY{n}{plt}\PY{o}{.}\PY{n}{errorbar}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{res}\PY{p}{,} \PY{n}{sigma\PYZus{}y}\PY{p}{,} \PY{n}{fmt}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
 \PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{n}{which}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{both}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{ls}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dashed}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gray}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
 \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x [u. a.]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
