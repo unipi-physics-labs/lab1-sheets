@@ -43,7 +43,6 @@ print(a0, sigma_a, c0, sigma_c, xc0, sigma_xc)
 plt.plot(x, catenary(x, a0, c0, xc0))
 plt.grid(which='both', ls='dashed', color='gray')
 plt.ylabel('y [u. a.]')
-
 # Grafico dei residui.
 fig.add_axes((0.1, 0.1, 0.8, 0.2))
 res = y - catenary(x, a0, c0, xc0)
