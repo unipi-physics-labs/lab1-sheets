@@ -5,9 +5,9 @@
 \usepackage{fancyvrb}
 \usepackage{hyperref}
 \input{code/python}
+\input{python_style}
 
 \begin{document}
-
 
 \begin{article}
 \selectlanguage{italian}
@@ -17,87 +17,56 @@
 \secintro
 
 Lo scopo dell'esperienza \`e quello di familiarizzare con i concetti di base
-della statistica dei conteggi attraverso l'analisi di una porzione di un testo
-letterario---in particolare il primo canto dell'\emph{Inferno} della
-\emph{Divina Commedia}.
+della statistica attraverso misure di conteggi.
 
 \secmaterialsdad
 
 \begin{itemize}
-\item Una copia della \emph{Divina Commedia}, in formato cartaceo o elettronico;
-\item calcolatore.
+\item carta e penna
+\item cronometro
+\item calcolatore
 \end{itemize}
 
 
 \secmeasurements
+L'evento che vogliamo studiare è il seguente \emph{una persona entra in un negozio}. Scegliete un negozio abbastanza frequentato (ad esempio un supermercato) e prendete le misure in due momenti diversi (due acquisizioni): uno in cui il negozio è poco frequentato, e uno in cui il negozio è più frequentato.
 
-Il primo canto dell'\emph{Inferno} \`e composto da 45 terzine ed un verso finale,
-per un totale di $N_v = 136$ versi e $N_c = 4849$ caratteri.
+\labsubsection{Numero di eventi al minuto}
 
-(Qui e nel seguito per \emph{caratteri} intendimo le lettere, gli spazi, gli
-apostrofi, le virgolette del discorso diretto e la punteggiatura. Per comodit\`a
-non distinguiamo le lettere maiuscole dalle minuscole, i.e., assumiamo che
-siano tutte minuscole.)
+Contate il numero di persone che entrano nel negozio in un minuto per (almeno) $N=30$ minuti. Costruite il vettore delle occorrenze $l_i$ $(i=1, \ldots, N)$, dove il valore dell'elemento $l_i$ \`e pari al numero di persone entrate al minuto $i-$esimo. Realizzate un istogramma del numero di persone che entrano al minuto cos\`i misurato.
 
-
-\labsubsection{Lunghezza dei versi}
-
-Contate il numero $l_i$ di caratteri $(i=1, \ldots, 136)$ in ogni verso e
-realizzate un istogramma della lunghezza dei versi cos\`i misurata.
-
-Calcolate la media campione della lunghezza dei versi
+Calcolate la media campione:
 \begin{align}
-  m_l = \frac{1}{N_v} \sum_{i=1}^{N_v} l_i
+  m_l = \frac{1}{N} \sum_{i=1}^{N} l_i
 \end{align}
 e verificate l'ipotesi che la distribuzione di $l$ sia una Poissoniana con
 media $m_l$ tramite un test del $\chi^2$:
 \begin{align}
-  \chi^2 = \sum_{i=1}^{n} \frac{(o_i - e_i)^2}{e_i}.
+  \chi^2 = \sum_{j=1}^{n} \frac{(o_j - e_j)^2}{e_j}.
 \end{align}
-(La somma sui $i$ \`e estesa su tutti i bin dell'istogramma ed i valori
-attesi si calcolano utilizzando la distribuzione di Poisson.)
+La somma sui $j$ \`e estesa su tutti gli $n$ bin dell'istogramma ed i valori
+attesi $e_j$ si calcolano utilizzando la distribuzione di Poisson con media $m_l$.
 
+Ripetete l'analisi per le due acquisizioni di dati (due distribuzioni, due medie, due test del  $\chi^2$ \ldots).
 
-Calcolate la varianza campione della lunghezza dei versi
-\begin{align}
-  s^2_l = \frac{1}{(N_v - 1)} \sum_{i=1}^{N_v} (l_i - m_l)^2
-\end{align}
-e verificate tramite un test del $\chi^2$ l'ipotesi che la distribuzione
-della lunghezza dei versi sia una Gaussiana con media $m_l$ e
-deviazione standard $s_l$.
+\vspace{0.5cm}
+Cercate di rispondere alle seguenti domande:
+\begin{enumerate}
+    \item Vi \emph{aspettate} che il processo sia Poissoniano? Perch\`e?
+    \item Il processo osservato è Poissoniano? Perch\`e?
+    \item Come si confrontano le due acquisizioni?
+\end{enumerate}
 
-\emph{Cosa impariamo dal confronto tra i due valori del $\chi^2$ sul modo in
-  cui il testo \`e stato scritto?}
-
-
-\labsubsection{Occorrenze di una lettera}
-
-Contate il numero di occorrenze di una lettera, ad esempio la lettera "a",
-all'interno di ogni verso, e costruite, come nel caso della lunghezza dei
-versi, l'istogramma corrispondente.
-
-Provate a verificare, tramite un test del $\chi^2$, l'ipotesi che la
-distribuzione sia binominale, utilizzando:
-\begin{itemize}
-  \item come probabilit\`a elementare $p$ il rapporto tra il numero totale di
-  occorrenze della lettera "a" ed il numero totale di caratteri $N_c$;
-  \item come numero \emph{efficace} di tentativi $N$ la lunghezza media dei
-  versi $m_l$, calcolata prima, arrotondata all'intero pi\`u vicino.
-\end{itemize}
-
-Verificare infine, sempre mediante un test del $\chi^2$, l'ipotesi che
-la distribuzione delle occorrenze della lettera "a" sia una Poissoniana con
-media $\mu = p m_l$. Quale dei due modelli risulta migliore?
-
+\labsubsection{Unione delle Acquisizioni}
+Unite adesso, le due acquisizioni e ripetete l'analisi fatta precedentemente su questo unico set di dati.
+\vspace{0.5cm}
+Cercate di rispondere alle seguenti domande:
+\begin{enumerate}
+    \item Vi \emph{aspettate} che il processo "somma" delle due acquisizioni sia Poissoniano? Perch\`e?
+    \item Il processo "somma" osservato è Poissoniano? Perch\`e?
+\end{enumerate}
 
 \secconsiderations
-
-Potete contare i caratteri manualmente, utilizzando una copia cartacea
-della \emph{Divina Commedia}, oppure attraverso un piccolo programma in
-Python, utilizzando una copia elettronica dell'opera (se ne trovano
-svariate su web). In questo secondo caso, se siete particolarmente motivati
-potete estendere l'analisi a pi\`u di un canto, a tutto l'\emph{Inferno},
-o addirittura all'opera intera.
 
 Essendo tutti i conteggi in questione variabili discrete, assicuratevi di avere
 un solo valore per ciascuna classe degli istogrammi rilevanti (ovvero, scegliete
@@ -111,19 +80,6 @@ di ciascun canale dell'istogramma sia abbastanza grande da poter approssimare
 la relativa distribuzione con una Gaussiana. In pratica \`e impossible dare una
 ricetta che funzioni in ogni situazione, ma evitate di avere un numero
 cospicuo di canali con 0, 1 o 2 conteggi, ad esempio raggruppandoli insieme.
-
-Per il test del $\chi^2$ con la distribuzione di Gauss (che \`e intrinsecamente
-di variabile discreta) le occorrenze attese $e_i$ si calcolano integrando la
-funzione di distribuzione entro ciascun canale dell'istogramma (i.e.,
-utilizzando la \emph{error function}). Di quanto sbagliate se approssimate
-questo integrale utilizzando il valore della densit\`a di probabilit\`a al
-centro del \emph{bin}?
-
-
-\onecolumn
-
-\input{code/dad_conteggi}
-
 
 \end{article}
 \end{document}
