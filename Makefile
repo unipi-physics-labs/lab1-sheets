@@ -1,6 +1,6 @@
 
-SHEETS = densita pendolo_fisico conducibilita_termica dad_catenaria \
-# ottica oscillazioni_accoppiate random_walk dad_conteggi dad_caduta
+#SHEETS = densita pendolo_fisico conducibilita_termica dad_catenaria
+SHEETS = ottica oscillazioni_accoppiate random_walk dad_conteggi dad_caduta
 
 all:
 	for i in $(SHEETS); do \
@@ -14,12 +14,10 @@ pdf:
 	done
 
 %:
-ifneq ($*,ottica)
-ifneq ($*,oscillazioni_accoppiate)
-	python tools/py2tex.py snippy/$*.py
-endif
-endif
-	pdflatex sheets/$*.tex
+	@if [ "$*" != "ottica" ] && [ "$*" != "oscillazioni_accoppiate" ]; then \
+		python tools/py2tex.py "snippy/$*.py"; \
+	fi
+	pdflatex "sheets/$*.tex"
 
 clean:
 	rm -f *~ *.aux *.log *.out *.fls *.fdb_latexmk *.synctex.gz
