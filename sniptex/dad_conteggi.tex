@@ -1,23 +1,30 @@
 \begin{Verbatim}[label=\makebox{\href{https://github.com/unipi-physics-labs/lab1-sheets/tree/main/snippy/dad_conteggi.py}{https://github.com/.../dad\_conteggi.py}},commandchars=\\\{\}]
 \PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{numpy}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{np}
 \PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{plt}
-\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{scipy}\PY{n+nn}{.}\PY{n+nn}{stats}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{poisson}\PY{p}{,} \PY{n}{norm}\PY{p}{,} \PY{n}{binom}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{scipy}\PY{n+nn}{.}\PY{n+nn}{stats}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{poisson}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{scipy}
 
-\PY{c+c1}{\PYZsh{} Array con la lunghezza dei versi\PYZhy{}\PYZhy{}\PYZhy{}potete definirlo a mano nello script}
-\PY{c+c1}{\PYZsh{} oppure leggerlo da file.}
-\PY{n}{l} \PY{o}{=} \PY{o}{.}\PY{o}{.}\PY{o}{.}
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{p\PYZus{}value}\PY{p}{(}\PY{n}{chisq}\PY{p}{,} \PY{n}{ndof}\PY{p}{)}\PY{p}{:}
+    \PY{n}{p} \PY{o}{=} \PY{n}{scipy}\PY{o}{.}\PY{n}{stats}\PY{o}{.}\PY{n}{chi2}\PY{o}{.}\PY{n}{cdf}\PY{p}{(}\PY{n}{chisq}\PY{p}{,} \PY{n}{ndof}\PY{p}{)}
+    \PY{c+c1}{\PYZsh{} If the probability is \PYZgt{} 50\PYZpc{} , take the complement.}
+    \PY{k}{if} \PY{n}{p} \PY{o}{\PYZgt{}} \PY{l+m+mf}{0.5}\PY{p}{:}
+        \PY{n}{p} \PY{o}{=} \PY{l+m+mf}{1.0} \PY{o}{\PYZhy{}} \PY{n}{p}
+    \PY{k}{return} \PY{n}{p}
+
+\PY{c+c1}{\PYZsh{} ogni entry dell\PYZsq{}array l contiene il numero di entrate in un minuto, la lughezza dell\PYZsq{}array corrisponde quindi al tempo totale di osservazione in minuti:}
+\PY{c+c1}{\PYZsh{}l = np.array([ ... ])}
 
 \PY{c+c1}{\PYZsh{} Calcolo della statistica del campione delle lunghezze dei versi, utilizzando le}
 \PY{c+c1}{\PYZsh{} funzioni appropriate di numpy.}
 \PY{n}{N} \PY{o}{=} \PY{n+nb}{len}\PY{p}{(}\PY{n}{l}\PY{p}{)}
 \PY{n}{m} \PY{o}{=} \PY{n}{l}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
 \PY{n}{s} \PY{o}{=} \PY{n}{l}\PY{o}{.}\PY{n}{std}\PY{p}{(}\PY{n}{ddof}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
-\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Numero di versi: }\PY{l+s+si}{\PYZob{}}\PY{n}{N}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Lunghezza media dei varsi: }\PY{l+s+si}{\PYZob{}}\PY{n}{m}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Deviazione standard delle lunghezze: }\PY{l+s+si}{\PYZob{}}\PY{n}{s}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Numero di osservazioni: }\PY{l+s+si}{\PYZob{}}\PY{n}{N}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Media: }\PY{l+s+si}{\PYZob{}}\PY{n}{m}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Deviazione standard: }\PY{l+s+si}{\PYZob{}}\PY{n}{s}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
 
 \PY{c+c1}{\PYZsh{} Definizione dei canali dell\PYZsq{}istogramma\PYZhy{}\PYZhy{}\PYZhy{}attenzione ad avere esattamente un valore}
-\PY{c+c1}{\PYZsh{} itntero all\PYZsq{}interno di ogni bin! I \PYZhy{}0.5 e +1.5 servono per far apparire le barre al}
+\PY{c+c1}{\PYZsh{} intero all\PYZsq{}interno di ogni bin! I \PYZhy{}0.5 e +1.5 servono per far apparire le barre al}
 \PY{c+c1}{\PYZsh{} centro dei canali. Stampare per credere.}
 \PY{n}{binning} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{n}{l}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{l+m+mf}{0.5}\PY{p}{,} \PY{n}{l}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{p}{)} \PY{o}{+} \PY{l+m+mf}{1.5}\PY{p}{)}
 
@@ -25,32 +32,26 @@
 \PY{c+c1}{\PYZsh{} ma a noi interessa solo la prima, ovvero il contenuto dei canali dell\PYZsq{}istogtramma.}
 \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Lunghezza dei versi}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
 \PY{n}{o}\PY{p}{,} \PY{n}{\PYZus{}}\PY{p}{,} \PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{hist}\PY{p}{(}\PY{n}{l}\PY{p}{,} \PY{n}{bins}\PY{o}{=}\PY{n}{binning}\PY{p}{,} \PY{n}{rwidth}\PY{o}{=}\PY{l+m+mf}{0.25}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Conteggi}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Numero di caratteri per verso}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsh{} entrate/minuto}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
 \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Occorrenze}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
 
-\PY{c+c1}{\PYZsh{} Calcolo dei valori attesi nel modello Poissoniano e gaussiano. Verificate che la}
+\PY{c+c1}{\PYZsh{} Calcolo dei valori attesi nel modello Poissoniano. Verificate che la}
 \PY{c+c1}{\PYZsh{} definizione di k alla riga qui sotto corrisponde a tutti i valori interi compresi tra}
-\PY{c+c1}{\PYZsh{} la minima e la massima lunghezza dei versi. Notate anche la differenza tra le funzioni}
-\PY{c+c1}{\PYZsh{} di scipy pmf(), per il calcolo della probabilita` per una distribuzione dicreta, e}
-\PY{c+c1}{\PYZsh{} pdf(), per il calcolo della densita` di probabilita` per una continua.}
+\PY{c+c1}{\PYZsh{} la minima e la massima lunghezza dei versi. }
 \PY{n}{k} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{n}{l}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{l}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{p}{)} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{)}
 \PY{n}{e\PYZus{}poisson} \PY{o}{=} \PY{n}{N} \PY{o}{*} \PY{n}{poisson}\PY{o}{.}\PY{n}{pmf}\PY{p}{(}\PY{n}{k}\PY{p}{,} \PY{n}{m}\PY{p}{)}
-\PY{n}{e\PYZus{}gauss} \PY{o}{=} \PY{n}{N} \PY{o}{*} \PY{n}{norm}\PY{o}{.}\PY{n}{pdf}\PY{p}{(}\PY{n}{k}\PY{p}{,} \PY{n}{m}\PY{p}{,} \PY{n}{s}\PY{p}{)}
+
 \PY{c+c1}{\PYZsh{} Gia` che ci siamo, disegnamo i valori attesi sull\PYZsq{}istogramma di partenza.}
 \PY{c+c1}{\PYZsh{} Notate che disegnamo la distribuzione di Poisson di best fit come un grafico a barre}
 \PY{c+c1}{\PYZsh{} (spostato rigidamente di 0.3 unita` sulla sinistra per far si` che non si sovrapponga}
-\PY{c+c1}{\PYZsh{} all\PYZsq{}istogramma di partenza) e la distribuzione di Gauss come una linea.}
+\PY{c+c1}{\PYZsh{} all\PYZsq{}istogramma di partenza).}
 \PY{n}{plt}\PY{o}{.}\PY{n}{bar}\PY{p}{(}\PY{n}{k} \PY{o}{\PYZhy{}} \PY{l+m+mf}{0.3}\PY{p}{,} \PY{n}{e\PYZus{}poisson}\PY{p}{,} \PY{n}{width}\PY{o}{=}\PY{l+m+mf}{0.25}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsh{}ff7f0e}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Poisson}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{k}\PY{p}{,} \PY{n}{e\PYZus{}gauss}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsh{}2ca02c}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Gauss}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
 
 \PY{c+c1}{\PYZsh{} Calcolo del chi quadro nelle due ipotesi. Assicuratevi di capire esattamente perche\PYZsq{}}
 \PY{c+c1}{\PYZsh{} le due righe seguenti corrispondono all\PYZsq{}espressione che abbiamo studiato.}
 \PY{n}{chi2\PYZus{}poisson} \PY{o}{=} \PY{p}{(}\PY{p}{(}\PY{n}{o} \PY{o}{\PYZhy{}} \PY{n}{e\PYZus{}poisson}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mf}{2.} \PY{o}{/} \PY{n}{e\PYZus{}poisson}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
-\PY{n}{chi2\PYZus{}gauss} \PY{o}{=} \PY{p}{(}\PY{p}{(}\PY{n}{o} \PY{o}{\PYZhy{}} \PY{n}{e\PYZus{}gauss}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mf}{2.} \PY{o}{/} \PY{n}{e\PYZus{}gauss}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
 \PY{n}{dof\PYZus{}poisson} \PY{o}{=} \PY{n+nb}{len}\PY{p}{(}\PY{n}{k}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1}
-\PY{n}{dof\PYZus{}gauss} \PY{o}{=} \PY{n+nb}{len}\PY{p}{(}\PY{n}{k}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1} \PY{o}{\PYZhy{}} \PY{l+m+mi}{2}
 \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{chi2 per la Poissoniana: }\PY{l+s+si}{\PYZob{}}\PY{n}{chi2\PYZus{}poisson}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{ / }\PY{l+s+si}{\PYZob{}}\PY{n}{dof\PYZus{}poisson}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{ dof}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{chi2 per la Gaussiana: }\PY{l+s+si}{\PYZob{}}\PY{n}{chi2\PYZus{}gauss}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{ / }\PY{l+s+si}{\PYZob{}}\PY{n}{dof\PYZus{}gauss}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{ dof}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
 
 \PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
 \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}

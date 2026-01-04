@@ -1,145 +1,33 @@
 \begin{Verbatim}[label=\makebox{\href{https://github.com/unipi-physics-labs/lab1-sheets/tree/main/snippy/random_walk.py}{https://github.com/.../random\_walk.py}},commandchars=\\\{\}]
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{random}
 \PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{numpy}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{np}
-\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{plt}
 
+\PY{c+c1}{\PYZsh{} Potete generare un singolo numero pseudo\PYZhy{}casuale distributo uniformemente tra 0}
+\PY{c+c1}{\PYZsh{} e 2 pi con il modulo random, parte della libreria standard di Python.}
+\PY{c+c1}{\PYZsh{} Questo non è molto efficiente, ma va bene per rappresentare graficamente un}
+\PY{c+c1}{\PYZsh{} random walk.}
 
+\PY{n}{phi} \PY{o}{=} \PY{n}{random}\PY{o}{.}\PY{n}{uniform}\PY{p}{(}\PY{l+m+mf}{0.}\PY{p}{,} \PY{l+m+mf}{2.} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{pi}\PY{p}{)}
 
-\PY{k}{def}\PY{+w}{ }\PY{n+nf}{random\PYZus{}walk\PYZus{}2d}\PY{p}{(}\PY{n}{num\PYZus{}steps}\PY{p}{:} \PY{n+nb}{int}\PY{p}{)} \PY{o}{\PYZhy{}}\PY{o}{\PYZgt{}} \PY{n+nb}{float}\PY{p}{:}
-\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}2\PYZhy{}dimensional random walk.}
-\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
-    \PY{n}{pos} \PY{o}{=} \PY{p}{(}\PY{l+m+mf}{0.}\PY{p}{,} \PY{l+m+mf}{0.}\PY{p}{)}
-    \PY{k}{for} \PY{n}{\PYZus{}} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{num\PYZus{}steps}\PY{p}{)}\PY{p}{:}
-        \PY{n}{phi} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{uniform}\PY{p}{(}\PY{l+m+mf}{0.}\PY{p}{,} \PY{l+m+mf}{2.} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{pi}\PY{p}{)}
-        \PY{n}{pos} \PY{o}{+}\PY{o}{=} \PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{cos}\PY{p}{(}\PY{n}{phi}\PY{p}{)}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{sin}\PY{p}{(}\PY{n}{phi}\PY{p}{)}\PY{p}{)}
-    \PY{k}{return} \PY{n}{pos}
+\PY{c+c1}{\PYZsh{} Se siete interessati a generare un random walk e l\PYZsq{}unica cosa che vi interessa}
+\PY{c+c1}{\PYZsh{} è tenere traccia della posizione finale della particella dopo n passi, è molto}
+\PY{c+c1}{\PYZsh{} più efficiente vettorizzare l\PYZsq{}operazione utilizzando il modulo random di numpy,}
+\PY{c+c1}{\PYZsh{} che permette di generare array di numeri casuali}
 
-
-\PY{k}{def}\PY{+w}{ }\PY{n+nf}{random\PYZus{}walk\PYZus{}2d\PYZus{}fast}\PY{p}{(}\PY{n}{num\PYZus{}steps}\PY{p}{:} \PY{n+nb}{int}\PY{p}{)} \PY{o}{\PYZhy{}}\PY{o}{\PYZgt{}} \PY{n+nb}{float}\PY{p}{:}
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{random\PYZus{}walk}\PY{p}{(}\PY{n}{num\PYZus{}steps}\PY{p}{)}\PY{p}{:}
 \PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Vectorized 2\PYZhy{}dimensional random walk.}
+
+\PY{l+s+sd}{    This generates num\PYZus{}steps random angles in the plane, and returns the final}
+\PY{l+s+sd}{    position of the particle, assuming a unitary step length.}
 \PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{c+c1}{\PYZsh{} Extract an array with num\PYZus{}steps angles equidistributed between 0 and 2 pi.}
     \PY{n}{phi} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{uniform}\PY{p}{(}\PY{l+m+mf}{0.}\PY{p}{,} \PY{l+m+mf}{2.} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{pi}\PY{p}{,} \PY{n}{num\PYZus{}steps}\PY{p}{)}
-    \PY{k}{return} \PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{cos}\PY{p}{(}\PY{n}{phi}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{sin}\PY{p}{(}\PY{n}{phi}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}\PY{p}{)}
-
-
-\PY{k}{def}\PY{+w}{ }\PY{n+nf}{plot\PYZus{}random\PYZus{}walk\PYZus{}2d}\PY{p}{(}\PY{n}{num\PYZus{}steps}\PY{p}{:} \PY{n+nb}{int}\PY{p}{,} \PY{n}{step\PYZus{}size}\PY{p}{:} \PY{n+nb}{float} \PY{o}{=} \PY{l+m+mf}{1.}\PY{p}{)} \PY{o}{\PYZhy{}}\PY{o}{\PYZgt{}} \PY{n+nb}{float}\PY{p}{:}
-\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}2\PYZhy{}dimensional random walk.}
-\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
-    \PY{n}{x} \PY{o}{=} \PY{p}{[}\PY{l+m+mf}{0.}\PY{p}{]}
-    \PY{n}{y} \PY{o}{=} \PY{p}{[}\PY{l+m+mf}{0.}\PY{p}{]}
-    \PY{k}{for} \PY{n}{\PYZus{}} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{num\PYZus{}steps}\PY{p}{)}\PY{p}{:}
-        \PY{n}{phi} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{uniform}\PY{p}{(}\PY{l+m+mf}{0.}\PY{p}{,} \PY{l+m+mf}{2.} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{pi}\PY{p}{)}
-        \PY{n}{dx} \PY{o}{=} \PY{n}{step\PYZus{}size} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{cos}\PY{p}{(}\PY{n}{phi}\PY{p}{)}
-        \PY{n}{dy} \PY{o}{=} \PY{n}{step\PYZus{}size} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{sin}\PY{p}{(}\PY{n}{phi}\PY{p}{)}
-        \PY{n}{x}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{x}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{+} \PY{n}{dx}\PY{p}{)}
-        \PY{n}{y}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{y}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{+} \PY{n}{dy}\PY{p}{)}
-
-    \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Random Walk}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-    \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{y}\PY{p}{)}
-    \PY{n}{plt}\PY{o}{.}\PY{n}{gca}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{set\PYZus{}aspect}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{equal}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-    \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x [a.u.]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-    \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x [a.u.]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-
-
-\PY{k}{def}\PY{+w}{ }\PY{n+nf}{gauss}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{norm}\PY{p}{,} \PY{n}{mu}\PY{p}{,} \PY{n}{sigma}\PY{p}{)}\PY{p}{:}
-\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Gaussian model.}
-\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
-    \PY{k}{return} \PY{n}{norm} \PY{o}{/}  \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{l+m+mi}{2} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{pi}\PY{p}{)} \PY{o}{/} \PY{n}{sigma} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{exp}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{p}{(}\PY{n}{x} \PY{o}{\PYZhy{}} \PY{n}{mu}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mf}{2.} \PY{o}{/} \PY{p}{(}\PY{l+m+mf}{2.} \PY{o}{*} \PY{n}{sigma}\PY{o}{*}\PY{o}{*}\PY{l+m+mf}{2.}\PY{p}{)}\PY{p}{)}
-
-
-\PY{k}{def}\PY{+w}{ }\PY{n+nf}{expo}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{norm}\PY{p}{,} \PY{n}{mean}\PY{p}{)}\PY{p}{:}
-\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Exponential model.}
-\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
-    \PY{k}{return} \PY{n}{norm} \PY{o}{/} \PY{n}{mean} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{exp}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{x} \PY{o}{/} \PY{n}{mean}\PY{p}{)}
-
-
-\PY{k}{def}\PY{+w}{ }\PY{n+nf}{dmodel}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{norm}\PY{p}{,} \PY{n}{loc}\PY{p}{)}\PY{p}{:}
-\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
-\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
-    \PY{k}{return} \PY{l+m+mf}{2.} \PY{o}{*} \PY{n}{norm} \PY{o}{/} \PY{n}{loc} \PY{o}{*} \PY{n}{x} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{exp}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{x}\PY{o}{*}\PY{o}{*}\PY{l+m+mf}{2.} \PY{o}{/} \PY{n}{loc}\PY{p}{)}
-
-
-
-
-
-\PY{k}{if} \PY{n+nv+vm}{\PYZus{}\PYZus{}name\PYZus{}\PYZus{}} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZus{}\PYZus{}main\PYZus{}\PYZus{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}
-
-    \PY{n}{num\PYZus{}realizations} \PY{o}{=} \PY{l+m+mi}{10000}
-    \PY{n}{num\PYZus{}steps} \PY{o}{=} \PY{l+m+mi}{100}
-    \PY{n}{x} \PY{o}{=} \PY{p}{[}\PY{p}{]}
-    \PY{n}{y} \PY{o}{=} \PY{p}{[}\PY{p}{]}
-    \PY{n}{d} \PY{o}{=} \PY{p}{[}\PY{p}{]}
-    \PY{n}{d2} \PY{o}{=} \PY{p}{[}\PY{p}{]}
-    \PY{k}{for} \PY{n}{\PYZus{}} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{num\PYZus{}realizations}\PY{p}{)}\PY{p}{:}
-        \PY{n}{\PYZus{}x}\PY{p}{,} \PY{n}{\PYZus{}y} \PY{o}{=} \PY{n}{random\PYZus{}walk\PYZus{}2d\PYZus{}fast}\PY{p}{(}\PY{n}{num\PYZus{}steps}\PY{p}{)}
-        \PY{n}{x}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{\PYZus{}x}\PY{p}{)}
-        \PY{n}{y}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{\PYZus{}y}\PY{p}{)}
-        \PY{n}{d}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{\PYZus{}x}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2} \PY{o}{+} \PY{n}{\PYZus{}y}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}
-        \PY{n}{d2}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{\PYZus{}x}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2} \PY{o}{+} \PY{n}{\PYZus{}y}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}
-
-    \PY{n}{binning} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{25}\PY{p}{,} \PY{l+m+mi}{25}\PY{p}{,} \PY{l+m+mi}{51}\PY{p}{)}
-    \PY{n}{bin\PYZus{}width} \PY{o}{=} \PY{n}{binning}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{binning}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
-    \PY{n}{bin\PYZus{}centers} \PY{o}{=} \PY{n}{binning}\PY{p}{[}\PY{p}{:}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{+} \PY{n}{bin\PYZus{}width} \PY{o}{/} \PY{l+m+mf}{2.}
-    \PY{n}{model} \PY{o}{=} \PY{k}{lambda} \PY{n}{x}\PY{p}{:} \PY{n}{gauss}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{num\PYZus{}realizations} \PY{o}{*} \PY{n}{bin\PYZus{}width}\PY{p}{,} \PY{l+m+mf}{0.}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{num\PYZus{}steps} \PY{o}{/} \PY{l+m+mf}{2.}\PY{p}{)}\PY{p}{)}
-
-    \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x histogram}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-    \PY{n}{obs}\PY{p}{,} \PY{n}{\PYZus{}}\PY{p}{,} \PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{hist}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{bins}\PY{o}{=}\PY{n}{binning}\PY{p}{)}
-    \PY{n}{exp} \PY{o}{=} \PY{n}{model}\PY{p}{(}\PY{n}{bin\PYZus{}centers}\PY{p}{)}
-    \PY{n}{mask} \PY{o}{=} \PY{n}{obs} \PY{o}{\PYZgt{}} \PY{l+m+mi}{0}
-    \PY{n}{chisq} \PY{o}{=} \PY{p}{(}\PY{p}{(}\PY{n}{obs}\PY{p}{[}\PY{n}{mask}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{exp}\PY{p}{[}\PY{n}{mask}\PY{p}{]}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2} \PY{o}{/} \PY{n}{exp}\PY{p}{[}\PY{n}{mask}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
-    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x distribution, chisquare = }\PY{l+s+si}{\PYZob{}}\PY{n}{chisq}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{ / }\PY{l+s+si}{\PYZob{}}\PY{n}{mask}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{ dof}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-    \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{bin\PYZus{}centers}\PY{p}{,} \PY{n}{model}\PY{p}{(}\PY{n}{bin\PYZus{}centers}\PY{p}{)}\PY{p}{)}
-
-    \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{y histogram}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-    \PY{n}{obs}\PY{p}{,} \PY{n}{\PYZus{}}\PY{p}{,} \PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{hist}\PY{p}{(}\PY{n}{y}\PY{p}{,} \PY{n}{bins}\PY{o}{=}\PY{n}{binning}\PY{p}{)}
-    \PY{n}{exp} \PY{o}{=} \PY{n}{model}\PY{p}{(}\PY{n}{bin\PYZus{}centers}\PY{p}{)}
-    \PY{n}{mask} \PY{o}{=} \PY{n}{obs} \PY{o}{\PYZgt{}} \PY{l+m+mi}{0}
-    \PY{n}{chisq} \PY{o}{=} \PY{p}{(}\PY{p}{(}\PY{n}{obs}\PY{p}{[}\PY{n}{mask}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{exp}\PY{p}{[}\PY{n}{mask}\PY{p}{]}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2} \PY{o}{/} \PY{n}{exp}\PY{p}{[}\PY{n}{mask}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
-    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{y distribution, chisquare = }\PY{l+s+si}{\PYZob{}}\PY{n}{chisq}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{ / }\PY{l+s+si}{\PYZob{}}\PY{n}{mask}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{ dof}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-    \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{bin\PYZus{}centers}\PY{p}{,} \PY{n}{model}\PY{p}{(}\PY{n}{bin\PYZus{}centers}\PY{p}{)}\PY{p}{)}
-
-    \PY{n}{binning} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1000}\PY{p}{,} \PY{l+m+mi}{101}\PY{p}{)}
-    \PY{n}{bin\PYZus{}width} \PY{o}{=} \PY{n}{binning}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{binning}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
-    \PY{n}{bin\PYZus{}centers} \PY{o}{=} \PY{n}{binning}\PY{p}{[}\PY{p}{:}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{+} \PY{n}{bin\PYZus{}width} \PY{o}{/} \PY{l+m+mf}{2.}
-    \PY{n}{model} \PY{o}{=} \PY{k}{lambda} \PY{n}{x}\PY{p}{:} \PY{n}{expo}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{num\PYZus{}realizations} \PY{o}{*} \PY{n}{bin\PYZus{}width}\PY{p}{,} \PY{n}{num\PYZus{}steps}\PY{p}{)}
-
-    \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{d2 histogram}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-    \PY{n}{obs}\PY{p}{,} \PY{n}{\PYZus{}}\PY{p}{,} \PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{hist}\PY{p}{(}\PY{n}{d2}\PY{p}{,} \PY{n}{bins}\PY{o}{=}\PY{n}{binning}\PY{p}{)}
-    \PY{n}{exp} \PY{o}{=} \PY{n}{model}\PY{p}{(}\PY{n}{bin\PYZus{}centers}\PY{p}{)}
-    \PY{n}{mask} \PY{o}{=} \PY{n}{obs} \PY{o}{\PYZgt{}} \PY{l+m+mi}{0}
-    \PY{n}{chisq} \PY{o}{=} \PY{p}{(}\PY{p}{(}\PY{n}{obs}\PY{p}{[}\PY{n}{mask}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{exp}\PY{p}{[}\PY{n}{mask}\PY{p}{]}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2} \PY{o}{/} \PY{n}{exp}\PY{p}{[}\PY{n}{mask}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
-    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{d\PYZca{}2 distribution, chisquare = }\PY{l+s+si}{\PYZob{}}\PY{n}{chisq}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{ / }\PY{l+s+si}{\PYZob{}}\PY{n}{mask}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{ dof}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-    \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{bin\PYZus{}centers}\PY{p}{,} \PY{n}{model}\PY{p}{(}\PY{n}{bin\PYZus{}centers}\PY{p}{)}\PY{p}{)}
-
-    \PY{n}{binning} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{30}\PY{p}{,} \PY{l+m+mi}{51}\PY{p}{)}
-    \PY{n}{bin\PYZus{}width} \PY{o}{=} \PY{n}{binning}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{binning}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
-    \PY{n}{bin\PYZus{}centers} \PY{o}{=} \PY{n}{binning}\PY{p}{[}\PY{p}{:}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{+} \PY{n}{bin\PYZus{}width} \PY{o}{/} \PY{l+m+mf}{2.}
-    \PY{n}{model} \PY{o}{=} \PY{k}{lambda} \PY{n}{x}\PY{p}{:} \PY{n}{dmodel}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{num\PYZus{}realizations} \PY{o}{*} \PY{n}{bin\PYZus{}width}\PY{p}{,} \PY{n}{num\PYZus{}steps}\PY{p}{)}
-
-    \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{d histogram}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-    \PY{n}{obs}\PY{p}{,} \PY{n}{\PYZus{}}\PY{p}{,} \PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{hist}\PY{p}{(}\PY{n}{d}\PY{p}{,} \PY{n}{bins}\PY{o}{=}\PY{n}{binning}\PY{p}{)}
-    \PY{n}{exp} \PY{o}{=} \PY{n}{model}\PY{p}{(}\PY{n}{bin\PYZus{}centers}\PY{p}{)}
-    \PY{n}{mask} \PY{o}{=} \PY{n}{obs} \PY{o}{\PYZgt{}} \PY{l+m+mi}{0}
-    \PY{n}{chisq} \PY{o}{=} \PY{p}{(}\PY{p}{(}\PY{n}{obs}\PY{p}{[}\PY{n}{mask}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{exp}\PY{p}{[}\PY{n}{mask}\PY{p}{]}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2} \PY{o}{/} \PY{n}{exp}\PY{p}{[}\PY{n}{mask}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
-    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{d\PYZca{}2 distribution, chisquare = }\PY{l+s+si}{\PYZob{}}\PY{n}{chisq}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{ / }\PY{l+s+si}{\PYZob{}}\PY{n}{mask}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{ dof}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-    \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{bin\PYZus{}centers}\PY{p}{,} \PY{n}{model}\PY{p}{(}\PY{n}{bin\PYZus{}centers}\PY{p}{)}\PY{p}{)}
-
-    \PY{n}{num\PYZus{}realizations} \PY{o}{=} \PY{l+m+mi}{1000}
-    \PY{n}{N} \PY{o}{=} \PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,} \PY{l+m+mi}{25}\PY{p}{,} \PY{l+m+mi}{50}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{,} \PY{l+m+mi}{250}\PY{p}{,} \PY{l+m+mi}{500}\PY{p}{,} \PY{l+m+mi}{1000}\PY{p}{)}
-    \PY{n}{d} \PY{o}{=} \PY{p}{[}\PY{p}{]}
-    \PY{k}{for} \PY{n}{num\PYZus{}steps} \PY{o+ow}{in} \PY{n}{N}\PY{p}{:}
-        \PY{n}{\PYZus{}d} \PY{o}{=} \PY{l+m+mf}{0.}
-        \PY{k}{for} \PY{n}{\PYZus{}} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{num\PYZus{}realizations}\PY{p}{)}\PY{p}{:}
-            \PY{n}{\PYZus{}x}\PY{p}{,} \PY{n}{\PYZus{}y} \PY{o}{=} \PY{n}{random\PYZus{}walk\PYZus{}2d\PYZus{}fast}\PY{p}{(}\PY{n}{num\PYZus{}steps}\PY{p}{)}
-            \PY{n}{\PYZus{}d} \PY{o}{+}\PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{\PYZus{}x}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2} \PY{o}{+} \PY{n}{\PYZus{}y}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}
-        \PY{n}{d}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{\PYZus{}d} \PY{o}{/} \PY{n}{num\PYZus{}realizations}\PY{p}{)}
-    \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{scaling}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-    \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{N}\PY{p}{,} \PY{n}{d}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-    \PY{n}{grid} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{l+m+mf}{0.}\PY{p}{,} \PY{l+m+mf}{1000.}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{)}
-    \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{grid}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{pi}\PY{p}{)} \PY{o}{/} \PY{l+m+mi}{2} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{grid}\PY{p}{)}\PY{p}{)}
-    \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}N\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-    \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}\PYZlt{}d\PYZgt{}\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-
-    \PY{n}{plot\PYZus{}random\PYZus{}walk\PYZus{}2d}\PY{p}{(}\PY{l+m+mi}{1000}\PY{p}{)}
-
-    \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+    \PY{c+c1}{\PYZsh{} Calculate the displacemente along the two orthogonal axes at each step.}
+    \PY{n}{dx} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{cos}\PY{p}{(}\PY{n}{phi}\PY{p}{)}
+    \PY{n}{dy} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sin}\PY{p}{(}\PY{n}{phi}\PY{p}{)}
+    \PY{c+c1}{\PYZsh{} Sum all the displacements to get the final position.}
+    \PY{n}{x} \PY{o}{=} \PY{n}{dx}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+    \PY{n}{y} \PY{o}{=} \PY{n}{dy}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+    \PY{c+c1}{\PYZsh{} Return the final position.}
+    \PY{k}{return} \PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{y}\PY{p}{)}
 \end{Verbatim}

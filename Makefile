@@ -1,5 +1,6 @@
 
-SHEETS = densita pendolo_fisico conducibilita_termica dad_catenaria
+SHEETS = densita pendolo_fisico conducibilita_termica dad_catenaria \
+# ottica oscillazioni_accoppiate random_walk dad_conteggi dad_caduta
 
 all:
 	for i in $(SHEETS); do \
@@ -13,7 +14,11 @@ pdf:
 	done
 
 %:
+ifneq ($*,ottica)
+ifneq ($*,oscillazioni_accoppiate)
 	python tools/py2tex.py snippy/$*.py
+endif
+endif
 	pdflatex sheets/$*.tex
 
 clean:
