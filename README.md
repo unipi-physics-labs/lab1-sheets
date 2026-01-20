@@ -2,6 +2,6 @@
 
 Tracce delle esercitazioni per il laboratorio del primo anno.
 
-L'ultima versione (1.2.0) delle tracce in formato pdf è disponibile
-[qui](https://github.com/unipi-physics-labs/lab1-sheets/releases/tag/1.2.0 "Link alla release").
+L'ultima versione (1.3.0) delle tracce in formato pdf è disponibile
+[qui](https://github.com/unipi-physics-labs/lab1-sheets/releases/tag/1.3.0 "Link alla release").
 
