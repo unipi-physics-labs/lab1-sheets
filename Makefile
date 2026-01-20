@@ -1,6 +1,5 @@
 
-#SHEETS = densita pendolo_fisico conducibilita_termica dad_catenaria
-SHEETS = ottica oscillazioni_accoppiate random_walk dad_conteggi dad_caduta
+SHEETS = densita pendolo_fisico conducibilita_termica dad_catenaria ottica oscillazioni_accoppiate random_walk dad_conteggi dad_caduta
 
 all:
 	for i in $(SHEETS); do \
