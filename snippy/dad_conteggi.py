@@ -12,7 +12,7 @@ def p_value(chisq, ndof):
 
 # ogni entry dell'array l contiene il numero di entrate in un minuto,
 # la lughezza dell'array corrisponde quindi al tempo totale di osservazione in minuti:
-#l = np.array([ ... ])
+# l = np.array([ ... ])
 
 # Calcolo della statistica del campione, utilizzando le
 # funzioni appropriate di numpy.

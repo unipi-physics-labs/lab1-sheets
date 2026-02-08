@@ -11,10 +11,11 @@
         \PY{n}{p} \PY{o}{=} \PY{l+m+mf}{1.0} \PY{o}{\PYZhy{}} \PY{n}{p}
     \PY{k}{return} \PY{n}{p}
 
-\PY{c+c1}{\PYZsh{} ogni entry dell\PYZsq{}array l contiene il numero di entrate in un minuto, la lughezza dell\PYZsq{}array corrisponde quindi al tempo totale di osservazione in minuti:}
-\PY{c+c1}{\PYZsh{}l = np.array([ ... ])}
+\PY{c+c1}{\PYZsh{} ogni entry dell\PYZsq{}array l contiene il numero di entrate in un minuto,}
+\PY{c+c1}{\PYZsh{} la lughezza dell\PYZsq{}array corrisponde quindi al tempo totale di osservazione in minuti:}
+\PY{c+c1}{\PYZsh{} l = np.array([ ... ])}
 
-\PY{c+c1}{\PYZsh{} Calcolo della statistica del campione delle lunghezze dei versi, utilizzando le}
+\PY{c+c1}{\PYZsh{} Calcolo della statistica del campione, utilizzando le}
 \PY{c+c1}{\PYZsh{} funzioni appropriate di numpy.}
 \PY{n}{N} \PY{o}{=} \PY{n+nb}{len}\PY{p}{(}\PY{n}{l}\PY{p}{)}
 \PY{n}{m} \PY{o}{=} \PY{n}{l}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
@@ -23,14 +24,14 @@
 \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Media: }\PY{l+s+si}{\PYZob{}}\PY{n}{m}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
 \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Deviazione standard: }\PY{l+s+si}{\PYZob{}}\PY{n}{s}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
 
-\PY{c+c1}{\PYZsh{} Definizione dei canali dell\PYZsq{}istogramma\PYZhy{}\PYZhy{}\PYZhy{}attenzione ad avere esattamente un valore}
+\PY{c+c1}{\PYZsh{} Definizione dei canali dell\PYZsq{}istogramma \PYZhy{} ATTENZIONE ad avere esattamente un valore}
 \PY{c+c1}{\PYZsh{} intero all\PYZsq{}interno di ogni bin! I \PYZhy{}0.5 e +1.5 servono per far apparire le barre al}
 \PY{c+c1}{\PYZsh{} centro dei canali. Stampare per credere.}
 \PY{n}{binning} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{n}{l}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{l+m+mf}{0.5}\PY{p}{,} \PY{n}{l}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{p}{)} \PY{o}{+} \PY{l+m+mf}{1.5}\PY{p}{)}
 
 \PY{c+c1}{\PYZsh{} Creazione dell\PYZsq{}istogramma. La funzione hist() di matplotlib restituisce tre variabili,}
 \PY{c+c1}{\PYZsh{} ma a noi interessa solo la prima, ovvero il contenuto dei canali dell\PYZsq{}istogtramma.}
-\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Lunghezza dei versi}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Occorrenze}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
 \PY{n}{o}\PY{p}{,} \PY{n}{\PYZus{}}\PY{p}{,} \PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{hist}\PY{p}{(}\PY{n}{l}\PY{p}{,} \PY{n}{bins}\PY{o}{=}\PY{n}{binning}\PY{p}{,} \PY{n}{rwidth}\PY{o}{=}\PY{l+m+mf}{0.25}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Conteggi}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
 \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsh{} entrate/minuto}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
 \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Occorrenze}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
