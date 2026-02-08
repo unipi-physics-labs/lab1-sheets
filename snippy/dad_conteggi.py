@@ -10,10 +10,11 @@ def p_value(chisq, ndof):
         p = 1.0 - p
     return p
 
-# ogni entry dell'array l contiene il numero di entrate in un minuto, la lughezza dell'array corrisponde quindi al tempo totale di osservazione in minuti:
-#l = np.array([ ... ])
+# ogni entry dell'array l contiene il numero di entrate in un minuto,
+# la lughezza dell'array corrisponde quindi al tempo totale di osservazione in minuti:
+# l = np.array([ ... ])
 
-# Calcolo della statistica del campione delle lunghezze dei versi, utilizzando le
+# Calcolo della statistica del campione, utilizzando le
 # funzioni appropriate di numpy.
 N = len(l)
 m = l.mean()
@@ -22,14 +23,14 @@ print(f"Numero di osservazioni: {N}")
 print(f"Media: {m}")
 print(f"Deviazione standard: {s}")
 
-# Definizione dei canali dell'istogramma---attenzione ad avere esattamente un valore
+# Definizione dei canali dell'istogramma - ATTENZIONE ad avere esattamente un valore
 # intero all'interno di ogni bin! I -0.5 e +1.5 servono per far apparire le barre al
 # centro dei canali. Stampare per credere.
 binning = np.arange(l.min() - 0.5, l.max() + 1.5)
 
 # Creazione dell'istogramma. La funzione hist() di matplotlib restituisce tre variabili,
 # ma a noi interessa solo la prima, ovvero il contenuto dei canali dell'istogtramma.
-plt.figure('Lunghezza dei versi')
+plt.figure('Occorrenze')
 o, _, _ = plt.hist(l, bins=binning, rwidth=0.25, label='Conteggi')
 plt.xlabel('# entrate/minuto')
 plt.ylabel('Occorrenze')
